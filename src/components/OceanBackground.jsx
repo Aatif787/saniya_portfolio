@@ -12,31 +12,33 @@ const Fish = ({ index }) => {
   const hue = colors[index % colors.length];
   const flip = Math.random() > 0.5 ? 1 : -1;
   return (
-    <svg
-      className="absolute fish"
-      style={{
-        top: `${top}%`,
-        left: flip === 1 ? '-10%' : '110%',
-        width: size,
-        height: size,
-        animationDuration: `${duration}s`,
-        animationDelay: `${delay}s`,
-        transform: `scaleX(${flip})`,
-        opacity: 0.9
-      }}
-      viewBox="0 0 100 60"
-      preserveAspectRatio="xMidYMid meet"
+    <div
+      className="absolute"
+      style={{ top: `${top}%`, left: flip === 1 ? '-10%' : '110%', transform: `scaleX(${flip})` }}
     >
-      <defs>
-        <linearGradient id={`body-${index}`} x1="0" x2="1">
-          <stop offset="0%" stopColor={hue} />
-          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.25" />
-        </linearGradient>
-      </defs>
-      <path d="M20 30 C30 5, 70 5, 80 30 C70 55, 30 55, 20 30 Z" fill={`url(#body-${index})`} />
-      <polygon points="80,30 100,15 100,45" fill={hue} />
-      <circle cx="28" cy="28" r="3" fill="#1F2937" />
-    </svg>
+      <svg
+        className="fish"
+        style={{
+          width: size,
+          height: size,
+          animationDuration: `${duration}s`,
+          animationDelay: `${delay}s`,
+          opacity: 0.9
+        }}
+        viewBox="0 0 100 60"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <linearGradient id={`body-${index}`} x1="0" x2="1">
+            <stop offset="0%" stopColor={hue} />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.25" />
+          </linearGradient>
+        </defs>
+        <path d="M20 30 C30 5, 70 5, 80 30 C70 55, 30 55, 20 30 Z" fill={`url(#body-${index})`} />
+        <polygon points="80,30 100,15 100,45" fill={hue} />
+        <circle cx="28" cy="28" r="3" fill="#1F2937" />
+      </svg>
+    </div>
   );
 };
 
@@ -118,4 +120,3 @@ const OceanBackground = () => {
 };
 
 export default OceanBackground;
-
