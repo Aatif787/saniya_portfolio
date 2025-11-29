@@ -72,6 +72,11 @@
     @apply bg-background text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  .underwater-fallback {
+    background: linear-gradient(180deg, #0a7aa6 0%, #022b43 60%, #021f33 100%);
+    background-size: 400% 400%;
+    animation: gradient-shift 12s ease infinite;
+  }
   img, video, canvas {
     max-width: 100%;
     height: auto;
@@ -144,6 +149,17 @@
     background: linear-gradient(135deg, var(--color-brand-purple), var(--color-brand-blue), var(--color-secondary), var(--color-accent), var(--color-brand-pink));
     background-size: 300% 300%;
     animation: gradient-shift 6s ease infinite;
+  }
+
+  .glass-content .bg-surface,
+  .glass-content .bg-muted,
+  .glass-content .bg-popover,
+  .glass-content .bg-card,
+  .glass-content .bg-background {
+    background-color: rgba(255,255,255,0.65);
+    backdrop-filter: blur(10px) saturate(120%);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: var(--shadow-md);
   }
   
   .border-brand {
