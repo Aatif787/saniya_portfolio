@@ -210,7 +210,7 @@ const HeroSection = () => {
                 iconName="Download"
                 iconPosition="left"
                 className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50 animate-wiggle"
-                onClick={() => window.open('/assets/resume.pdf', '_blank')}
+                onClick={() => window.open('/assets/images/resume.pdf', '_blank')}
               >
                 Download Resume
               </Button>
@@ -225,8 +225,8 @@ const HeroSection = () => {
             >
               {[
                 { href: "https://linkedin.com/in/saniya-portfolio", icon: "Linkedin", color: "text-blue-500 hover:text-blue-600" },
-                { href: "https://github.com/saniya-portfolio", icon: "Github", color: "text-gray-600 hover:text-gray-800" },
-                { href: "mailto:saniya@example.com", icon: "Mail", color: "text-green-500 hover:text-green-600" }
+                { href: "https://github.com/Saniyyadhada06", icon: "Github", color: "text-gray-600 hover:text-gray-800" },
+                { href: "mailto:saniyadhada06@gmail.com", icon: "Mail", color: "text-green-500 hover:text-green-600" }
               ]?.map((social, index) => (
                 <motion.a 
                   key={index}

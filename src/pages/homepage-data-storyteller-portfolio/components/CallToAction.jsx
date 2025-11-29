@@ -34,7 +34,7 @@ const CallToAction = () => {
       title: "Download Resume",
       description: "Get comprehensive professional documentation",
       icon: "Download", 
-      action: () => window.open('/assets/resume.pdf', '_blank'),
+      action: () => window.open('/assets/images/resume.pdf', '_blank'),
       color: "bg-green-500"
     },
     {

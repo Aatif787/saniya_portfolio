@@ -24,4 +24,4 @@ function Icon({
         {...props}
     />;
 }
-export default React.memo(Icon);
+export default Icon;

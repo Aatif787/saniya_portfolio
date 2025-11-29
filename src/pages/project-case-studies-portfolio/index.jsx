@@ -546,7 +546,7 @@ const ProjectCaseStudiesPortfolio = () => {
                 size="lg"
                 iconName="Download"
                 iconPosition="left"
-                onClick={() => window.open('/assets/resume.pdf', '_blank')}
+                onClick={() => window.open('/assets/images/resume.pdf', '_blank')}
                 className="bg-white bg-opacity-20 border-white border-opacity-30 text-white hover:bg-white hover:bg-opacity-30"
               >
                 Download Resume

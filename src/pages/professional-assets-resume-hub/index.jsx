@@ -33,7 +33,7 @@ const ProfessionalAssetsResumeHub = () => {
       icon: 'Download',
       action: () => {
         const link = document.createElement('a');
-        link.href = '/assets/saniya-resume.pdf';
+        link.href = '/assets/images/resume.pdf';
         link.download = 'Saniya_Sharma_Resume_2025.pdf';
         link?.click();
       },
@@ -104,7 +104,7 @@ const ProfessionalAssetsResumeHub = () => {
                   iconPosition="left"
                   onClick={() => {
                     const link = document.createElement('a');
-                    link.href = '/assets/saniya-resume.pdf';
+                    link.href = '/assets/images/resume.pdf';
                     link.download = 'Saniya_Sharma_Resume_2025.pdf';
                     link?.click();
                   }}

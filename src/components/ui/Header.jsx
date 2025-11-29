@@ -193,7 +193,7 @@ const Header = () => {
                 iconName="Download"
                 iconPosition="left"
                 onClick={() => {
-                  window.open('/assets/resume.pdf', '_blank');
+                  window.open('/assets/images/resume.pdf', '_blank');
                   closeMenu();
                 }}
               >

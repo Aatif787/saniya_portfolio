@@ -42,9 +42,8 @@ const ResumeFormats = () => {
         console.log('Opening interactive resume...');
         break;
       case 'pdf':
-        // Mock PDF download
         const link = document.createElement('a');
-        link.href = '/assets/saniya-resume.pdf';
+        link.href = '/assets/images/resume.pdf';
         link.download = 'Saniya_Resume_2025.pdf';
         link?.click();
         break;
