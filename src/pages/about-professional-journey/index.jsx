@@ -25,7 +25,7 @@ const AboutProfessionalJourney = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-transparent">
+    <div className="min-h-screen bg-transparent about-page">
       <Header />
       <main className="pt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent rounded-3xl p-6 sm:p-8 shadow-none border-none backdrop-blur-0">
