@@ -16,7 +16,7 @@
     
     /* Background System - Light & Airy */
     --color-background: #F5F7FF;
-    --color-foreground: #1F2937; /* gray-800 */
+    --color-foreground: #E5E7EB; /* light text for dark bg */
     --color-surface: #FFFFFF; /* white */
     --color-surface-foreground: #1F2937; /* gray-800 */
     
@@ -44,8 +44,8 @@
     --color-destructive-foreground: #FFFFFF; /* white */
     
     /* Text Hierarchy */
-    --color-text-primary: #1F2937; /* gray-800 */
-    --color-text-secondary: #64748B; /* slate-500 */
+    --color-text-primary: #FFFFFF; /* bright for headline */
+    --color-text-secondary: #CBD5E1; /* slate-300 */
     --color-text-muted: #94A3B8; /* slate-400 */
     
     /* Brand Specific - Vibrant Colors */
@@ -157,24 +157,24 @@
   }
 
   .glass-panel {
-    background-color: rgba(255,255,255,0.14);
-    backdrop-filter: blur(16px) saturate(140%);
-    border: 1px solid rgba(255,255,255,0.30);
-    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35), var(--shadow-lg);
+    background-color: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
   }
 
   .glass-section {
-    background-color: rgba(255,255,255,0.10);
-    backdrop-filter: blur(18px) saturate(140%);
-    border: 1px solid rgba(255,255,255,0.25);
-    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.30), var(--shadow-xl);
+    background-color: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
   }
 
   .glass-nav {
-    background-color: rgba(255,255,255,0.12);
-    backdrop-filter: blur(14px) saturate(140%);
-    border-bottom: 1px solid rgba(255,255,255,0.18);
-    box-shadow: var(--shadow-md);
+    background-color: transparent;
+    backdrop-filter: none;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: none;
   }
 
   .glass-content .bg-surface,
@@ -187,6 +187,16 @@
     backdrop-filter: none;
     border: none;
     box-shadow: none;
+  }
+  .glass-content [class*="bg-gradient-"] {
+    background: transparent !important;
+  }
+  h1, h2, h3 {
+    color: var(--color-text-primary);
+    text-shadow: 0 0 12px rgba(99,102,241,0.25);
+  }
+  p, span, li {
+    color: var(--color-text-secondary);
   }
   
   .border-brand {
