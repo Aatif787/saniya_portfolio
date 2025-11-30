@@ -23,6 +23,8 @@ class BackgroundEngine {
     this.clock = new THREE.Clock()
     this.composer = new EffectComposer(this.renderer)
     this.composer.addPass(new RenderPass(this.scene, this.camera))
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.3, 0.65, 0.85)
+    this.composer.addPass(this.bloom)
     this.group = new THREE.Group()
     this.scene.add(this.group)
     this.particles = null
@@ -42,9 +44,10 @@ class BackgroundEngine {
   _initSpace() {
     this.stars = this._createStarField()
     this.scene.add(this.stars)
+    this.planets = null
   }
   _createStarField() {
-    const count = 5000
+    const count = 12000
     const pos = new Float32Array(count * 3)
     for (let i = 0; i < count; i++) {
       const r = 60 * Math.random() + 20
@@ -56,12 +59,14 @@ class BackgroundEngine {
     }
     const geo = new THREE.BufferGeometry()
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3))
-    const mat = new THREE.PointsMaterial({ color: 0xbbbbbb, size: 0.012, sizeAttenuation: true, transparent: true, opacity: 0.6 })
+    const mat = new THREE.PointsMaterial({ color: 0xbbbbbb, size: 0.01, sizeAttenuation: true, transparent: true, opacity: 0.6 })
     return new THREE.Points(geo, mat)
   }
+  
   spawnExplosion() {}
   update() {
     const t = this.clock.getElapsedTime()
+    if (this.stars && this.stars.material){ this.stars.material.opacity = 0.55 + 0.08 * Math.sin(t*0.8) }
     this.composer.render()
   }
   dispose() {
