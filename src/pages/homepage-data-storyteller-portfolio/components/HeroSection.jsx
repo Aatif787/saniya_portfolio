@@ -254,7 +254,7 @@ const HeroSection = () => {
 
           {/* Right Content - Profile Photo */}
           <motion.div 
-            className="relative z-20"
+            className="relative z-20 pr-4 xl:pr-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -267,12 +267,12 @@ const HeroSection = () => {
               ></motion.div>
               
               <motion.div 
-                className="relative glass-panel rounded-3xl p-8 shadow-2xl"
+                className="relative glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100"
                 whileHover={{ scale: 1.02 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="aspect-[3/4] overflow-hidden rounded-none sm:rounded-2xl">
+                <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
                   
                   <Image 
                     src="/assets/images/img1.png"

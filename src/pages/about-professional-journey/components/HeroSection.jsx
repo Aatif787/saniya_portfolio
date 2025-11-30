@@ -104,7 +104,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-4xl sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
+                className="text-[39px] sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
                 animate={{ 
                   textShadow: [
                     "0 0 20px rgba(99, 102, 241, 0.3)",
@@ -246,7 +246,7 @@ const HeroSection = () => {
 
           {/* Enhanced Right Content - Professional Image */}
           <motion.div 
-            className="relative z-20"
+            className="relative z-20 pr-4 xl:pr-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -266,7 +266,7 @@ const HeroSection = () => {
                 animate={{ y: [0, -5, 0] }}
                 transition={{ y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="aspect-[3/4] overflow-hidden rounded-none sm:rounded-2xl">
+                <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
                   <Image 
                     src="/assets/images/img1.png" 
                     alt="Saniya - Data Storyteller & Developer"
