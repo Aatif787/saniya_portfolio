@@ -24,6 +24,7 @@ const AnimatedRoutes = () => {
         transition={{ duration: 0.35, ease: 'easeOut' }}
       >
         <ScrollToTop />
+        <div className="page-wrapper">
         <RouterRoutes location={location}>
           <Route path="/" element={<AboutProfessionalJourney />} />
           <Route path="/professional-assets-resume-hub" element={<ProfessionalAssetsResumeHub />} />
@@ -34,6 +35,7 @@ const AnimatedRoutes = () => {
           <Route path="/skills-interactive-capabilities" element={<SkillsInteractiveCapabilities />} />
           <Route path="*" element={<NotFound />} />
         </RouterRoutes>
+        </div>
       </motion.div>
     </AnimatePresence>
   );
