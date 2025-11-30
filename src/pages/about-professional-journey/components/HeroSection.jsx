@@ -80,7 +80,7 @@ const HeroSection = () => {
           
           {/* Left Content */}
           <motion.div 
-            className="space-y-8"
+            className="space-y-8 sm:text-left text-center"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -114,7 +114,7 @@ const HeroSection = () => {
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                <h1 className="text-7xl font-bold">Saniya Dhada</h1>
+                <h1 className="font-bold">Saniya Dhada</h1>
 
               </motion.div>
               <motion.p 
@@ -156,7 +156,7 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p 
-              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg"
+              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-none sm:max-w-lg mx-auto sm:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -168,7 +168,7 @@ const HeroSection = () => {
 
             {/* Enhanced Dynamic Stats */}
             <motion.div 
-              className="bg-transparent border border-purple-200 rounded-2xl p-6 shadow-xl"
+              className="bg-transparent border border-purple-200 rounded-2xl p-6 shadow-xl max-w-md mx-auto sm:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
@@ -187,7 +187,7 @@ const HeroSection = () => {
 
             {/* Enhanced CTA Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 items-center sm:items-start"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
@@ -198,7 +198,7 @@ const HeroSection = () => {
                   size="lg"
                   iconName="FolderOpen"
                   iconPosition="left"
-                  className="hover-lift bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg animate-glow"
+                  className="hover-lift bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg animate-glow w-full sm:w-auto"
                 >
                   View My Work
                 </Button>
@@ -209,7 +209,7 @@ const HeroSection = () => {
                 size="lg"
                 iconName="Download"
                 iconPosition="left"
-                className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50 animate-wiggle"
+                className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50 animate-wiggle w-full sm:w-auto"
                 onClick={() => window.open('/assets/images/resume.pdf', '_blank')}
               >
                 Download Resume
@@ -218,7 +218,7 @@ const HeroSection = () => {
 
             {/* Enhanced Quick Links */}
             <motion.div 
-              className="flex items-center space-x-8 pt-4"
+              className="flex items-center justify-center sm:justify-start flex-wrap gap-6 pt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.4 }}
