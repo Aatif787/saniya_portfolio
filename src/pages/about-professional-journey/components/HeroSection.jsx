@@ -75,7 +75,7 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 pt-12 pb-14">
+      <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-10 pb-12">
         <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
@@ -251,7 +251,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative w-full max-w-lg mx-auto">
+            <div className="relative w-full max-w-none sm:max-w-lg mx-0 sm:mx-auto">
               {/* Enhanced Background Decoration */}
               <motion.div 
                 className="absolute -inset-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-3xl opacity-30 blur-2xl"
@@ -266,7 +266,7 @@ const HeroSection = () => {
                 animate={{ y: [0, -5, 0] }}
                 transition={{ y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="aspect-[3/4] overflow-hidden rounded-2xl">
+                <div className="aspect-[3/4] overflow-hidden rounded-none sm:rounded-2xl">
                   <Image 
                     src="/assets/images/img1.png" 
                     alt="Saniya - Data Storyteller & Developer"
