@@ -83,8 +83,8 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 glass-section rounded-3xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+      <div className="relative z-10 max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 pt-12 pb-14 glass-section rounded-3xl">
+        <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
           <motion.div 
@@ -112,7 +112,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-4xl sm:text-6xl lg:text-8xl font-bold text-gradient-rainbow leading-none"
+                className="text-4xl sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
                 style={{ filter: `drop-shadow(0 0 ${titleGlow.get()}rem rgba(99,102,241,0.4))` }}
                 animate={reduceMotion ? undefined : { 
                   textShadow: [
@@ -254,12 +254,12 @@ const HeroSection = () => {
 
           {/* Right Content - Profile Photo */}
           <motion.div 
-            className="relative"
+            className="relative z-20"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative max-w-md mx-auto">
+            <div className="relative w-full max-w-lg mx-auto">
               <motion.div 
                 className="absolute -inset-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-3xl opacity-30 blur-2xl"
                 animate={reduceMotion ? undefined : { rotate: [0, 5, -5, 0] }}

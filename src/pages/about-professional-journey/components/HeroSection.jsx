@@ -75,12 +75,12 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+      <div className="relative z-10 max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-10 pt-12 pb-14">
+        <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
           <motion.div 
-            className="space-y-8 sm:text-left text-center"
+            className="space-y-8"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -104,7 +104,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-4xl sm:text-6xl lg:text-8xl font-bold text-gradient-rainbow leading-none"
+                className="text-4xl sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
                 animate={{ 
                   textShadow: [
                     "0 0 20px rgba(99, 102, 241, 0.3)",
@@ -156,7 +156,7 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p 
-              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-none sm:max-w-lg mx-auto sm:mx-0"
+              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -187,7 +187,7 @@ const HeroSection = () => {
 
             {/* Enhanced CTA Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4 items-center sm:items-start"
+              className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
@@ -198,7 +198,7 @@ const HeroSection = () => {
                   size="lg"
                   iconName="FolderOpen"
                   iconPosition="left"
-                  className="hover-lift bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg animate-glow w-full sm:w-auto"
+                  className="hover-lift bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg animate-glow"
                 >
                   View My Work
                 </Button>
@@ -209,7 +209,7 @@ const HeroSection = () => {
                 size="lg"
                 iconName="Download"
                 iconPosition="left"
-                className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50 animate-wiggle w-full sm:w-auto"
+                className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50 animate-wiggle"
                 onClick={() => window.open('/assets/images/resume.pdf', '_blank')}
               >
                 Download Resume
@@ -218,7 +218,7 @@ const HeroSection = () => {
 
             {/* Enhanced Quick Links */}
             <motion.div 
-              className="flex items-center justify-center sm:justify-start flex-wrap gap-6 pt-4"
+              className="flex items-center space-x-8 pt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.4 }}
@@ -246,12 +246,12 @@ const HeroSection = () => {
 
           {/* Enhanced Right Content - Professional Image */}
           <motion.div 
-            className="relative"
+            className="relative z-20"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative max-w-md mx-auto">
+            <div className="relative w-full max-w-lg mx-auto">
               {/* Enhanced Background Decoration */}
               <motion.div 
                 className="absolute -inset-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-3xl opacity-30 blur-2xl"

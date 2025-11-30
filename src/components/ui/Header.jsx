@@ -64,7 +64,7 @@ const Header = () => {
               <div className="absolute -top-1 -right-1 w-4 h-4 bg-accent rounded-full animate-bounce-slow"></div>
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-3xl font-bold text-gradient-rainbow">Saniya Dhada</h1>
+              <h1 className="text-[23px] font-bold text-gradient-rainbow whitespace-nowrap">Saniya Dhada</h1>
               <p className="text-sm text-text-secondary font-mono animate-pulse-slow">Data Storyteller</p>
             </div>
           </Link>
