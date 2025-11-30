@@ -207,7 +207,24 @@
     .page-wrapper .grid { gap: 1rem; }
     .page-wrapper img, .page-wrapper video, .page-wrapper canvas { max-width: 100%; height: auto; }
     .page-wrapper h1, .page-wrapper h2 { font-size: clamp(1.4rem, 6vw, 2rem); line-height: 1.2; }
-    .page-wrapper p, .page-wrapper ul, .page-wrapper ol { max-width: 90vw; margin-left: auto; margin-right: auto; line-height: 1.6; hyphens: auto; word-break: break-word; }
+    .page-wrapper p, .page-wrapper ul, .page-wrapper ol { max-width: 95vw; margin-left: auto; margin-right: auto; line-height: 1.6; hyphens: auto; word-break: break-word; }
+    .page-wrapper .container,
+    .page-wrapper .max-w-7xl,
+    .page-wrapper .max-w-6xl,
+    .page-wrapper .max-w-5xl,
+    .page-wrapper .max-w-4xl,
+    .page-wrapper .max-w-3xl,
+    .page-wrapper section,
+    .page-wrapper .section,
+    .page-wrapper .card,
+    .page-wrapper .glass-section,
+    .page-wrapper .bg-card,
+    .page-wrapper .bg-surface {
+      width: 95vw !important;
+      max-width: 95vw !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
   }
   
   .border-brand {
