@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
+import ParallaxBackground from '../../../components/effects/ParallaxBackground';
+import HeroOrb from '../../../components/effects/HeroOrb';
 import Button from '../../../components/ui/Button';
 
 const HeroSection = () => {
@@ -40,6 +42,7 @@ const HeroSection = () => {
 
   return (
     <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-hidden">
+      <ParallaxBackground />
       {/* Animated Background Elements */}
       <motion.div className="absolute inset-0 opacity-20" style={{ y: bgTranslateY }}>
         {floatingElements?.map((element, index) => (
@@ -105,6 +108,7 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Name */}
+            <HeroOrb className="-left-4 -top-6 sm:-left-10 sm:-top-10" />
             <motion.div 
               className="space-y-2"
               initial={{ opacity: 0, y: 30 }}

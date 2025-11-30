@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
+import TiltCard from '../../../components/effects/TiltCard';
 
 const SkillsPreview = () => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
@@ -64,6 +65,7 @@ const SkillsPreview = () => {
         {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories?.map((category, categoryIndex) => (
+            <TiltCard>
             <motion.div
               key={category?.title}
               className="glass-panel rounded-xl p-6 hover-lift"
@@ -132,6 +134,7 @@ const SkillsPreview = () => {
                 ))}
               </div>
             </motion.div>
+            </TiltCard>
           ))}
         </div>
 

@@ -110,6 +110,16 @@
 }
 
 @layer components {
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(18px) translateZ(-20px);
+    transition: opacity 600ms ease-out, transform 800ms ease-out;
+    will-change: opacity, transform;
+  }
+  .scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0) translateZ(0);
+  }
   .font-mono {
     font-family: 'JetBrains Mono', monospace;
   }

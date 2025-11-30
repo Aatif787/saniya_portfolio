@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import Header from '../../components/ui/Header';
+import { initScrollReveal } from '../../utils/scrollReveal';
 import HeroSection from './components/HeroSection';
 import SkillsPreview from './components/SkillsPreview';
 import FeaturedProjects from './components/FeaturedProjects';
@@ -12,6 +13,7 @@ const Homepage = () => {
   useEffect(() => {
     // Smooth scroll behavior for anchor links
     document.documentElement.style.scrollBehavior = 'smooth';
+    initScrollReveal();
     
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';

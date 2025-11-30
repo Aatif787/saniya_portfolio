@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../../components/ui/Header';
+import { initScrollReveal } from '../../utils/scrollReveal';
 import HeroSection from './components/HeroSection';
 import TimelineSection from './components/TimelineSection';
 import PhilosophySection from './components/PhilosophySection';
@@ -22,6 +23,7 @@ const AboutProfessionalJourney = () => {
 
     // Scroll to top on page load
     window.scrollTo(0, 0);
+    initScrollReveal();
   }, []);
 
   return (
