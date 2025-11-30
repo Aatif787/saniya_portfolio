@@ -53,10 +53,10 @@ const TimelineSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-surface">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-16 sm:py-20 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-4">
             My Professional Journey
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">

@@ -140,7 +140,7 @@ const InsightsProfessionalBlog = () => {
   const regularPosts = filteredPosts?.filter(post => !post?.featured);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Helmet>
         <title>Insights & Professional Blog - Saniya Portfolio</title>
         <meta name="description" content="Data analytics insights, development tutorials, and career advice from a BCA graduate turned data storyteller. Learn from real-world experiences and practical guides." />
@@ -149,15 +149,15 @@ const InsightsProfessionalBlog = () => {
       <Header />
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="bg-gradient-brand text-white py-20">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="bg-gradient-brand text-white py-16 sm:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
               <div className="inline-flex items-center space-x-2 bg-white/10 rounded-full px-4 py-2 mb-6">
                 <Icon name="BookOpen" size={20} />
                 <span className="text-sm font-medium">Professional Insights</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 Insights & Learning
               </h1>
               
@@ -185,8 +185,8 @@ const InsightsProfessionalBlog = () => {
         </section>
 
         {/* Search and Filter Section */}
-        <section className="py-12 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="py-12 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
             <div className="max-w-4xl mx-auto">
               <div className="mb-8">
                 <SearchBar
@@ -208,7 +208,7 @@ const InsightsProfessionalBlog = () => {
         {/* Featured Post */}
         {featuredPost && (
           <section className="py-16">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center mb-12">
                 <h2 className="text-3xl font-bold text-text-primary mb-4">Featured Article</h2>
                 <p className="text-text-secondary max-w-2xl mx-auto">
@@ -225,7 +225,7 @@ const InsightsProfessionalBlog = () => {
 
         {/* Main Content Grid */}
         <section className="py-16">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
               {/* Articles Grid */}
               <div className="lg:col-span-2">
@@ -284,7 +284,7 @@ const InsightsProfessionalBlog = () => {
 
         {/* Resources Section */}
         <section className="py-16 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <FeaturedResources />
           </div>
         </section>
@@ -357,7 +357,7 @@ const InsightsProfessionalBlog = () => {
       </main>
       {/* Footer */}
       <footer className="bg-primary text-primary-foreground py-12">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center space-x-3 mb-4">
               <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">

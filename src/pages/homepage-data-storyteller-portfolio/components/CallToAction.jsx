@@ -82,7 +82,7 @@ const CallToAction = () => {
         <div className="absolute bottom-20 left-1/4 w-12 h-12 border border-white/20 rounded-full"></div>
         <div className="absolute bottom-32 right-1/3 w-24 h-24 border border-white/20 rounded-full"></div>
       </div>
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           
           {/* Left Content */}

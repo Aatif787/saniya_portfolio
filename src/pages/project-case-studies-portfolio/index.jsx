@@ -378,7 +378,7 @@ const ProjectCaseStudiesPortfolio = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Helmet>
         <title>Project Case Studies & Portfolio - Saniya | Data Storyteller</title>
         <meta name="description" content="Explore Saniya's comprehensive project portfolio featuring data analytics dashboards, full-stack web applications, and detailed case studies with measurable business impact." />
@@ -387,8 +387,8 @@ const ProjectCaseStudiesPortfolio = () => {
       <Header />
       <main className="pt-16">
         {/* Hero Section */}
-        <section className="bg-gradient-brand text-white py-20">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="bg-gradient-brand text-white py-16 sm:py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-4xl mx-auto">
               <div className="flex items-center justify-center space-x-2 mb-6">
                 <Icon name="FolderOpen" size={32} className="text-accent" />
@@ -430,8 +430,8 @@ const ProjectCaseStudiesPortfolio = () => {
         </section>
 
         {/* Project Statistics */}
-        <section className="py-16 bg-surface">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="py-16 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6">
             <ProjectStats projects={projects} />
           </div>
         </section>
@@ -439,7 +439,7 @@ const ProjectCaseStudiesPortfolio = () => {
         {/* Featured Project */}
         {featuredProject && (
           <section id="featured-project" className="py-16">
-            <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6">
               <FeaturedProject 
                 project={featuredProject} 
                 onViewDetails={handleViewDetails}
@@ -449,8 +449,8 @@ const ProjectCaseStudiesPortfolio = () => {
         )}
 
         {/* Project Filters */}
-        <section id="project-filters" className="py-16 bg-muted">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section id="project-filters" className="py-16 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6">
             <ProjectFilter
               activeCategory={activeCategory}
               activeIndustry={activeIndustry}
@@ -521,8 +521,8 @@ const ProjectCaseStudiesPortfolio = () => {
         </section>
 
         {/* Call to Action */}
-        <section className="py-20 bg-gradient-brand text-white">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+        <section className="py-16 sm:py-20 bg-gradient-brand text-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <Icon name="MessageCircle" size={48} className="text-accent mx-auto mb-6" />
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
               Ready to Start Your Next Project?

@@ -71,8 +71,8 @@ const FeaturedProjects = () => {
   };
 
   return (
-    <section className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-16 sm:py-20 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -101,7 +101,7 @@ const FeaturedProjects = () => {
           >
             <div
               ref={tiltRef}
-              className="relative bg-surface border border-border rounded-2xl shadow-brand-lg overflow-hidden will-change-transform"
+              className="relative glass-panel rounded-2xl overflow-hidden will-change-transform"
               style={tiltStyle}
               onMouseMove={(e) => {
                 const rect = tiltRef.current?.getBoundingClientRect();
@@ -251,7 +251,7 @@ const FeaturedProjects = () => {
             {/* Previous Button */}
             <button
               onClick={prevProject}
-              className="flex items-center space-x-2 p-3 bg-surface border border-border rounded-lg hover:bg-muted transition-colors duration-200 hover-lift"
+              className="flex items-center space-x-2 p-3 glass-panel rounded-lg hover-lift"
             >
               <Icon name="ChevronLeft" size={20} />
               <span className="hidden sm:inline text-sm font-medium">Previous</span>
@@ -275,7 +275,7 @@ const FeaturedProjects = () => {
             {/* Next Button */}
             <button
               onClick={nextProject}
-              className="flex items-center space-x-2 p-3 bg-surface border border-border rounded-lg hover:bg-muted transition-colors duration-200 hover-lift"
+              className="flex items-center space-x-2 p-3 glass-panel rounded-lg hover-lift"
             >
               <span className="hidden sm:inline text-sm font-medium">Next</span>
               <Icon name="ChevronRight" size={20} />

@@ -25,9 +25,10 @@ const AboutProfessionalJourney = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Header />
       <main className="pt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent rounded-3xl p-6 sm:p-8 shadow-none border-none backdrop-blur-0">
         {/* Hero Section */}
         <HeroSection />
         
@@ -45,10 +46,11 @@ const AboutProfessionalJourney = () => {
         
         {/* Professional Resources */}
         <ResourcesSection />
+        </div>
       </main>
       {/* Footer */}
-      <footer className="bg-primary text-primary-foreground py-12">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <footer className="py-12 bg-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent rounded-3xl p-6 shadow-none border-none backdrop-blur-0">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">

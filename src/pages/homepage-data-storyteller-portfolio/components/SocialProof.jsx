@@ -97,8 +97,8 @@ const SocialProof = () => {
   ];
 
   return (
-    <section className="py-20 bg-surface">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-16 sm:py-20 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -121,7 +121,7 @@ const SocialProof = () => {
           {metrics?.map((metric, index) => (
             <motion.div
               key={metric?.label}
-              className="text-center p-6 bg-background border border-border rounded-xl shadow-brand hover-lift"
+              className="text-center p-6 glass-panel rounded-xl hover-lift"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -167,8 +167,8 @@ const SocialProof = () => {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials?.map((testimonial, index) => (
               <motion.div
-                key={testimonial?.name}
-                className="bg-background border border-border rounded-xl p-6 shadow-brand hover-lift"
+              key={testimonial?.name}
+                className="glass-panel rounded-xl p-6 hover-lift"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -222,7 +222,7 @@ const SocialProof = () => {
             {achievements?.map((achievement, index) => (
               <motion.div
                 key={achievement?.title}
-                className="bg-background border border-border rounded-xl p-6 text-center shadow-brand hover-lift"
+                className="glass-panel rounded-xl p-6 text-center hover-lift"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}

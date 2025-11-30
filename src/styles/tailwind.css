@@ -69,8 +69,13 @@
   }
   
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply text-foreground font-sans;
     font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: #0b0e1a;
+    background-image:
+      radial-gradient(ellipse at 20% 10%, rgba(99,102,241,0.12), transparent 70%),
+      radial-gradient(ellipse at 80% 90%, rgba(236,72,153,0.10), transparent 70%);
+    background-attachment: fixed;
   }
   .underwater-fallback {
     background: linear-gradient(180deg, #0a7aa6 0%, #022b43 60%, #021f33 100%);
@@ -151,15 +156,37 @@
     animation: gradient-shift 6s ease infinite;
   }
 
+  .glass-panel {
+    background-color: rgba(255,255,255,0.14);
+    backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.30);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.35), var(--shadow-lg);
+  }
+
+  .glass-section {
+    background-color: rgba(255,255,255,0.10);
+    backdrop-filter: blur(18px) saturate(140%);
+    border: 1px solid rgba(255,255,255,0.25);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.30), var(--shadow-xl);
+  }
+
+  .glass-nav {
+    background-color: rgba(255,255,255,0.12);
+    backdrop-filter: blur(14px) saturate(140%);
+    border-bottom: 1px solid rgba(255,255,255,0.18);
+    box-shadow: var(--shadow-md);
+  }
+
   .glass-content .bg-surface,
   .glass-content .bg-muted,
   .glass-content .bg-popover,
   .glass-content .bg-card,
-  .glass-content .bg-background {
-    background-color: rgba(255,255,255,0.65);
-    backdrop-filter: blur(10px) saturate(120%);
-    border: 1px solid rgba(255,255,255,0.25);
-    box-shadow: var(--shadow-md);
+  .glass-content .bg-background,
+  .glass-content .bg-white {
+    background-color: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
   }
   
   .border-brand {

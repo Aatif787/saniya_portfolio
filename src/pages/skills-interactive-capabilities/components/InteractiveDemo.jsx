@@ -197,8 +197,8 @@ const viz = new tableau.Viz(
           {activeTab === 'code' && (
             <div>
               <h3 className="text-lg font-semibold text-text-primary mb-4">Code Implementation</h3>
-              <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
-                <pre className="text-green-400 text-sm font-mono whitespace-pre-wrap">
+              <div className="rounded-lg overflow-auto bg-gray-900">
+                <pre className="text-emerald-300 text-sm font-mono whitespace-pre leading-6 p-4">
                   {codeExample}
                 </pre>
               </div>

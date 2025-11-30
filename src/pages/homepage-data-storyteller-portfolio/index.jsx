@@ -73,7 +73,7 @@ const Homepage = () => {
           })}
         </script>
       </Helmet>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-transparent">
         {/* Header */}
         <Header />
 
@@ -99,8 +99,8 @@ const Homepage = () => {
         </main>
 
         {/* Footer */}
-        <footer className="bg-primary text-primary-foreground py-12">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <footer className="py-12 bg-transparent">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 glass-section rounded-3xl p-6">
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* Brand */}
               <div className="lg:col-span-2">
@@ -192,8 +192,8 @@ const Homepage = () => {
             </div>
 
             {/* Bottom Bar */}
-            <div className="mt-8 pt-8 border-t border-primary-foreground/20 flex flex-col md:flex-row justify-between items-center">
-              <p className="text-primary-foreground/60 text-sm">
+            <div className="mt-8 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center">
+              <p className="text-text-secondary text-sm">
                 © {new Date()?.getFullYear()} Saniya. All rights reserved.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">

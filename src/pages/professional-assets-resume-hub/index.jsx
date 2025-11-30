@@ -34,7 +34,7 @@ const ProfessionalAssetsResumeHub = () => {
       action: () => {
         const link = document.createElement('a');
         link.href = '/assets/images/resume.pdf';
-        link.download = 'Saniya_Sharma_Resume_2025.pdf';
+        link.download = 'Saniya_Dhada_Resume_2025.pdf';
         link?.click();
       },
       variant: 'default'
@@ -65,13 +65,13 @@ const ProfessionalAssetsResumeHub = () => {
   const ActiveComponent = navigationSections?.find(section => section?.id === activeSection)?.component;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Helmet>
-        <title>Professional Assets & Resume Hub - Saniya Sharma | Data Storyteller</title>
-        <meta name="description" content="Access Saniya Sharma's professional documentation, resume formats, credentials, portfolio assets, and availability status. Complete resource center for hiring managers and collaborators." />
+        <title>Professional Assets & Resume Hub - Saniya Dhada | Data Storyteller</title>
+        <meta name="description" content="Access Saniya Dhada's professional documentation, resume formats, credentials, portfolio assets, and availability status. Complete resource center for hiring managers and collaborators." />
         <meta name="keywords" content="resume, CV, professional assets, credentials, portfolio, data analyst resume, full-stack developer resume, BCA graduate" />
-        <meta property="og:title" content="Professional Assets & Resume Hub - Saniya Sharma" />
-        <meta property="og:description" content="Comprehensive professional documentation and assets for data analyst and full-stack developer Saniya Sharma." />
+        <meta property="og:title" content="Professional Assets & Resume Hub - Saniya Dhada" />
+        <meta property="og:description" content="Comprehensive professional documentation and assets for data analyst and full-stack developer Saniya Dhada." />
         <meta property="og:type" content="website" />
         <link rel="canonical" href="https://saniya-portfolio.com/professional-assets-resume-hub" />
       </Helmet>
@@ -79,14 +79,14 @@ const ProfessionalAssetsResumeHub = () => {
       <main className="pt-16">
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-primary via-primary to-secondary text-white py-16">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
                 <Icon name="Shield" size={16} />
                 <span>Professional Resource Center</span>
               </div>
               
-              <h1 className="text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
                 Professional Assets &
                 <span className="block text-accent">Resume Hub</span>
               </h1>
@@ -105,7 +105,7 @@ const ProfessionalAssetsResumeHub = () => {
                   onClick={() => {
                     const link = document.createElement('a');
                     link.href = '/assets/images/resume.pdf';
-                    link.download = 'Saniya_Sharma_Resume_2025.pdf';
+                    link.download = 'Saniya_Dhada_Resume_2025.pdf';
                     link?.click();
                   }}
                 >
@@ -147,8 +147,8 @@ const ProfessionalAssetsResumeHub = () => {
         </section>
 
         {/* Quick Actions */}
-        <section className="py-12 bg-surface">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <section className="py-12 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6">
             <div className="text-center mb-8">
               <h2 className="text-2xl font-bold text-primary mb-4">Quick Actions</h2>
               <p className="text-text-secondary">Fast access to the most requested resources</p>
@@ -180,11 +180,11 @@ const ProfessionalAssetsResumeHub = () => {
 
         {/* Main Content */}
         <section className="py-12">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6">
             <div className="flex flex-col lg:flex-row gap-8">
               {/* Sidebar Navigation */}
               <div className="lg:w-64 flex-shrink-0">
-                <div className="bg-surface rounded-xl p-4 shadow-brand sticky top-24">
+                <div className="glass-panel rounded-xl p-4 sticky top-24">
                   <h3 className="font-semibold text-primary mb-4">Resource Sections</h3>
                   <nav className="space-y-1">
                     {navigationSections?.map((section) => (
@@ -214,7 +214,7 @@ const ProfessionalAssetsResumeHub = () => {
 
         {/* Contact CTA */}
         <section className="py-16 bg-gradient-to-r from-primary/5 to-accent/5">
-          <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="bg-surface rounded-2xl p-8 shadow-brand-lg">
               <div className="flex items-center justify-center mb-6">
                 <div className="p-4 bg-primary rounded-full">
@@ -267,20 +267,20 @@ const ProfessionalAssetsResumeHub = () => {
       </main>
       {/* Footer */}
       <footer className="bg-primary text-white py-8">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <div className="w-8 h-8 bg-accent rounded-lg flex items-center justify-center">
                 <span className="text-primary font-bold text-sm">S</span>
               </div>
               <div>
-                <div className="font-semibold">Saniya Sharma</div>
+                <div className="font-semibold">Saniya Dhada</div>
                 <div className="text-sm text-white/80">Data Storyteller & Developer</div>
               </div>
             </div>
             
             <div className="text-sm text-white/80">
-              © {new Date()?.getFullYear()} Saniya Sharma. All rights reserved.
+              © {new Date()?.getFullYear()} Saniya Dhada. All rights reserved.
             </div>
           </div>
         </div>

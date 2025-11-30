@@ -95,7 +95,7 @@ const ProfessionalReferences = () => {
   const handleContactReference = (reference) => {
     // Mock action for contacting reference
     console.log(`Contacting ${reference?.name}`);
-    window.open(`mailto:${reference?.contact?.email}?subject=Reference Inquiry for Saniya Sharma`, '_blank');
+    window.open(`mailto:${reference?.contact?.email}?subject=Reference Inquiry for Saniya Dhada`, '_blank');
   };
 
   return (

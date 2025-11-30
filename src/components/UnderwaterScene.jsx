@@ -24,7 +24,7 @@ const UnderwaterScene = () => {
     }
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setSize(window.innerWidth, window.innerHeight);
     rendererRef.current = renderer;
     container.appendChild(renderer.domElement);
@@ -101,7 +101,7 @@ const UnderwaterScene = () => {
     scene.add(water);
     waterRef.current = water;
 
-    const bubbleCount = 400;
+    const bubbleCount = 300;
     const bubbleGeom = new THREE.BufferGeometry();
     const bubblePositions = new Float32Array(bubbleCount * 3);
     const bubbleSizes = new Float32Array(bubbleCount);
@@ -118,7 +118,7 @@ const UnderwaterScene = () => {
     scene.add(bubbles);
     bubblesRef.current = bubbles;
 
-    const fishCount = 32;
+    const fishCount = 24;
     const fishGeom = new THREE.PlaneGeometry(0.4, 0.2);
     const fishMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.95 });
     const fishGroup = new THREE.Group();
@@ -128,9 +128,14 @@ const UnderwaterScene = () => {
       fish.material.color.copy(hue);
       fish.position.set(-6 + Math.random()*12, -2 + Math.random()*4, -2 - Math.random()*4);
       fish.rotation.z = (Math.random()-0.5)*0.3;
-      fish.userData.speed = 0.01 + Math.random()*0.03;
+      fish.userData.baseSpeed = 0.008 + Math.random()*0.025;
+      fish.userData.speed = fish.userData.baseSpeed;
       fish.userData.vy = (Math.random()-0.5)*0.002;
       fish.userData.dir = Math.random()>0.5 ? 1 : -1;
+      fish.userData.phase = Math.random()*Math.PI*2;
+      fish.userData.curveAmp = 0.015 + Math.random()*0.025;
+      fish.userData.turnCooldown = 0;
+      fish.userData.burst = 0;
       fish.scale.set(1 + Math.random()*1.5, 1 + Math.random()*1.5, 1);
       fishGroup.add(fish);
     }
@@ -169,14 +174,21 @@ const UnderwaterScene = () => {
       }
       bubbles.geometry.attributes.position.needsUpdate = true;
 
-      fishGroup.children.forEach((f, idx) => {
+      fishGroup.children.forEach((f) => {
+        f.userData.phase += 0.01;
+        const speedMod = Math.sin(t*0.8 + f.userData.phase)*0.004;
+        if (f.userData.burst > 0) f.userData.burst *= 0.98; else if (Math.random() < 0.001) f.userData.burst = 0.02;
+        f.userData.speed = f.userData.baseSpeed + speedMod + f.userData.burst;
         f.position.x += f.userData.speed * f.userData.dir;
-        f.position.y += f.userData.vy;
-        if (Math.random() < 0.003){ f.userData.dir *= -1; f.rotation.y = f.userData.dir === 1 ? 0 : Math.PI; }
-        if (f.position.x > 7) { f.userData.dir = -1; f.rotation.y = Math.PI; }
-        if (f.position.x < -7){ f.userData.dir = 1; f.rotation.y = 0; }
+        f.position.y += Math.sin(t*0.6 + f.userData.phase)*f.userData.curveAmp + f.userData.vy;
+        f.position.z += Math.sin(t*0.3 + f.userData.phase)*0.002;
+        if (f.userData.turnCooldown > 0) { f.userData.turnCooldown -= 1; } else if (Math.random() < 0.01) { f.userData.dir *= -1; f.rotation.y = f.userData.dir === 1 ? 0 : Math.PI; f.userData.turnCooldown = 200; }
+        if (f.position.x > 7) { f.userData.dir = -1; f.rotation.y = Math.PI; f.userData.turnCooldown = 60; }
+        if (f.position.x < -7){ f.userData.dir = 1; f.rotation.y = 0; f.userData.turnCooldown = 60; }
         if (f.position.y > 3) f.userData.vy = -Math.abs(f.userData.vy);
         if (f.position.y < -3) f.userData.vy = Math.abs(f.userData.vy);
+        if (f.position.z < -6) f.position.z = -6;
+        if (f.position.z > -1) f.position.z = -1;
       });
 
       renderer.render(scene, camera);
@@ -199,4 +211,3 @@ const UnderwaterScene = () => {
 };
 
 export default UnderwaterScene;
-

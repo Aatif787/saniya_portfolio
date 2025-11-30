@@ -42,8 +42,8 @@ const SkillsPreview = () => {
   ];
 
   return (
-    <section className="py-20 bg-surface">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-16 sm:py-20 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -66,7 +66,7 @@ const SkillsPreview = () => {
           {skillCategories?.map((category, categoryIndex) => (
             <motion.div
               key={category?.title}
-              className="bg-background border border-border rounded-xl p-6 shadow-brand hover-lift"
+              className="glass-panel rounded-xl p-6 hover-lift"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}

@@ -178,7 +178,7 @@ const SkillsInteractiveCapabilities = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <Helmet>
         <title>Skills & Interactive Capabilities - Saniya Portfolio</title>
         <meta name="description" content="Explore Saniya's technical skills through interactive demonstrations. Data Analytics, Full-Stack Development, and Bridge Skills with live examples and code samples." />
@@ -187,13 +187,13 @@ const SkillsInteractiveCapabilities = () => {
       <Header />
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-brand text-white">
-        <div className="max-w-6xl mx-auto px-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6">
           <div className="text-center">
             <div className="inline-flex items-center space-x-2 bg-white/20 rounded-full px-4 py-2 mb-6">
               <Icon name="Zap" size={16} />
               <span className="text-sm font-medium">Interactive Capabilities</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6">
               Skills in Action
             </h1>
             <p className="text-xl opacity-90 max-w-3xl mx-auto mb-8">
@@ -212,8 +212,8 @@ const SkillsInteractiveCapabilities = () => {
         </div>
       </section>
       {/* Skills Overview */}
-      <section className="py-16 bg-background">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-16 bg-transparent">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 glass-section rounded-3xl p-6 sm:p-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-text-primary mb-4">
               Technical Expertise
@@ -292,8 +292,8 @@ const SkillsInteractiveCapabilities = () => {
       {/* Resource Library */}
       <ResourceLibrary />
       {/* Industry Applications */}
-      <section className="py-16 bg-muted/30">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="py-16 bg-transparent">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 glass-section rounded-3xl p-6 sm:p-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-text-primary mb-4">
               Industry Applications
@@ -354,8 +354,8 @@ const SkillsInteractiveCapabilities = () => {
       {/* Testimonials */}
       <TestimonialSection />
       {/* Call to Action */}
-      <section className="py-16 bg-background">
-        <div className="max-w-4xl mx-auto px-6 text-center">
+      <section className="py-16 bg-transparent">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center glass-section rounded-3xl p-6">
           <h2 className="text-3xl font-bold text-text-primary mb-4">
             Ready to See These Skills in Action?
           </h2>

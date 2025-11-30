@@ -73,8 +73,8 @@ const LatestInsights = () => {
   };
 
   return (
-    <section className="py-20 bg-muted">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-16 sm:py-20 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -100,7 +100,7 @@ const LatestInsights = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <div className="bg-surface border border-border rounded-2xl shadow-brand-lg overflow-hidden hover-lift">
+          <div className="glass-panel rounded-2xl overflow-hidden hover-lift">
             <div className="grid lg:grid-cols-2 gap-0">
               {/* Featured Image */}
               <div className="relative h-64 lg:h-auto overflow-hidden">
@@ -177,7 +177,7 @@ const LatestInsights = () => {
           {insights?.slice(1)?.map((article, index) => (
             <motion.article
               key={article?.id}
-              className="bg-surface border border-border rounded-xl shadow-brand overflow-hidden hover-lift"
+              className="glass-panel rounded-xl overflow-hidden hover-lift"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}

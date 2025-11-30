@@ -39,7 +39,7 @@ const HeroSection = () => {
   const titleGlow = useTransform(scrollYProgress, [0, 1], [0.3, 0.7]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-hidden">
       {/* Animated Background Elements */}
       <motion.div className="absolute inset-0 opacity-20" style={{ y: bgTranslateY }}>
         {floatingElements?.map((element, index) => (
@@ -83,7 +83,7 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-24 pb-16">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 glass-section rounded-3xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
           
           {/* Left Content */}
@@ -112,7 +112,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-6xl lg:text-8xl font-bold text-gradient-rainbow leading-none"
+                className="text-4xl sm:text-6xl lg:text-8xl font-bold text-gradient-rainbow leading-none"
                 style={{ filter: `drop-shadow(0 0 ${titleGlow.get()}rem rgba(99,102,241,0.4))` }}
                 animate={reduceMotion ? undefined : { 
                   textShadow: [
@@ -137,7 +137,7 @@ const HeroSection = () => {
             {/* Main Headline */}
             <div className="space-y-4">
               <motion.h1 
-                className="text-4xl lg:text-6xl font-bold text-gray-800 leading-tight"
+                className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-800 leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
@@ -153,7 +153,7 @@ const HeroSection = () => {
               </motion.h1>
               
               <motion.h2 
-                className="text-2xl lg:text-3xl font-semibold text-purple-600"
+                className="text-xl sm:text-2xl lg:text-3xl font-semibold text-purple-600"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
@@ -164,7 +164,7 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p 
-              className="text-lg text-gray-600 leading-relaxed max-w-lg"
+              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
@@ -176,7 +176,7 @@ const HeroSection = () => {
 
             {/* Stats */}
             <motion.div 
-              className="bg-gradient-to-r from-purple-100 to-pink-100 backdrop-blur-sm border border-purple-200 rounded-2xl p-6 shadow-xl"
+              className="glass-panel rounded-2xl p-6 shadow-xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
@@ -267,7 +267,7 @@ const HeroSection = () => {
               ></motion.div>
               
               <motion.div 
-                className="relative bg-white rounded-3xl p-8 shadow-2xl border border-purple-100"
+                className="relative glass-panel rounded-3xl p-8 shadow-2xl"
                 whileHover={{ scale: 1.02 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
@@ -278,8 +278,6 @@ const HeroSection = () => {
                     src="/assets/images/img1.png"
                     alt="My Profile Photo"
                     className="w-full h-full object-cover"
-                    loading="eager"
-                    fetchpriority="high"
                   />
 
                 </div>

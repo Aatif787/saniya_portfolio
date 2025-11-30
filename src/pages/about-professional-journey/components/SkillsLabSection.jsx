@@ -121,6 +121,23 @@ FROM growth_analysis
 ORDER BY month DESC;`
   };
 
+  const escapeHtml = (s) => {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  };
+
+  const highlightCode = (code, lang) => {
+    let out = escapeHtml(code);
+    out = out.replace(/(".*?"|'.*?')/g, '<span class="text-orange-400">$1</span>');
+    out = out.replace(/(^|\n)(\s*)(#.*|\/\/.*)/g, '$1$2<span class="text-green-400">$3</span>');
+    out = out.replace(/\b(SELECT|FROM|WHERE|WITH|ORDER BY|GROUP BY|CASE|END|AS|JOIN)\b/g, '<span class="text-red-400">$1</span>');
+    out = out.replace(/\b(import|from|const|let|var|return|if|else|function|export)\b/g, '<span class="text-red-400">$1</span>');
+    out = out.replace(/\b\d+(?:\.\d+)?\b/g, '<span class="text-black">$&</span>');
+    return out;
+  };
+
   const renderVisualizationDemo = () => (
     <div className="space-y-6">
       <div className="bg-surface rounded-lg p-6">
@@ -236,10 +253,10 @@ ORDER BY month DESC;`
   );
 
   return (
-    <section className="py-20 bg-muted">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="py-16 sm:py-20 bg-transparent">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-4">
             Skills Laboratory
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
@@ -298,8 +315,8 @@ ORDER BY month DESC;`
                     Copy
                   </Button>
                 </div>
-                <pre className="p-4 text-xs overflow-x-auto bg-gray-900 text-gray-100">
-                  <code>{code}</code>
+                <pre className="p-4 text-xs overflow-x-auto bg-gray-900">
+                  <code dangerouslySetInnerHTML={{ __html: highlightCode(code, lang) }} />
                 </pre>
               </div>
             ))}
