@@ -188,7 +188,7 @@ const ResourcesSection = () => {
         </div>
 
         {/* Contact Methods */}
-        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl p-8 lg:p-12">
+        <div className="bg-gradient-to-r from-primary/5 to-secondary/5 rounded-none p-4 sm:rounded-2xl sm:p-8 lg:p-12 mx-0">
           <div className="text-center mb-8">
             <h3 className="text-2xl font-bold text-primary mb-4">Let's Connect</h3>
             <p className="text-text-secondary max-w-2xl mx-auto">
@@ -197,19 +197,19 @@ const ResourcesSection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {contactMethods?.map((contact, index) => (
               <button
                 key={index}
                 onClick={contact?.action}
-                className="bg-surface rounded-lg p-6 text-center hover-lift transition-all duration-300 hover:shadow-brand-lg"
+                className="bg-surface rounded-lg p-4 sm:p-6 text-left sm:text-center hover-lift transition-all duration-300 hover:shadow-brand-lg w-full"
               >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3 mx-0 sm:mx-auto">
                   <Icon name={contact?.icon} size={24} color="var(--color-primary)" />
                 </div>
                 <h4 className="font-semibold text-primary mb-1">{contact?.method}</h4>
-                <p className="text-sm text-accent mb-2">{contact?.value}</p>
-                <p className="text-xs text-text-secondary">{contact?.description}</p>
+                <p className="text-sm text-accent mb-2 break-words">{contact?.value}</p>
+                <p className="text-xs text-text-secondary leading-relaxed">{contact?.description}</p>
               </button>
             ))}
           </div>
