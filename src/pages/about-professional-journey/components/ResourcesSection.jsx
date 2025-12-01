@@ -202,9 +202,9 @@ const ResourcesSection = () => {
               <button
                 key={index}
                 onClick={contact?.action}
-                className="bg-surface rounded-lg p-4 sm:p-6 text-left sm:text-center hover-lift transition-all duration-300 hover:shadow-brand-lg w-full"
+                className="bg-surface rounded-lg p-4 sm:p-6 text-center hover-lift transition-all duration-300 hover:shadow-brand-lg w-full"
               >
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3 mx-0 sm:mx-auto">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3 mx-auto">
                   <Icon name={contact?.icon} size={24} color="var(--color-primary)" />
                 </div>
                 <h4 className="font-semibold text-primary mb-1">{contact?.method}</h4>
