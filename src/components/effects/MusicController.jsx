@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../AppIcon';
 
 const tracks = [
-  'https://cdn.pixabay.com/audio/2022/03/15/audio_1bce25f6d8.mp3',
-  'https://cdn.pixabay.com/audio/2021/09/29/audio_c20c8c7b3f.mp3',
-  'https://cdn.pixabay.com/audio/2022/01/20/audio_17e1b0bc8e.mp3'
+  'https://cdn.pixabay.com/audio/2021/08/09/audio_c601c45b13.mp3',
+  'https://cdn.pixabay.com/audio/2022/03/02/audio_6b4c1a467f.mp3',
+  'https://cdn.pixabay.com/audio/2022/01/20/audio_17e1b0bc8e.mp3',
+  'https://cdn.pixabay.com/audio/2022/11/09/audio_0f59f31f65.mp3',
+  'https://cdn.pixabay.com/audio/2021/09/29/audio_c20c8c7b3f.mp3'
 ];
 
 const MusicController = () => {
@@ -19,7 +21,7 @@ const MusicController = () => {
     audio.preload = 'auto';
     audio.playsInline = true;
     const mobile = window.matchMedia('(max-width: 640px)').matches;
-    const targetVolume = mobile ? 0.14 : 0.18;
+    const targetVolume = mobile ? 0.25 : 0.3;
     audio.volume = 0; // start silent to satisfy autoplay policies
     audio.muted = true;
     audio.playbackRate = 1.0;
@@ -27,11 +29,16 @@ const MusicController = () => {
     const tryPlay = () => audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     tryPlay();
     const resumeOnGesture = () => {
-      // unmute and raise volume on first interaction
       audio.muted = false;
-      audio.volume = targetVolume;
+      const steps = 20;
+      const inc = targetVolume / steps;
+      let i = 0;
+      const id = setInterval(() => {
+        i += 1;
+        audio.volume = Math.min(targetVolume, audio.volume + inc);
+        if (i >= steps) clearInterval(id);
+      }, 60);
       audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-      // after setting volume once, remove listeners to avoid repeated calls
       window.removeEventListener('click', resumeOnGesture);
       window.removeEventListener('pointerup', resumeOnGesture);
       window.removeEventListener('touchend', resumeOnGesture);
