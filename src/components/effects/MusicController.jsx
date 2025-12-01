@@ -310,10 +310,6 @@ const MusicController = () => {
         
         {playing && (
           <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/50 backdrop-blur-md text-white text-xs border border-white/30 shadow-lg">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-            </span>
             <span className="font-medium">Track {index + 1}/{tracks.length}</span>
           </div>
         )}
