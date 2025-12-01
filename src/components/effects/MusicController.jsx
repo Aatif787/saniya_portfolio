@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../AppIcon';
 
 const localTracks = [
-  '/assets/audio/intro.mp3',
-  '/assets/audio/vibes.mp3',
-  '/assets/audio/attitude.mp3'
+  '/assets/audio1.mp3',
+  '/assets/audio2.mp3',
+  '/assets/audio3.mp3',
+  '/assets/audio4.mp3',
+  '/assets/audio5.mp3'
 ];
 const remoteTracks = [
   'https://cdn.pixabay.com/audio/2021/08/09/audio_c601c45b13.mp3',
