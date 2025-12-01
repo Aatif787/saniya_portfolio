@@ -16,12 +16,26 @@ const MusicController = () => {
   useEffect(() => {
     const audio = new Audio(tracks[index]);
     audio.loop = true;
-    audio.volume = window.matchMedia('(max-width: 640px)').matches ? 0.05 : 0.08;
+    audio.preload = 'auto';
+    audio.playsInline = true;
+    const mobile = window.matchMedia('(max-width: 640px)').matches;
+    const targetVolume = mobile ? 0.14 : 0.18;
+    audio.volume = 0; // start silent to satisfy autoplay policies
+    audio.muted = true;
+    audio.playbackRate = 1.0;
     audioRef.current = audio;
     const tryPlay = () => audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     tryPlay();
     const resumeOnGesture = () => {
-      if (!playing) tryPlay();
+      // unmute and raise volume on first interaction
+      audio.muted = false;
+      audio.volume = targetVolume;
+      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+      // after setting volume once, remove listeners to avoid repeated calls
+      window.removeEventListener('click', resumeOnGesture);
+      window.removeEventListener('pointerup', resumeOnGesture);
+      window.removeEventListener('touchend', resumeOnGesture);
+      window.removeEventListener('keydown', resumeOnGesture);
     };
     const handleDbl = () => {
       const next = (index + 1) % tracks.length;
@@ -33,10 +47,14 @@ const MusicController = () => {
       lastTapRef.current = now;
     };
     window.addEventListener('click', resumeOnGesture, { passive: true });
+    window.addEventListener('pointerup', resumeOnGesture, { passive: true });
+    window.addEventListener('keydown', resumeOnGesture, { passive: true });
     window.addEventListener('dblclick', handleDbl, { passive: true });
     window.addEventListener('touchend', handleTouch, { passive: true });
     return () => {
       window.removeEventListener('click', resumeOnGesture);
+      window.removeEventListener('pointerup', resumeOnGesture);
+      window.removeEventListener('keydown', resumeOnGesture);
       window.removeEventListener('dblclick', handleDbl);
       window.removeEventListener('touchend', handleTouch);
       audio.pause();
@@ -46,17 +64,22 @@ const MusicController = () => {
   useEffect(() => {
     if (!audioRef.current) return;
     const srcChanged = tracks[index];
-    audioRef.current.src = srcChanged;
-    if (playing) audioRef.current.play().catch(() => {});
+    const audio = audioRef.current;
+    audio.src = srcChanged;
+    audio.load();
+    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
   }, [index]);
 
   const togglePlay = () => {
     if (!audioRef.current) return;
+    const audio = audioRef.current;
     if (playing) {
-      audioRef.current.pause();
+      audio.pause();
       setPlaying(false);
     } else {
-      audioRef.current.play().then(() => setPlaying(true)).catch(() => {});
+      audio.muted = false;
+      if (audio.volume === 0) audio.volume = window.matchMedia('(max-width: 640px)').matches ? 0.14 : 0.18;
+      audio.play().then(() => setPlaying(true)).catch(() => {});
     }
   };
 
@@ -74,4 +97,3 @@ const MusicController = () => {
 };
 
 export default MusicController;
-
