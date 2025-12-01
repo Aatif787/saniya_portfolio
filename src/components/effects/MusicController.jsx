@@ -32,6 +32,7 @@ const MusicController = () => {
     audio.preload = 'auto';
     audio.playsInline = true;
     audio.crossOrigin = 'anonymous';
+    audio.autoplay = true;
     audio.muted = true; // Start muted to guarantee playback
 
     console.log('🎵 Initializing autoplay...');
@@ -102,11 +103,12 @@ const MusicController = () => {
         console.log('✅ Emergency unmute triggered');
       }
       if (audio.paused) {
+        audio.load();
         audio.play().then(() => setPlaying(true)).catch(console.error);
       }
     };
 
-    const interactionEvents = ['click', 'touchstart', 'keydown', 'mousemove', 'scroll'];
+    const interactionEvents = ['click', 'pointerdown', 'touchstart', 'touchend', 'keydown', 'mousemove', 'scroll'];
     interactionEvents.forEach(event => {
       document.addEventListener(event, emergencyUnmute, { once: true, passive: true });
     });
@@ -255,6 +257,8 @@ const MusicController = () => {
         preload="auto" 
         playsInline 
         crossOrigin="anonymous"
+        autoPlay
+        muted
       />
     </div>
   );
