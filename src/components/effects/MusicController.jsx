@@ -16,6 +16,7 @@ const MusicController = () => {
   const lastTapRef = useRef(0);
   const targetVolume = 0.36;
   const playAttemptedRef = useRef(false);
+  const audioCtxRef = useRef(null);
 
   // Force autoplay on every mount/refresh
   useEffect(() => {
@@ -32,8 +33,20 @@ const MusicController = () => {
     audio.preload = 'auto';
     audio.playsInline = true;
     audio.crossOrigin = 'anonymous';
-    audio.autoplay = true;
     audio.muted = true; // Start muted to guarantee playback
+    audio.autoplay = true;
+    // Ensure playsinline attribute for Safari
+    try { audio.setAttribute('playsinline', ''); audio.setAttribute('webkit-playsinline', ''); } catch {}
+
+    // Create WebAudio context and wire element for reliability on mobile
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (AudioCtx && !audioCtxRef.current) {
+      audioCtxRef.current = new AudioCtx();
+      try {
+        const source = audioCtxRef.current.createMediaElementSource(audio);
+        source.connect(audioCtxRef.current.destination);
+      } catch {}
+    }
 
     console.log('🎵 Initializing autoplay...');
 
@@ -50,7 +63,11 @@ const MusicController = () => {
         
         // Unmute immediately after play starts
         setTimeout(() => {
+          if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+            audioCtxRef.current.resume().catch(() => {});
+          }
           audio.muted = false;
+          audio.volume = targetVolume;
           console.log('✅ Unmuted - sound should be audible now');
         }, 100);
 
@@ -102,6 +119,9 @@ const MusicController = () => {
         audio.muted = false;
         console.log('✅ Emergency unmute triggered');
       }
+      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume().catch(() => {});
+      }
       if (audio.paused) {
         audio.load();
         audio.play().then(() => setPlaying(true)).catch(console.error);
@@ -111,6 +131,7 @@ const MusicController = () => {
     const interactionEvents = ['click', 'pointerdown', 'touchstart', 'touchend', 'keydown', 'mousemove', 'scroll'];
     interactionEvents.forEach(event => {
       document.addEventListener(event, emergencyUnmute, { once: true, passive: true });
+      window.addEventListener(event, emergencyUnmute, { once: true, passive: true });
     });
 
     // Track management
@@ -151,6 +172,7 @@ const MusicController = () => {
       audio.removeEventListener('pause', handlePause);
       interactionEvents.forEach(event => {
         document.removeEventListener(event, emergencyUnmute);
+        window.removeEventListener(event, emergencyUnmute);
       });
       audio.pause();
       audio.src = '';
@@ -217,7 +239,6 @@ const MusicController = () => {
 
   // Button click handler
   const handleButtonClick = (e) => {
-    e.stopPropagation();
     const now = Date.now();
     
     if (now - lastTapRef.current < 400) {
