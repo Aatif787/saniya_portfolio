@@ -1,13 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../AppIcon';
 
-const tracks = [
+const localTracks = [
+  '/assets/audio/intro.mp3',
+  '/assets/audio/vibes.mp3',
+  '/assets/audio/attitude.mp3'
+];
+const remoteTracks = [
   'https://cdn.pixabay.com/audio/2021/08/09/audio_c601c45b13.mp3',
   'https://cdn.pixabay.com/audio/2022/03/02/audio_6b4c1a467f.mp3',
   'https://cdn.pixabay.com/audio/2022/01/20/audio_17e1b0bc8e.mp3',
   'https://cdn.pixabay.com/audio/2022/11/09/audio_0f59f31f65.mp3',
   'https://cdn.pixabay.com/audio/2021/09/29/audio_c20c8c7b3f.mp3'
 ];
+const tracks = [...localTracks, ...remoteTracks];
 
 const MusicController = () => {
   const audioRef = useRef(null);
@@ -54,7 +60,12 @@ const MusicController = () => {
       // second attempt to start quietly, then fade if policy allows
       audio.play().then(() => setPlaying(true)).catch(() => {});
     };
+    const onError = () => {
+      // skip to next track if current fails (e.g., missing local file)
+      setIndex((prev) => (prev + 1) % tracks.length);
+    };
     audio.addEventListener('canplaythrough', onCanPlay);
+    audio.addEventListener('error', onError);
     const handleDbl = () => {
       const next = (index + 1) % tracks.length;
       setIndex(next);
@@ -82,6 +93,7 @@ const MusicController = () => {
       window.removeEventListener('dblclick', handleDbl);
       window.removeEventListener('touchend', handleTouch);
       audio.removeEventListener('canplaythrough', onCanPlay);
+      audio.removeEventListener('error', onError);
       audio.pause();
     };
   }, []);
