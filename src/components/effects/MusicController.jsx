@@ -54,9 +54,13 @@ const MusicController = () => {
       // skip to next track if current fails (e.g., missing local file)
       setIndex((prev) => (prev + 1) % tracks.length);
     };
+    const onVolumeChange = () => {
+      if (audio.volume > targetVolume) audio.volume = targetVolume;
+    };
     audio.addEventListener('canplaythrough', onCanPlay);
     audio.addEventListener('error', onError);
     audio.addEventListener('ended', onEnded);
+    audio.addEventListener('volumechange', onVolumeChange);
     const handleDbl = () => {
       const next = (index + 1) % tracks.length;
       setIndex(next);
@@ -86,6 +90,7 @@ const MusicController = () => {
       audio.removeEventListener('canplaythrough', onCanPlay);
       audio.removeEventListener('error', onError);
       audio.removeEventListener('ended', onEnded);
+      audio.removeEventListener('volumechange', onVolumeChange);
       audio.pause();
     };
   }, []);
@@ -97,6 +102,7 @@ const MusicController = () => {
     if (!audio) return;
     audio.src = srcChanged;
     audio.load();
+    audio.volume = 0.36;
     audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
   }, [index]);
 
