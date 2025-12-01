@@ -20,6 +20,7 @@ const MusicController = () => {
     audio.loop = true;
     audio.preload = 'auto';
     audio.playsInline = true;
+    audio.crossOrigin = 'anonymous';
     const mobile = window.matchMedia('(max-width: 640px)').matches;
     const targetVolume = mobile ? 0.25 : 0.3;
     audio.volume = 0; // start silent to satisfy autoplay policies
@@ -54,12 +55,14 @@ const MusicController = () => {
       lastTapRef.current = now;
     };
     window.addEventListener('click', resumeOnGesture, { passive: true });
+    window.addEventListener('touchstart', resumeOnGesture, { passive: true });
     window.addEventListener('pointerup', resumeOnGesture, { passive: true });
     window.addEventListener('keydown', resumeOnGesture, { passive: true });
     window.addEventListener('dblclick', handleDbl, { passive: true });
     window.addEventListener('touchend', handleTouch, { passive: true });
     return () => {
       window.removeEventListener('click', resumeOnGesture);
+      window.removeEventListener('touchstart', resumeOnGesture);
       window.removeEventListener('pointerup', resumeOnGesture);
       window.removeEventListener('keydown', resumeOnGesture);
       window.removeEventListener('dblclick', handleDbl);
@@ -91,7 +94,7 @@ const MusicController = () => {
   };
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-40">
       <button
         onClick={togglePlay}
         className="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 backdrop-blur text-white border border-white/20 hover:bg-black/55 transition"
