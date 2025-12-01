@@ -25,7 +25,7 @@ const MusicController = () => {
     audio.playsInline = true;
     audio.crossOrigin = 'anonymous';
     const mobile = window.matchMedia('(max-width: 640px)').matches;
-    const targetVolume = mobile ? 0.25 : 0.3;
+    const targetVolume = mobile ? 0.35 : 0.4;
     audio.volume = 0;
     audio.muted = true;
     audio.playbackRate = 1.0;
@@ -43,10 +43,18 @@ const MusicController = () => {
       }, 60);
       audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
       window.removeEventListener('click', resumeOnGesture);
+      window.removeEventListener('mousemove', resumeOnGesture);
+      window.removeEventListener('wheel', resumeOnGesture);
       window.removeEventListener('pointerup', resumeOnGesture);
+      window.removeEventListener('touchstart', resumeOnGesture);
       window.removeEventListener('touchend', resumeOnGesture);
       window.removeEventListener('keydown', resumeOnGesture);
     };
+    const onCanPlay = () => {
+      // second attempt to start quietly, then fade if policy allows
+      audio.play().then(() => setPlaying(true)).catch(() => {});
+    };
+    audio.addEventListener('canplaythrough', onCanPlay);
     const handleDbl = () => {
       const next = (index + 1) % tracks.length;
       setIndex(next);
@@ -57,6 +65,8 @@ const MusicController = () => {
       lastTapRef.current = now;
     };
     window.addEventListener('click', resumeOnGesture, { passive: true });
+    window.addEventListener('mousemove', resumeOnGesture, { passive: true });
+    window.addEventListener('wheel', resumeOnGesture, { passive: true });
     window.addEventListener('touchstart', resumeOnGesture, { passive: true });
     window.addEventListener('pointerup', resumeOnGesture, { passive: true });
     window.addEventListener('keydown', resumeOnGesture, { passive: true });
@@ -64,11 +74,14 @@ const MusicController = () => {
     window.addEventListener('touchend', handleTouch, { passive: true });
     return () => {
       window.removeEventListener('click', resumeOnGesture);
+      window.removeEventListener('mousemove', resumeOnGesture);
+      window.removeEventListener('wheel', resumeOnGesture);
       window.removeEventListener('touchstart', resumeOnGesture);
       window.removeEventListener('pointerup', resumeOnGesture);
       window.removeEventListener('keydown', resumeOnGesture);
       window.removeEventListener('dblclick', handleDbl);
       window.removeEventListener('touchend', handleTouch);
+      audio.removeEventListener('canplaythrough', onCanPlay);
       audio.pause();
     };
   }, []);
@@ -131,7 +144,7 @@ const MusicController = () => {
           className="w-28 h-2 accent-primary bg-white/20 rounded-full"
         />
       )}
-      <audio ref={audioRef} className="hidden" preload="auto" playsInline crossOrigin="anonymous" />
+      <audio ref={audioRef} className="hidden" preload="auto" playsInline crossOrigin="anonymous" autoPlay muted loop />
     </div>
   );
 };
