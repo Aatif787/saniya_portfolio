@@ -24,6 +24,7 @@ const MusicController = () => {
     audio.preload = 'auto';
     audio.playsInline = true;
     audio.crossOrigin = 'anonymous';
+    audio.autoplay = true;
     const targetVolume = 0.36;
     audio.volume = 0;
     audio.muted = true;
