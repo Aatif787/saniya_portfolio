@@ -71,8 +71,8 @@ const FeaturedProjects = () => {
   };
 
   return (
-    <section className="py-16 sm:py-20 bg-transparent">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
+    <section className="py-12 sm:py-20 bg-transparent">
+      <div className="max-w-none sm:max-w-7xl mx-0 sm:mx-auto px-0 sm:px-6 lg:px-8 glass-section rounded-none sm:rounded-3xl p-4 sm:p-8">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
