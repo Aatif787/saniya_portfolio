@@ -36,6 +36,7 @@ const MusicController = () => {
       audio.volume = targetVolume;
       audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
       window.removeEventListener('click', resumeOnGesture);
+      window.removeEventListener('pointerdown', resumeOnGesture);
       window.removeEventListener('mousemove', resumeOnGesture);
       window.removeEventListener('wheel', resumeOnGesture);
       window.removeEventListener('pointerup', resumeOnGesture);
@@ -71,6 +72,7 @@ const MusicController = () => {
       lastTapRef.current = now;
     };
     window.addEventListener('click', resumeOnGesture, { passive: true });
+    window.addEventListener('pointerdown', resumeOnGesture, { passive: true });
     window.addEventListener('mousemove', resumeOnGesture, { passive: true });
     window.addEventListener('wheel', resumeOnGesture, { passive: true });
     window.addEventListener('touchstart', resumeOnGesture, { passive: true });
