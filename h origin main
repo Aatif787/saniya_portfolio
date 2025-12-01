@@ -1,0 +1,18 @@
+[33md88afff[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m About hero mobile: match home title sizing, center layout, full-width CTAs, improved social alignment
+[33m5ccd128[m Adjust About page mobile typography: normal weight, left alignment, narrower max width
+[33mb30df37[m About page (mobile): stronger paragraph weight, justified text, wider container; wrap root with about-page for targeted overrides
+[33mb46a9f1[m Mobile: increase content container width to ~95vw across pages without changing desktop layout
+[33mafa293c[m Mobile: fix phone responsiveness — logo left, menu right, widen text to ~90vw, centered layout via page-wrapper; Background: increase star center density and moving stars for visible motion
+[33m459b07a[m Responsive: add global page-wrapper for centered mobile layout and force transparent panels; Space: denser static field and expanded moving stars for visible motion in center
+[33m27c50cb[m Space: fill center with stars, rotate static field, increase moving stars count and speed for visible motion across all pages
+[33mcd7f4e9[m UI: make content templates fully transparent and highlight text; Space: denser starfield with moving stars layer and subtle glow across all pages
+[33m7f32d2d[m Background: remove planets, increase star density with subtle twinkle across pages
+[33mab5a00b[m UI: make About page fully transparent, remove background lighting/explosions, integrate Three.js background canvas with lazy init, and lower ambient effect intensity for clarity
+[33m250b683[m Add WebGL underwater scene with shaders, fish, bubbles; glassmorphism overlay; CSS fallback; performance handling
+[33mf54fef7[m[33m ([m[1;31morigin/portfolio[m[33m)[m Fix fish animation transform by wrapping for flip; ensure swim keyframes apply
+[33m0d47948[m Add animated ocean background with fishes; cursor water ripples; fix resume links and responsive scaling
+[33m2b54180[m Update website
+[33ma0ec954[m Remove nested Saniya git repo
+[33m73973a7[m Add missing index.jsx file
+[33mfd332e4[m update
+[33m01eec44[m first commit

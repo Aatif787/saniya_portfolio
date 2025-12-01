@@ -13,125 +13,127 @@ const MusicController = () => {
   const audioRef = useRef(null);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [showMobileTap, setShowMobileTap] = useState(false);
   const lastTapRef = useRef(0);
   const targetVolume = 0.36;
   const playAttemptedRef = useRef(false);
-  const audioCtxRef = useRef(null);
+  const isMobileRef = useRef(false);
 
-  // Force autoplay on every mount/refresh
   useEffect(() => {
+    // Detect mobile device
+    isMobileRef.current = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+                          ('ontouchstart' in window) || 
+                          (navigator.maxTouchPoints > 0);
+
     const audio = audioRef.current;
     if (!audio) return;
 
-    // Reset state on every mount
     playAttemptedRef.current = false;
     
-    // Configure audio
+    // Configure audio with mobile-specific settings
     audio.src = tracks[index];
     audio.volume = targetVolume;
     audio.loop = false;
     audio.preload = 'auto';
-    audio.playsInline = true;
+    audio.playsInline = true; // Critical for iOS
+    audio.setAttribute('playsinline', ''); // iOS Safari requirement
+    audio.setAttribute('webkit-playsinline', ''); // Older iOS
     audio.crossOrigin = 'anonymous';
-    audio.muted = true; // Start muted to guarantee playback
-    audio.autoplay = true;
-    // Ensure playsinline attribute for Safari
-    try { audio.setAttribute('playsinline', ''); audio.setAttribute('webkit-playsinline', ''); } catch {}
+    audio.muted = true;
 
-    // Create WebAudio context and wire element for reliability on mobile
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (AudioCtx && !audioCtxRef.current) {
-      audioCtxRef.current = new AudioCtx();
-      try {
-        const source = audioCtxRef.current.createMediaElementSource(audio);
-        source.connect(audioCtxRef.current.destination);
-      } catch {}
-    }
-
+    console.log('📱 Mobile device:', isMobileRef.current);
     console.log('🎵 Initializing autoplay...');
 
-    // Aggressive autoplay function
+    // Autoplay function
     const forceAutoplay = async () => {
       if (playAttemptedRef.current) return;
       playAttemptedRef.current = true;
 
       try {
-        // Play muted first (always works)
         await audio.play();
         console.log('✅ Playing muted');
         setPlaying(true);
         
-        // Unmute immediately after play starts
+        // Unmute after successful play
         setTimeout(() => {
-          if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
-            audioCtxRef.current.resume().catch(() => {});
-          }
           audio.muted = false;
-          audio.volume = targetVolume;
-          console.log('✅ Unmuted - sound should be audible now');
-        }, 100);
+          console.log('✅ Unmuted');
+          setShowMobileTap(false);
+        }, 150);
 
       } catch (err) {
-        console.log('❌ Autoplay failed:', err.message);
+        console.log('❌ Autoplay blocked:', err.message);
         
-        // Fallback: try again on next event loop
-        setTimeout(async () => {
-          try {
-            await audio.play();
-            setPlaying(true);
-            setTimeout(() => {
-              audio.muted = false;
-            }, 100);
-          } catch (e) {
-            console.log('❌ Retry failed, waiting for user interaction');
-          }
-        }, 100);
+        // On mobile, show tap prompt
+        if (isMobileRef.current) {
+          setShowMobileTap(true);
+          console.log('📱 Showing mobile tap prompt');
+        }
+        
+        playAttemptedRef.current = false;
       }
     };
 
-    // Try multiple times with different triggers
+    // Try to play
     const tryPlay = () => {
       if (!playAttemptedRef.current) {
         forceAutoplay();
       }
     };
 
-    // Immediate attempt
-    tryPlay();
-
-    // Retry on various ready states
-    audio.addEventListener('loadedmetadata', tryPlay);
-    audio.addEventListener('loadeddata', tryPlay);
-    audio.addEventListener('canplay', tryPlay);
-    audio.addEventListener('canplaythrough', tryPlay);
-
-    // Also try after small delays
-    const timers = [
-      setTimeout(tryPlay, 50),
-      setTimeout(tryPlay, 100),
-      setTimeout(tryPlay, 200),
-      setTimeout(tryPlay, 500)
-    ];
-
-    // Emergency unmute on any interaction (backup)
-    const emergencyUnmute = () => {
-      if (audio.muted) {
+    // Mobile-specific: Start on touch events
+    const handleMobileStart = async (e) => {
+      console.log('👆 Touch detected, starting playback');
+      setShowMobileTap(false);
+      
+      try {
         audio.muted = false;
-        console.log('✅ Emergency unmute triggered');
+        audio.volume = targetVolume;
+        await audio.play();
+        setPlaying(true);
+        console.log('✅ Playing after touch');
+      } catch (err) {
+        console.error('Play failed:', err);
       }
-      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
-        audioCtxRef.current.resume().catch(() => {});
+    };
+
+    // Desktop: Try autoplay immediately
+    if (!isMobileRef.current) {
+      tryPlay();
+      audio.addEventListener('loadedmetadata', tryPlay);
+      audio.addEventListener('canplay', tryPlay);
+      audio.addEventListener('canplaythrough', tryPlay);
+      
+      setTimeout(tryPlay, 100);
+      setTimeout(tryPlay, 300);
+    } else {
+      // Mobile: Show prompt and wait for touch
+      setShowMobileTap(true);
+    }
+
+    // Listen for mobile interactions
+    const mobileEvents = ['touchstart', 'touchend', 'click'];
+    if (isMobileRef.current) {
+      mobileEvents.forEach(event => {
+        document.addEventListener(event, handleMobileStart, { once: true, passive: true });
+        window.addEventListener(event, handleMobileStart, { once: true, passive: true });
+      });
+    }
+
+    // Desktop interaction fallback
+    const desktopUnmute = () => {
+      if (!isMobileRef.current && audio.muted) {
+        audio.muted = false;
+        console.log('✅ Desktop unmute');
       }
       if (audio.paused) {
-        audio.load();
         audio.play().then(() => setPlaying(true)).catch(console.error);
       }
     };
 
-    const interactionEvents = ['click', 'pointerdown', 'touchstart', 'touchend', 'keydown', 'mousemove', 'scroll'];
-    interactionEvents.forEach(event => {
-      document.addEventListener(event, emergencyUnmute, { once: true, passive: true });
-      window.addEventListener(event, emergencyUnmute, { once: true, passive: true });
+    const desktopEvents = ['click', 'keydown', 'mousemove'];
+    desktopEvents.forEach(event => {
+      document.addEventListener(event, desktopUnmute, { once: true, passive: true });
     });
 
     // Track management
@@ -146,12 +148,11 @@ const MusicController = () => {
 
     const handlePlay = () => {
       setPlaying(true);
-      console.log('▶️ Audio playing');
+      setShowMobileTap(false);
     };
     
     const handlePause = () => {
       setPlaying(false);
-      console.log('⏸️ Audio paused');
     };
 
     audio.addEventListener('ended', handleEnded);
@@ -159,25 +160,28 @@ const MusicController = () => {
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
 
-    // Cleanup
     return () => {
-      timers.forEach(timer => clearTimeout(timer));
       audio.removeEventListener('loadedmetadata', tryPlay);
-      audio.removeEventListener('loadeddata', tryPlay);
       audio.removeEventListener('canplay', tryPlay);
       audio.removeEventListener('canplaythrough', tryPlay);
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('error', handleError);
       audio.removeEventListener('play', handlePlay);
       audio.removeEventListener('pause', handlePause);
-      interactionEvents.forEach(event => {
-        document.removeEventListener(event, emergencyUnmute);
-        window.removeEventListener(event, emergencyUnmute);
+      
+      mobileEvents.forEach(event => {
+        document.removeEventListener(event, handleMobileStart);
+        window.removeEventListener(event, handleMobileStart);
       });
+      
+      desktopEvents.forEach(event => {
+        document.removeEventListener(event, desktopUnmute);
+      });
+      
       audio.pause();
       audio.src = '';
     };
-  }, []); // Empty dependency = runs on every mount/refresh
+  }, []);
 
   // Handle track changes
   useEffect(() => {
@@ -215,14 +219,13 @@ const MusicController = () => {
 
     if (playing) {
       audio.pause();
-      console.log('⏸️ Paused by user');
     } else {
       audio.muted = false;
       audio.volume = targetVolume;
       audio.play()
         .then(() => {
           setPlaying(true);
-          console.log('▶️ Playing by user');
+          setShowMobileTap(false);
         })
         .catch((err) => {
           console.error('Play failed:', err);
@@ -233,12 +236,12 @@ const MusicController = () => {
 
   // Skip track
   const skipTrack = () => {
-    console.log('⏭️ Skipping track');
     setIndex((prev) => (prev + 1) % tracks.length);
   };
 
   // Button click handler
   const handleButtonClick = (e) => {
+    e.stopPropagation();
     const now = Date.now();
     
     if (now - lastTapRef.current < 400) {
@@ -251,37 +254,80 @@ const MusicController = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-[110] flex items-center gap-2">
-      <button
-        onClick={handleButtonClick}
-        onTouchEnd={handleButtonClick}
-        onPointerUp={handleButtonClick}
-        className="flex items-center justify-center w-12 h-12 rounded-full bg-black/50 backdrop-blur-md text-white border-2 border-white/30 hover:bg-black/70 hover:border-white/50 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
-        aria-label={playing ? 'Pause music' : 'Play music'}
-        title="Click: Play/Pause | Double-click: Skip"
-      >
-        {playing ? <MicOff size={20} /> : <Mic size={20} />}
-      </button>
-      
-      {playing && (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/50 backdrop-blur-md text-white text-xs border border-white/30 shadow-lg">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-          </span>
-          <span className="font-medium">Track {index + 1}/{tracks.length}</span>
+    <>
+      {/* Mobile tap prompt - pulsing button overlay */}
+      {showMobileTap && isMobileRef.current && (
+        <div 
+          className="fixed inset-0 z-[150] flex items-center justify-center bg-black/30 backdrop-blur-sm"
+          onClick={() => {
+            const audio = audioRef.current;
+            if (audio) {
+              audio.muted = false;
+              audio.volume = targetVolume;
+              audio.play()
+                .then(() => {
+                  setPlaying(true);
+                  setShowMobileTap(false);
+                })
+                .catch(console.error);
+            }
+          }}
+        >
+          <div className="text-center">
+            <button 
+              className="flex items-center justify-center w-20 h-20 rounded-full bg-white text-black shadow-2xl animate-pulse hover:scale-110 transition-transform"
+              onClick={(e) => {
+                e.stopPropagation();
+                const audio = audioRef.current;
+                if (audio) {
+                  audio.muted = false;
+                  audio.volume = targetVolume;
+                  audio.play()
+                    .then(() => {
+                      setPlaying(true);
+                      setShowMobileTap(false);
+                    })
+                    .catch(console.error);
+                }
+              }}
+            >
+              <Mic size={32} />
+            </button>
+            <p className="text-white text-sm mt-4 font-medium">Tap to start music</p>
+          </div>
         </div>
       )}
+
+      <div className="fixed bottom-4 right-4 z-[110] flex items-center gap-2">
+        <button
+          onClick={handleButtonClick}
+          className="flex items-center justify-center w-12 h-12 rounded-full bg-black/50 backdrop-blur-md text-white border-2 border-white/30 hover:bg-black/70 hover:border-white/50 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+          aria-label={playing ? 'Pause music' : 'Play music'}
+          title="Click: Play/Pause | Double-click: Skip"
+        >
+          {playing ? <MicOff size={20} /> : <Mic size={20} />}
+        </button>
+        
+        {playing && (
+          <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/50 backdrop-blur-md text-white text-xs border border-white/30 shadow-lg">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            <span className="font-medium">Track {index + 1}/{tracks.length}</span>
+          </div>
+        )}
+      </div>
       
       <audio 
         ref={audioRef} 
         preload="auto" 
-        playsInline 
+        playsInline
+        webkit-playsinline="true"
+        x-webkit-airplay="allow"
         crossOrigin="anonymous"
-        autoPlay
-        muted
       />
-    </div>
+    </>
   );
 };
 
