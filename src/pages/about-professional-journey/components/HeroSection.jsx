@@ -108,7 +108,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-[39px] sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
+                className="text-[44px] sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
                 animate={{ 
                   textShadow: [
                     "0 0 20px rgba(99, 102, 241, 0.3)",
