@@ -13,20 +13,22 @@ const MusicController = () => {
   const audioRef = useRef(null);
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [showVol, setShowVol] = useState(false);
   const lastTapRef = useRef(0);
 
   useEffect(() => {
-    const audio = new Audio(tracks[index]);
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.src = tracks[index];
     audio.loop = true;
     audio.preload = 'auto';
     audio.playsInline = true;
     audio.crossOrigin = 'anonymous';
     const mobile = window.matchMedia('(max-width: 640px)').matches;
     const targetVolume = mobile ? 0.25 : 0.3;
-    audio.volume = 0; // start silent to satisfy autoplay policies
+    audio.volume = 0;
     audio.muted = true;
     audio.playbackRate = 1.0;
-    audioRef.current = audio;
     const tryPlay = () => audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
     tryPlay();
     const resumeOnGesture = () => {
@@ -75,6 +77,7 @@ const MusicController = () => {
     if (!audioRef.current) return;
     const srcChanged = tracks[index];
     const audio = audioRef.current;
+    if (!audio) return;
     audio.src = srcChanged;
     audio.load();
     audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
@@ -88,13 +91,21 @@ const MusicController = () => {
       setPlaying(false);
     } else {
       audio.muted = false;
-      if (audio.volume === 0) audio.volume = window.matchMedia('(max-width: 640px)').matches ? 0.14 : 0.18;
+      if (audio.volume === 0) audio.volume = window.matchMedia('(max-width: 640px)').matches ? 0.25 : 0.3;
       audio.play().then(() => setPlaying(true)).catch(() => {});
     }
   };
 
+  const setVolume = (v) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = false;
+    audio.volume = Math.max(0, Math.min(1, v));
+    if (!playing) audio.play().then(() => setPlaying(true)).catch(() => {});
+  };
+
   return (
-    <div className="fixed bottom-4 right-4 z-40">
+    <div className="fixed bottom-4 right-4 z-40 flex items-center gap-2">
       <button
         onClick={togglePlay}
         className="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 backdrop-blur text-white border border-white/20 hover:bg-black/55 transition"
@@ -102,6 +113,25 @@ const MusicController = () => {
       >
         <Icon name={playing ? 'MicOff' : 'Mic'} size={18} />
       </button>
+      <button
+        onClick={() => setShowVol((s) => !s)}
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-black/40 backdrop-blur text-white border border-white/20 hover:bg-black/55 transition"
+        aria-label="Volume"
+      >
+        <Icon name={'Volume'} size={18} />
+      </button>
+      {showVol && (
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          defaultValue={0.3}
+          onChange={(e) => setVolume(parseFloat(e.target.value))}
+          className="w-28 h-2 accent-primary bg-white/20 rounded-full"
+        />
+      )}
+      <audio ref={audioRef} className="hidden" preload="auto" playsInline crossOrigin="anonymous" />
     </div>
   );
 };
