@@ -24,7 +24,7 @@ const MusicController = () => {
     audio.preload = 'auto';
     audio.playsInline = true;
     audio.crossOrigin = 'anonymous';
-    const targetVolume = 0.12;
+    const targetVolume = 0.36;
     audio.volume = 0;
     audio.muted = true;
     audio.playbackRate = 1.0;
@@ -107,7 +107,7 @@ const MusicController = () => {
       setPlaying(false);
     } else {
       audio.muted = false;
-      if (audio.volume === 0) audio.volume = 0.12;
+      if (audio.volume === 0) audio.volume = 0.36;
       audio.play().then(() => setPlaying(true)).catch(() => {});
     }
   };
