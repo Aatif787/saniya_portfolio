@@ -160,6 +160,34 @@ const MusicController = () => {
     audio.addEventListener('play', handlePlay);
     audio.addEventListener('pause', handlePause);
 
+    // Mobile: Pause when app goes to background/minimize
+    const handleVisibilityChange = () => {
+      if (isMobileRef.current) {
+        if (document.hidden) {
+          // Page is hidden (minimized/switched tabs)
+          if (!audio.paused) {
+            audio.pause();
+            console.log('📱 Paused - App minimized');
+          }
+        }
+      }
+    };
+
+    // Mobile: Pause when page loses focus
+    const handleBlur = () => {
+      if (isMobileRef.current && !audio.paused) {
+        audio.pause();
+        console.log('📱 Paused - App lost focus');
+      }
+    };
+
+    // Add visibility and blur listeners for mobile
+    if (isMobileRef.current) {
+      document.addEventListener('visibilitychange', handleVisibilityChange);
+      window.addEventListener('blur', handleBlur);
+      window.addEventListener('pagehide', handleBlur);
+    }
+
     return () => {
       audio.removeEventListener('loadedmetadata', tryPlay);
       audio.removeEventListener('canplay', tryPlay);
@@ -177,6 +205,13 @@ const MusicController = () => {
       desktopEvents.forEach(event => {
         document.removeEventListener(event, desktopUnmute);
       });
+      
+      // Remove mobile-specific listeners
+      if (isMobileRef.current) {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+        window.removeEventListener('blur', handleBlur);
+        window.removeEventListener('pagehide', handleBlur);
+      }
       
       audio.pause();
       audio.src = '';
@@ -307,12 +342,6 @@ const MusicController = () => {
         >
           {playing ? <MicOff size={20} /> : <Mic size={20} />}
         </button>
-        
-        {playing && (
-          <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-black/50 backdrop-blur-md text-white text-xs border border-white/30 shadow-lg">
-            <span className="font-medium">Track {index + 1}/{tracks.length}</span>
-          </div>
-        )}
       </div>
       
       <audio 
