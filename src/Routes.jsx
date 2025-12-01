@@ -3,6 +3,7 @@ import { BrowserRouter, Routes as RouterRoutes, Route, useLocation } from "react
 import { AnimatePresence, motion } from "framer-motion";
 import ScrollToTop from "components/ScrollToTop";
 import ThreeBackground from "components/ThreeBackground";
+import MusicController from './components/effects/MusicController';
 import ErrorBoundary from "components/ErrorBoundary";
 const Homepage = lazy(() => import('./pages/homepage-data-storyteller-portfolio'));
 const AboutProfessionalJourney = lazy(() => import('./pages/about-professional-journey'));
@@ -45,6 +46,7 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <ThreeBackground />
+      <MusicController />
       <ErrorBoundary>
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-primary">Loading…</div>}>
           <AnimatedRoutes />
