@@ -140,21 +140,7 @@ const MusicController = () => {
       document.addEventListener(event, desktopUnmute, { once: true, passive: true });
     });
 
-    // Global double-click and double-tap for skipping track
-    const handleGlobalDblClick = () => {
-      skipTrack();
-    };
-    const handleGlobalTouchEnd = () => {
-      const now = Date.now();
-      if (now - lastTapRef.current < 400) {
-        skipTrack();
-      }
-      lastTapRef.current = now;
-    };
-    window.addEventListener('dblclick', handleGlobalDblClick);
-    document.addEventListener('dblclick', handleGlobalDblClick);
-    window.addEventListener('touchend', handleGlobalTouchEnd);
-    document.addEventListener('touchend', handleGlobalTouchEnd);
+    // Removed global double-click/tap skip per request
 
     // Track management
     const handleEnded = () => {
@@ -226,10 +212,7 @@ const MusicController = () => {
         document.removeEventListener(event, desktopUnmute);
       });
 
-      window.removeEventListener('dblclick', handleGlobalDblClick);
-      document.removeEventListener('dblclick', handleGlobalDblClick);
-      window.removeEventListener('touchend', handleGlobalTouchEnd);
-      document.removeEventListener('touchend', handleGlobalTouchEnd);
+      // No global double/tap listeners to remove
 
       audio.removeEventListener('volumechange', clampVolume);
       

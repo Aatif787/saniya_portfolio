@@ -81,7 +81,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-6 text-center lg:text-left">
           {/* Hero Image */}
           <div className="mb-8">
             <div className="relative h-64 rounded-lg overflow-hidden">
@@ -141,7 +141,7 @@ const ProjectModal = ({ project, isOpen, onClose }) => {
                   <Icon name="Code" size={16} className="mr-2" />
                   Technologies Used
                 </h4>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
                   {technologies?.map((tech, index) => (
                     <span
                       key={index}
