@@ -56,7 +56,7 @@ const ProjectCard = ({ project, onViewDetails }) => {
         </div>
       </div>
       {/* Project Content */}
-      <div className="p-6">
+      <div className="p-6 text-center md:text-left">
         {/* Header */}
         <div className="mb-4">
           <h3 className="text-xl font-semibold text-text-primary mb-2 line-clamp-2">
@@ -108,7 +108,7 @@ const ProjectCard = ({ project, onViewDetails }) => {
         )}
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col md:flex-row items-center md:items-center gap-3 md:gap-0 justify-center md:justify-between">
           <Button
             variant="outline"
             size="sm"

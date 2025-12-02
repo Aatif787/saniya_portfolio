@@ -15,7 +15,7 @@ const MusicController = () => {
   const [playing, setPlaying] = useState(false);
   const [showMobileTap, setShowMobileTap] = useState(false);
   const lastTapRef = useRef(0);
-  const targetVolume = 0.36;
+  const targetVolume = 0.24;
   const playAttemptedRef = useRef(false);
   const isMobileRef = useRef(false);
 
@@ -40,6 +40,10 @@ const MusicController = () => {
     audio.setAttribute('webkit-playsinline', ''); // Older iOS
     audio.crossOrigin = 'anonymous';
     audio.muted = true;
+    const clampVolume = () => {
+      if (audio.volume > targetVolume) audio.volume = targetVolume;
+    };
+    audio.addEventListener('volumechange', clampVolume);
 
     console.log('📱 Mobile device:', isMobileRef.current);
     console.log('🎵 Initializing autoplay...');
@@ -136,6 +140,22 @@ const MusicController = () => {
       document.addEventListener(event, desktopUnmute, { once: true, passive: true });
     });
 
+    // Global double-click and double-tap for skipping track
+    const handleGlobalDblClick = () => {
+      skipTrack();
+    };
+    const handleGlobalTouchEnd = () => {
+      const now = Date.now();
+      if (now - lastTapRef.current < 400) {
+        skipTrack();
+      }
+      lastTapRef.current = now;
+    };
+    window.addEventListener('dblclick', handleGlobalDblClick);
+    document.addEventListener('dblclick', handleGlobalDblClick);
+    window.addEventListener('touchend', handleGlobalTouchEnd);
+    document.addEventListener('touchend', handleGlobalTouchEnd);
+
     // Track management
     const handleEnded = () => {
       setIndex((prev) => (prev + 1) % tracks.length);
@@ -205,6 +225,13 @@ const MusicController = () => {
       desktopEvents.forEach(event => {
         document.removeEventListener(event, desktopUnmute);
       });
+
+      window.removeEventListener('dblclick', handleGlobalDblClick);
+      document.removeEventListener('dblclick', handleGlobalDblClick);
+      window.removeEventListener('touchend', handleGlobalTouchEnd);
+      document.removeEventListener('touchend', handleGlobalTouchEnd);
+
+      audio.removeEventListener('volumechange', clampVolume);
       
       // Remove mobile-specific listeners
       if (isMobileRef.current) {
