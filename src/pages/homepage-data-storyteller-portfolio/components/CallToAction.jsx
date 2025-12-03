@@ -7,11 +7,16 @@ import Input from '../../../components/ui/Input';
 
 const CallToAction = () => {
   const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [contactName, setContactName] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactMessage, setContactMessage] = useState('');
+  const [contactSending, setContactSending] = useState(false);
+  const [contactStatus, setContactStatus] = useState(null);
 
   const handleNewsletterSubmit = async (e) => {
-    e?.preventDefault();
+    e.preventDefault();
     setIsLoading(true);
     
     // Simulate API call
@@ -20,6 +25,33 @@ const CallToAction = () => {
       setIsLoading(false);
       setEmail('');
     }, 1500);
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (!contactName || !contactEmail || !contactMessage) return;
+    setContactSending(true);
+    setContactStatus(null);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: contactName, email: contactEmail, message: contactMessage })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setContactStatus('Message sent successfully');
+        setContactName('');
+        setContactEmail('');
+        setContactMessage('');
+      } else {
+        setContactStatus(data?.error || 'Failed to send message');
+      }
+    } catch (err) {
+      setContactStatus('Network error');
+    } finally {
+      setContactSending(false);
+    }
   };
 
   const quickActions = [
@@ -219,6 +251,47 @@ const CallToAction = () => {
                       Send Message
                     </Button>
                   </div>
+
+                  <form onSubmit={handleContactSubmit} className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
+                    <Input
+                      type="text"
+                      placeholder="Your name"
+                      value={contactName}
+                      onChange={(e) => setContactName(e?.target?.value)}
+                      required
+                      className="bg-white/20 border-white/30 text-white placeholder-white/60"
+                    />
+                    <Input
+                      type="email"
+                      placeholder="Your email"
+                      value={contactEmail}
+                      onChange={(e) => setContactEmail(e?.target?.value)}
+                      required
+                      className="bg-white/20 border-white/30 text-white placeholder-white/60"
+                    />
+                    <textarea
+                      placeholder="Your message"
+                      value={contactMessage}
+                      onChange={(e) => setContactMessage(e?.target?.value)}
+                      required
+                      className="col-span-1 sm:col-span-2 w-full min-h-[110px] rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 p-3 focus:outline-none focus:ring-2 focus:ring-white/40"
+                    />
+                    <div className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row items-center gap-3">
+                      <Button
+                        type="submit"
+                        variant="secondary"
+                        fullWidth
+                        loading={contactSending}
+                        iconName="Send"
+                        iconPosition="right"
+                      >
+                        Send to Saniya
+                      </Button>
+                      {contactStatus && (
+                        <span className="text-sm text-white/80">{contactStatus}</span>
+                      )}
+                    </div>
+                  </form>
                 </div>
               </>
             ) : (
