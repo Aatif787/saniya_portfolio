@@ -1,11 +1,108 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useMotionTemplate, useTransform } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import ParallaxBackground from '../../../components/effects/ParallaxBackground';
 import HeroOrb from '../../../components/effects/HeroOrb';
 import Button from '../../../components/ui/Button';
+
+const InteractiveName = () => {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  function handleMouseMove({ currentTarget, clientX, clientY }) {
+    let { left, top } = currentTarget.getBoundingClientRect();
+    mouseX.set(clientX - left);
+    mouseY.set(clientY - top);
+  }
+
+  return (
+    <motion.div
+      className="group relative flex items-center justify-start py-4"
+      onMouseMove={handleMouseMove}
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
+      <motion.div
+        className="pointer-events-none absolute -inset-20 rounded-full opacity-0 transition duration-300 group-hover:opacity-100 blur-3xl -z-10"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              650px circle at ${mouseX}px ${mouseY}px,
+              rgba(147, 51, 234, 0.15),
+              transparent 80%
+            )
+          `,
+        }}
+      />
+      
+      {/* Base Layer: White Text with Staggered Entrance */}
+      <h1 className="relative text-[clamp(3rem,11vw,6.5rem)] font-bold leading-none tracking-tight font-['Poppins'] z-10 select-none drop-shadow-2xl">
+        <span className="sr-only">Saniya Dhada</span>
+        {/* Staggered Characters */}
+        {Array.from("Saniya Dhada").map((char, i) => (
+           <motion.span
+             key={i}
+             className="inline-block text-white"
+             initial={{ y: 50, opacity: 0, rotateX: -90 }}
+             animate={{ y: 0, opacity: 1, rotateX: 0 }}
+             transition={{ 
+                type: "spring", 
+                damping: 12, 
+                stiffness: 100, 
+                delay: i * 0.05 
+             }}
+             whileHover={{ 
+                scale: 1.2, 
+                y: -10,
+                color: "#F472B6", // pink-400
+                textShadow: "0 0 8px rgb(255, 255, 255)",
+                transition: { type: "spring", stiffness: 300 } 
+             }}
+           >
+             {char === " " ? "\u00A0" : char}
+           </motion.span>
+        ))}
+      </h1>
+      
+      {/* Spotlight Overlay: Gradient Text revealed by mouse */}
+       <motion.div
+        className="absolute inset-0 pointer-events-none text-[clamp(3rem,11vw,6.5rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300 z-20 select-none mix-blend-overlay"
+         style={{
+          WebkitMaskImage: useMotionTemplate`
+            radial-gradient(
+              150px circle at ${mouseX}px ${mouseY}px,
+              black,
+              transparent
+            )
+          `,
+          maskImage: useMotionTemplate`
+            radial-gradient(
+              150px circle at ${mouseX}px ${mouseY}px,
+              black,
+              transparent
+            )
+          `,
+        }}
+      >
+         Saniya Dhada
+      </motion.div>
+      
+      {/* Custom Cursor Dot */}
+      <motion.div
+        className="pointer-events-none absolute w-8 h-8 rounded-full border-2 border-white mix-blend-difference z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        style={{
+           left: mouseX, 
+           top: mouseY,
+           x: "-50%",
+           y: "-50%"
+        }}
+      />
+    </motion.div>
+  );
+};
 
 const HeroSection = () => {
   const [currentDataPoint, setCurrentDataPoint] = useState(0);
@@ -107,26 +204,13 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <motion.div 
-                className="text-[clamp(1.5rem,10vw,5.5rem)] font-semibold text-white leading-none whitespace-nowrap tracking-tight font-['Poppins']"
-                animate={{ 
-                  textShadow: [
-                    "0 0 20px rgba(99, 102, 241, 0.3)",
-                    "0 0 40px rgba(236, 72, 153, 0.4)",
-                    "0 0 20px rgba(99, 102, 241, 0.3)"
-                  ]
-                }}
-                transition={{ duration: 3, repeat: Infinity }}
-              >
-                <h1 className="font-semibold">Saniya Dhada</h1>
-
-              </motion.div>
+              <InteractiveName />
               <motion.p 
                 className="text-base sm:text-lg lg:text-2xl font-semibold text-gray-600"
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                Data Storyteller & Developer
+                <span className="block mt-2">Data Storyteller & Developer</span>
               </motion.p>
             </motion.div>
 
