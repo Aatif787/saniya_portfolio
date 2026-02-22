@@ -108,7 +108,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-[clamp(1.25rem,8vw,4.5rem)] font-semibold text-white leading-none whitespace-nowrap tracking-tight font-['Poppins']"
+                className="text-[clamp(1.5rem,10vw,5.5rem)] font-semibold text-white leading-none whitespace-nowrap tracking-tight font-['Poppins']"
                 animate={{ 
                   textShadow: [
                     "0 0 20px rgba(99, 102, 241, 0.3)",

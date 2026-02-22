@@ -116,7 +116,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-[52px] sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
+                className="text-[clamp(1.5rem,10vw,5.5rem)] font-semibold text-gradient-rainbow leading-none whitespace-nowrap tracking-tight font-['Poppins']"
                 style={{ filter: `drop-shadow(0 0 ${titleGlow.get()}rem rgba(99,102,241,0.4))` }}
                 animate={reduceMotion ? undefined : { 
                   textShadow: [
