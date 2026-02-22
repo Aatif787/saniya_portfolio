@@ -78,7 +78,7 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-10 pb-12">
+      <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-12">
         <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
@@ -108,7 +108,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <motion.div 
-                className="text-[52px] sm:text-6xl lg:text-[89px] font-bold text-gradient-rainbow leading-none whitespace-nowrap"
+                className="text-[clamp(1.25rem,8vw,4.5rem)] font-semibold text-white leading-none whitespace-nowrap tracking-tight font-['Poppins']"
                 animate={{ 
                   textShadow: [
                     "0 0 20px rgba(99, 102, 241, 0.3)",
@@ -118,11 +118,11 @@ const HeroSection = () => {
                 }}
                 transition={{ duration: 3, repeat: Infinity }}
               >
-                <h1 className="font-bold">Saniya Dhada</h1>
+                <h1 className="font-semibold">Saniya Dhada</h1>
 
               </motion.div>
               <motion.p 
-                className="text-2xl lg:text-3xl font-semibold text-gray-600"
+                className="text-base sm:text-lg lg:text-2xl font-semibold text-gray-600"
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
@@ -160,7 +160,7 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p 
-              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg"
+              className="text-sm sm:text-base lg:text-lg text-gray-600 leading-[1.7] max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
