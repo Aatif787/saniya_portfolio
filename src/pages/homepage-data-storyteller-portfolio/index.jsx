@@ -186,7 +186,7 @@ const Homepage = () => {
                 <h4 className="font-semibold mb-4">Get in Touch</h4>
                 <ul className="space-y-2 text-sm text-primary-foreground/80">
                   <li>saniyadhada71@gmail.com</li>
-                  <li>+91 8269668885</li>
+                  <li>+91 88649 31247</li>
                   <li>Available for freelance</li>
                   <li>Remote & On-site</li>
                 </ul>

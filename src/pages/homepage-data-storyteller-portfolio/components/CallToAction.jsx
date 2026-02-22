@@ -99,9 +99,9 @@ const CallToAction = () => {
     },
     {
       platform: "Phone",
-      handle: "+91 98765 43210",
+      handle: "+91 88649 31247",
       icon: "Phone",
-      link: "tel:+919876543210"
+      link: "tel:+918864931247"
     }
   ];
 

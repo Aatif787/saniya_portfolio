@@ -19,7 +19,7 @@ const ProfessionalReferences = () => {
       skills: ['Academic Excellence', 'Research', 'Data Analysis'],
       contact: {
         email: 'rajesh.kumar@du.ac.in',
-        phone: '+91-98765-43210',
+        phone: '+91-88649-31247',
         linkedin: 'linkedin.com/in/rajeshkumar-du'
       },
       verified: true
@@ -36,7 +36,7 @@ const ProfessionalReferences = () => {
       skills: ['Dashboard Development', 'Data Visualization', 'Business Analysis'],
       contact: {
         email: 'priya.sharma@techcorp.com',
-        phone: '+91-87654-32109',
+        phone: '+91-88649-31247',
         linkedin: 'linkedin.com/in/priyasharma-pm'
       },
       verified: true
@@ -52,7 +52,7 @@ const ProfessionalReferences = () => {
       testimonial: `I had the pleasure of working with Saniya on multiple full-stack projects. Her React development skills are solid, and she has a great eye for user experience. She's reliable, communicates well, and always delivers on time.`,
       skills: ['React Development', 'Full-Stack', 'Team Collaboration'],
       contact: {
-        email: 'amit.patel@startuphub.in',phone: '+91-76543-21098',linkedin: 'linkedin.com/in/amitpatel-dev'
+        email: 'amit.patel@startuphub.in',phone: '+91-88649-31247',linkedin: 'linkedin.com/in/amitpatel-dev'
       },
       verified: false
     }

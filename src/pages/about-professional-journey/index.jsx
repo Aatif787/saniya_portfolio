@@ -92,7 +92,7 @@ const AboutProfessionalJourney = () => {
               <h4 className="font-semibold mb-4">Get In Touch</h4>
               <div className="space-y-2 text-sm">
                 <p className="opacity-80">saniya@example.com</p>
-                <p className="opacity-80">+91 98765 43210</p>
+                <p className="opacity-80">+91 88649 31247</p>
                 <p className="opacity-80">Available for new opportunities</p>
               </div>
             </div>

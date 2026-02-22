@@ -92,10 +92,10 @@ const ResourcesSection = () => {
     },
     {
       method: 'Phone',
-      value: '+91 98765 43210',
+      value: '+91 88649 31247',
       description: 'Quick consultations and urgent matters',
       icon: 'Phone',
-      action: () => window.open('tel:+918269668885', '_blank')
+      action: () => window.open('tel:+918864931247', '_blank')
     },
     {
       method: 'Calendar',
