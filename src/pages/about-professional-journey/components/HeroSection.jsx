@@ -16,10 +16,14 @@ const InteractiveName = () => {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <motion.h1
-        className="text-[clamp(2.4rem,8.5vw,5.2rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-pink-500 to-indigo-500 select-none"
-        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"], scale: [1, 1.02, 1], opacity: [0.95, 1, 0.95] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        style={{ backgroundSize: "200% 200%" }}
+        className="text-[clamp(2.4rem,8.5vw,5.2rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text select-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+        animate={{ backgroundPosition: ["0% 50%", "120% 50%", "0% 50%"], scale: [1, 1.015, 1], opacity: [0.9, 1, 0.9] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        style={{
+          backgroundSize: "240% 200%",
+          backgroundImage:
+            "linear-gradient(135deg, #CE1126 0 28%, #000000 28% 48%, #FFFFFF 48% 68%, #007A3D 68% 100%)"
+        }}
       >
         Saniya Dhada
       </motion.h1>
