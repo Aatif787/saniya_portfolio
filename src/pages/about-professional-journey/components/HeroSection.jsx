@@ -10,20 +10,33 @@ import Button from '../../../components/ui/Button';
 const InteractiveName = () => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
+  const [bounds, setBounds] = useState({ width: 1, height: 1 });
+  const rotateX = useTransform(mouseY, [0, bounds.height], [10, -10]);
+  const rotateY = useTransform(mouseX, [0, bounds.width], [-10, 10]);
 
   function handleMouseMove({ currentTarget, clientX, clientY }) {
-    let { left, top } = currentTarget.getBoundingClientRect();
+    let { left, top, width, height } = currentTarget.getBoundingClientRect();
     mouseX.set(clientX - left);
     mouseY.set(clientY - top);
+    if (width !== bounds.width || height !== bounds.height) {
+      setBounds({ width, height });
+    }
+  }
+
+  function handleMouseLeave() {
+    mouseX.set(bounds.width / 2);
+    mouseY.set(bounds.height / 2);
   }
 
   return (
     <motion.div
       className="group relative flex items-center justify-start py-4"
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
+      transition={{ duration: 4, ease: "easeInOut", repeat: Infinity }}
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
     >
       <motion.div
         className="pointer-events-none absolute -inset-20 rounded-full opacity-0 transition duration-300 group-hover:opacity-100 blur-3xl -z-10"
@@ -31,46 +44,54 @@ const InteractiveName = () => {
           background: useMotionTemplate`
             radial-gradient(
               650px circle at ${mouseX}px ${mouseY}px,
-              rgba(147, 51, 234, 0.15),
+              rgba(147, 51, 234, 0.2),
               transparent 80%
             )
           `,
         }}
       />
-      
-      {/* Base Layer: White Text with Staggered Entrance */}
-      <h1 className="relative text-[clamp(3rem,11vw,6.5rem)] font-bold leading-none tracking-tight font-['Poppins'] z-10 select-none drop-shadow-2xl">
+      <motion.h1
+        className="relative text-[clamp(2.6rem,9.5vw,5.8rem)] font-bold leading-none tracking-tight font-['Poppins'] z-10 select-none drop-shadow-2xl"
+        animate={{
+          textShadow: [
+            "0 0 18px rgba(99, 102, 241, 0.35)",
+            "0 0 32px rgba(236, 72, 153, 0.45)",
+            "0 0 18px rgba(99, 102, 241, 0.35)"
+          ]
+        }}
+        transition={{ duration: 3, repeat: Infinity }}
+      >
         <span className="sr-only">Saniya Dhada</span>
-        {/* Staggered Characters */}
         {Array.from("Saniya Dhada").map((char, i) => (
-           <motion.span
-             key={i}
-             className="inline-block text-white"
-             initial={{ y: 50, opacity: 0, rotateX: -90 }}
-             animate={{ y: 0, opacity: 1, rotateX: 0 }}
-             transition={{ 
-                type: "spring", 
-                damping: 12, 
-                stiffness: 100, 
-                delay: i * 0.05 
-             }}
-             whileHover={{ 
-                scale: 1.2, 
-                y: -10,
-                color: "#F472B6", // pink-400
-                textShadow: "0 0 8px rgb(255, 255, 255)",
-                transition: { type: "spring", stiffness: 300 } 
-             }}
-           >
-             {char === " " ? "\u00A0" : char}
-           </motion.span>
+          <motion.span
+            key={i}
+            className="inline-block text-white"
+            initial={{ y: 50, opacity: 0, rotateX: -90 }}
+            animate={{ y: 0, opacity: 1, rotateX: 0 }}
+            transition={{ 
+              type: "spring", 
+              damping: 12, 
+              stiffness: 100, 
+              delay: i * 0.05 
+            }}
+            whileHover={{ 
+              scale: 1.2, 
+              y: -10,
+              color: "#F472B6",
+              textShadow: "0 0 8px rgb(255, 255, 255)",
+              transition: { type: "spring", stiffness: 300 } 
+            }}
+          >
+            {char === " " ? "\u00A0" : char}
+          </motion.span>
         ))}
-      </h1>
-      
-      {/* Spotlight Overlay: Gradient Text revealed by mouse */}
-       <motion.div
-        className="absolute inset-0 pointer-events-none text-[clamp(3rem,11vw,6.5rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300 z-20 select-none mix-blend-overlay"
-         style={{
+      </motion.h1>
+      <motion.div
+        className="absolute inset-0 pointer-events-none text-[clamp(2.6rem,9.5vw,5.8rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition duration-300 z-20 select-none mix-blend-overlay"
+        animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+        style={{
+          backgroundSize: "200% 200%",
           WebkitMaskImage: useMotionTemplate`
             radial-gradient(
               150px circle at ${mouseX}px ${mouseY}px,
@@ -84,20 +105,18 @@ const InteractiveName = () => {
               black,
               transparent
             )
-          `,
+          `
         }}
       >
-         Saniya Dhada
+        Saniya Dhada
       </motion.div>
-      
-      {/* Custom Cursor Dot */}
       <motion.div
         className="pointer-events-none absolute w-8 h-8 rounded-full border-2 border-white mix-blend-difference z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
-           left: mouseX, 
-           top: mouseY,
-           x: "-50%",
-           y: "-50%"
+          left: mouseX,
+          top: mouseY,
+          x: "-50%",
+          y: "-50%"
         }}
       />
     </motion.div>
