@@ -258,7 +258,7 @@ const HeroSection = () => {
 
           {/* Right Content - Profile Photo */}
           <motion.div 
-            className="relative z-20 pr-4 xl:pr-6"
+            className="relative z-50 pr-4 xl:pr-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -297,6 +297,7 @@ const HeroSection = () => {
                       fontSize="18"
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
+                      dy="5"
                     >
                       <textPath href="#home-saniya-border-path" startOffset="0%">
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
