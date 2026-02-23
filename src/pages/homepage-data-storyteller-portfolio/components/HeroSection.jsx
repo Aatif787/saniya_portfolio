@@ -279,7 +279,7 @@ const HeroSection = () => {
                 <div className="relative z-[80]">
                   <motion.svg
                     className="pointer-events-none absolute -inset-[30%] z-[100] overflow-visible"
-                    viewBox="-100 -100 500 600"
+                    viewBox="-90 -120 480 640"
                   >
                     <defs>
                       <path
@@ -297,7 +297,7 @@ const HeroSection = () => {
                       fontSize="18"
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
-                      dy="-15"
+                      dy="-10"
                     >
                       <textPath href="#home-saniya-border-path" startOffset="0%">
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
