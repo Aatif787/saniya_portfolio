@@ -303,12 +303,12 @@ const HeroSection = () => {
                     letterSpacing="3"
                   >
                     <textPath href="#saniya-border-path" startOffset="0%">
-                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
                       <animate
                         attributeName="startOffset"
                         from="0%"
                         to="100%"
-                        dur="12s"
+                        dur="24s"
                         repeatCount="indefinite"
                       />
                     </textPath>
