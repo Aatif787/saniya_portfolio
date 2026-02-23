@@ -277,15 +277,13 @@ const HeroSection = () => {
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
                 <motion.svg
-                  className="pointer-events-none absolute -inset-10 z-50 overflow-visible"
-                  viewBox="-20 -20 240 240"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  className="pointer-events-none absolute -inset-6 z-50 overflow-visible"
+                  viewBox="0 0 300 400"
                 >
                   <defs>
                     <path
                       id="home-saniya-border-path"
-                      d="M100,10 a90,90 0 1,1 0,180 a90,90 0 1,1 0,-180"
+                      d="M 20,0 L 280,0 A 20,20 0 0 1 300,20 L 300,380 A 20,20 0 0 1 280,400 L 20,400 A 20,20 0 0 1 0,380 L 0,20 A 20,20 0 0 1 20,0 Z"
                     />
                     <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#22c55e" />
@@ -295,12 +293,19 @@ const HeroSection = () => {
                   </defs>
                   <text
                     fill="url(#home-saniya-border-gradient)"
-                    fontSize="12"
-                    fontFamily="JetBrains Mono, monospace"
-                    letterSpacing="3"
+                    fontSize="18"
+                    fontFamily="'Creepster', cursive"
+                    letterSpacing="4"
                   >
-                    <textPath href="#home-saniya-border-path" textLength="565.48" lengthAdjust="spacingAndGlyphs">
-                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                    <textPath href="#home-saniya-border-path" startOffset="0%">
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                      <animate
+                        attributeName="startOffset"
+                        from="0%"
+                        to="100%"
+                        dur="20s"
+                        repeatCount="indefinite"
+                      />
                     </textPath>
                   </text>
                 </motion.svg>
