@@ -276,6 +276,34 @@ const HeroSection = () => {
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
+                <motion.svg
+                  className="pointer-events-none absolute -inset-10 z-50 overflow-visible"
+                  viewBox="-20 -20 240 240"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                >
+                  <defs>
+                    <path
+                      id="home-saniya-border-path"
+                      d="M100,10 a90,90 0 1,1 0,180 a90,90 0 1,1 0,-180"
+                    />
+                    <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#22c55e" />
+                      <stop offset="50%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#f472b6" />
+                    </linearGradient>
+                  </defs>
+                  <text
+                    fill="url(#home-saniya-border-gradient)"
+                    fontSize="12"
+                    fontFamily="JetBrains Mono, monospace"
+                    letterSpacing="3"
+                  >
+                    <textPath href="#home-saniya-border-path" textLength="565.48" lengthAdjust="spacingAndGlyphs">
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                    </textPath>
+                  </text>
+                </motion.svg>
                 <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
                   
                   <Image 
