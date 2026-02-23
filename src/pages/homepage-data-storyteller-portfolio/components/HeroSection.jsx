@@ -41,7 +41,7 @@ const HeroSection = () => {
   const titleGlow = useTransform(scrollYProgress, [0, 1], [0.3, 0.7]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-x-hidden">
       <ParallaxBackground />
       {/* Animated Background Elements */}
       <motion.div className="absolute inset-0 opacity-20" style={{ y: bgTranslateY }}>
@@ -86,7 +86,7 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-10 pb-12 glass-section rounded-none sm:rounded-3xl">
+      <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-24 pb-12 glass-section rounded-none sm:rounded-3xl">
         <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
@@ -276,7 +276,7 @@ const HeroSection = () => {
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="relative z-50">
+                <div className="relative z-[60]">
                   <motion.svg
                     className="pointer-events-none absolute -inset-[10%] z-50 overflow-visible"
                     viewBox="-30 -40 360 480"
