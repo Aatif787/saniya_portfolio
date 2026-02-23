@@ -282,8 +282,8 @@ const HeroSection = () => {
                 transition={{ y: { duration: 4, repeat: Infinity } }}
               >
                 <motion.svg
-                  className="pointer-events-none absolute -inset-5 sm:-inset-6 z-30"
-                  viewBox="0 0 200 200"
+                  className="pointer-events-none absolute -inset-10 z-50 overflow-visible"
+                  viewBox="-20 -20 240 240"
                 >
                   <defs>
                     <path
