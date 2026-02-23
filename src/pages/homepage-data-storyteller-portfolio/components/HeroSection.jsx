@@ -276,9 +276,9 @@ const HeroSection = () => {
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="relative">
+                <div className="relative z-50">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-4 z-50 overflow-visible"
+                    className="pointer-events-none absolute -inset-2 z-50 overflow-visible"
                     viewBox="0 0 300 400"
                   >
                     <defs>
@@ -297,6 +297,7 @@ const HeroSection = () => {
                       fontSize="18"
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
+                      dy="5"
                     >
                       <textPath href="#home-saniya-border-path" startOffset="0%">
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
