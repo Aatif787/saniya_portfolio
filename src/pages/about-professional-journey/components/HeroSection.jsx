@@ -16,7 +16,7 @@ const InteractiveName = () => {
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <motion.h1
-        className="text-[clamp(2.4rem,8.5vw,5.2rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text select-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
+        className="text-[clamp(2.7rem,9.5vw,5.2rem)] font-bold leading-none tracking-tight font-['Poppins'] text-transparent bg-clip-text select-none drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]"
         animate={{ backgroundPosition: ["0% 50%", "120% 50%", "0% 50%"], scale: [1, 1.015, 1], opacity: [0.9, 1, 0.9] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         style={{
@@ -281,6 +281,34 @@ const HeroSection = () => {
                 animate={{ y: [0, -5, 0] }}
                 transition={{ y: { duration: 4, repeat: Infinity } }}
               >
+                <motion.svg
+                  className="pointer-events-none absolute -inset-5 sm:-inset-6"
+                  viewBox="0 0 200 200"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                >
+                  <defs>
+                    <path
+                      id="saniya-border-path"
+                      d="M100,10 a90,90 0 1,1 0,180 a90,90 0 1,1 0,-180"
+                    />
+                    <linearGradient id="saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#22c55e" />
+                      <stop offset="50%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#f472b6" />
+                    </linearGradient>
+                  </defs>
+                  <text
+                    fill="url(#saniya-border-gradient)"
+                    fontSize="12"
+                    fontFamily="JetBrains Mono, monospace"
+                    letterSpacing="3"
+                  >
+                    <textPath href="#saniya-border-path" startOffset="0%">
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                    </textPath>
+                  </text>
+                </motion.svg>
                 <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
                   <Image 
                     src="/assets/images/img1.png" 
