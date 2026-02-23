@@ -271,15 +271,15 @@ const HeroSection = () => {
               ></motion.div>
               
               <motion.div 
-                className="relative glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100"
+                className="relative glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible"
                 whileHover={{ scale: 1.02 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
                 <div className="relative z-[60]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-[10%] z-50 overflow-visible"
-                    viewBox="-30 -40 360 480"
+                    className="pointer-events-none absolute -inset-[20%] z-[100] overflow-visible"
+                    viewBox="-50 -60 400 520"
                   >
                     <defs>
                       <path
@@ -297,7 +297,7 @@ const HeroSection = () => {
                       fontSize="18"
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
-                      dy="5"
+                      dy="-15"
                     >
                       <textPath href="#home-saniya-border-path" startOffset="0%">
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
