@@ -284,6 +284,8 @@ const HeroSection = () => {
                 <motion.svg
                   className="pointer-events-none absolute -inset-10 z-50 overflow-visible"
                   viewBox="-20 -20 240 240"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
                 >
                   <defs>
                     <path
@@ -302,15 +304,8 @@ const HeroSection = () => {
                     fontFamily="JetBrains Mono, monospace"
                     letterSpacing="3"
                   >
-                    <textPath href="#saniya-border-path" startOffset="0%">
-                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                      <animate
-                        attributeName="startOffset"
-                        from="0%"
-                        to="100%"
-                        dur="24s"
-                        repeatCount="indefinite"
-                      />
+                    <textPath href="#saniya-border-path" textLength="565.48" lengthAdjust="spacingAndGlyphs">
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
                     </textPath>
                   </text>
                 </motion.svg>
