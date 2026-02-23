@@ -58,7 +58,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen bg-transparent overflow-hidden">
+    <section className="relative min-h-screen bg-transparent overflow-x-hidden overflow-y-visible">
       <ParallaxBackground />
       {/* Animated Background Elements */}
       <div className="absolute inset-0 opacity-20">
@@ -282,7 +282,7 @@ const HeroSection = () => {
                 transition={{ y: { duration: 4, repeat: Infinity } }}
               >
                 <motion.svg
-                  className="pointer-events-none absolute inset-2 sm:inset-3"
+                  className="pointer-events-none absolute -inset-5 sm:-inset-6"
                   viewBox="0 0 200 200"
                 >
                   <defs>
