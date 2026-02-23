@@ -86,7 +86,7 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-24 pb-12 glass-section rounded-none sm:rounded-3xl">
+      <div className="relative z-20 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-24 pb-12 glass-section rounded-none sm:rounded-3xl !overflow-visible">
         <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
@@ -258,7 +258,7 @@ const HeroSection = () => {
 
           {/* Right Content - Profile Photo */}
           <motion.div 
-            className="relative z-50 pr-4 xl:pr-6"
+            className="relative z-[60] pr-4 xl:pr-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -271,15 +271,15 @@ const HeroSection = () => {
               ></motion.div>
               
               <motion.div 
-                className="relative glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible"
+                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible"
                 whileHover={{ scale: 1.02 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="relative z-[60]">
+                <div className="relative z-[80]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-[20%] z-[100] overflow-visible"
-                    viewBox="-50 -60 400 520"
+                    className="pointer-events-none absolute -inset-[30%] z-[100] overflow-visible"
+                    viewBox="-100 -100 500 600"
                   >
                     <defs>
                       <path
