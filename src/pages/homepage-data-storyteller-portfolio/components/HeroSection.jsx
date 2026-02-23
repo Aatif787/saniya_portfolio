@@ -276,47 +276,49 @@ const HeroSection = () => {
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
-                <motion.svg
-                  className="pointer-events-none absolute -inset-6 z-50 overflow-visible"
-                  viewBox="0 0 300 400"
-                >
-                  <defs>
-                    <path
-                      id="home-saniya-border-path"
-                      d="M 20,0 L 280,0 A 20,20 0 0 1 300,20 L 300,380 A 20,20 0 0 1 280,400 L 20,400 A 20,20 0 0 1 0,380 L 0,20 A 20,20 0 0 1 20,0 Z"
-                    />
-                    <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#22c55e" />
-                      <stop offset="50%" stopColor="#38bdf8" />
-                      <stop offset="100%" stopColor="#f472b6" />
-                    </linearGradient>
-                  </defs>
-                  <text
-                    fill="url(#home-saniya-border-gradient)"
-                    fontSize="18"
-                    fontFamily="'Creepster', cursive"
-                    letterSpacing="4"
+                <div className="relative">
+                  <motion.svg
+                    className="pointer-events-none absolute -inset-4 z-50 overflow-visible"
+                    viewBox="0 0 300 400"
                   >
-                    <textPath href="#home-saniya-border-path" startOffset="0%">
-                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                      <animate
-                        attributeName="startOffset"
-                        from="0%"
-                        to="100%"
-                        dur="20s"
-                        repeatCount="indefinite"
+                    <defs>
+                      <path
+                        id="home-saniya-border-path"
+                        d="M 20,0 L 280,0 A 20,20 0 0 1 300,20 L 300,380 A 20,20 0 0 1 280,400 L 20,400 A 20,20 0 0 1 0,380 L 0,20 A 20,20 0 0 1 20,0 Z"
                       />
-                    </textPath>
-                  </text>
-                </motion.svg>
-                <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
-                  
-                  <Image 
-                    src="/assets/images/img1.png"
-                    alt="My Profile Photo"
-                    className="w-full h-full object-cover"
-                  />
+                      <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#22c55e" />
+                        <stop offset="50%" stopColor="#38bdf8" />
+                        <stop offset="100%" stopColor="#f472b6" />
+                      </linearGradient>
+                    </defs>
+                    <text
+                      fill="url(#home-saniya-border-gradient)"
+                      fontSize="18"
+                      fontFamily="'Creepster', cursive"
+                      letterSpacing="4"
+                    >
+                      <textPath href="#home-saniya-border-path" startOffset="0%">
+                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                        <animate
+                          attributeName="startOffset"
+                          from="0%"
+                          to="100%"
+                          dur="20s"
+                          repeatCount="indefinite"
+                        />
+                      </textPath>
+                    </text>
+                  </motion.svg>
+                  <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
+                    
+                    <Image 
+                      src="/assets/images/img1.png"
+                      alt="My Profile Photo"
+                      className="w-full h-full object-cover"
+                    />
 
+                  </div>
                 </div>
                 
                 {/* Floating Info Cards */}
