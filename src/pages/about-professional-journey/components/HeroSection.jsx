@@ -284,13 +284,11 @@ const HeroSection = () => {
                 <motion.svg
                   className="pointer-events-none absolute -inset-5 sm:-inset-6"
                   viewBox="0 0 200 200"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
                 >
                   <defs>
                     <path
                       id="saniya-border-path"
-                      d="M20 20 H180 V180 H20 Z"
+                      d="M100,10 a90,90 0 1,1 0,180 a90,90 0 1,1 0,-180"
                     />
                     <linearGradient id="saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#22c55e" />
@@ -306,6 +304,13 @@ const HeroSection = () => {
                   >
                     <textPath href="#saniya-border-path" startOffset="0%">
                       SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                      <animate
+                        attributeName="startOffset"
+                        from="0%"
+                        to="100%"
+                        dur="12s"
+                        repeatCount="indefinite"
+                      />
                     </textPath>
                   </text>
                 </motion.svg>
