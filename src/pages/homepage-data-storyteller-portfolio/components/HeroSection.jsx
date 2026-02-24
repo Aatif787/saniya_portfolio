@@ -285,7 +285,7 @@ const HeroSection = () => {
                     <defs>
                       <path
                         id="home-saniya-border-path"
-                        d="M 15,5 L 275,5 A 15,15 0 0 1 290,20 L 290,375 A 15,15 0 0 1 275,390 L 15,390 A 15,15 0 0 1 0,375 L 0,20 A 15,15 0 0 1 15,5 Z"
+                        d="M 17,7 L 273,7 A 15,15 0 0 1 288,22 L 288,373 A 15,15 0 0 1 273,388 L 17,388 A 15,15 0 0 1 2,373 L 2,22 A 15,15 0 0 1 17,7 Z"
                       />
                       <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#22c55e" />
@@ -298,7 +298,7 @@ const HeroSection = () => {
                       fontSize="18"
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
-                      dy="-11"
+                      dy="-1"
                     >
                       <textPath href="#home-saniya-border-path" startOffset="0%">
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
