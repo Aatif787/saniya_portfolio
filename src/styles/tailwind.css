@@ -108,6 +108,11 @@
     font-family: 'JetBrains Mono', monospace;
     @apply bg-muted p-4 rounded-lg overflow-x-auto;
   }
+  
+  html, body {
+    overflow-y: auto;
+    scroll-behavior: smooth;
+  }
 }
 
 @layer components {

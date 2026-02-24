@@ -44,7 +44,7 @@ const HeroSection = () => {
     <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-x-hidden">
       <ParallaxBackground />
       {/* Animated Background Elements */}
-      <motion.div className="absolute inset-0 opacity-20" style={{ y: bgTranslateY }}>
+      <motion.div className="absolute inset-0 opacity-20 pointer-events-none" style={{ y: bgTranslateY }}>
         {floatingElements?.map((element, index) => (
           <motion.div
             key={index}
@@ -67,7 +67,7 @@ const HeroSection = () => {
         ))}
       </motion.div>
       {/* Colorful Geometric Shapes */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
           className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20"
           style={{ rotate: shapeRotate }}
@@ -280,6 +280,9 @@ const HeroSection = () => {
                   <motion.svg
                     className="pointer-events-none absolute -inset-[30%] z-[100] overflow-visible"
                     viewBox="-90 -120 480 640"
+                    animate={reduceMotion ? undefined : { rotate: 360 }}
+                    transition={reduceMotion ? undefined : { duration: 12, repeat: Infinity, ease: "linear" }}
+                    style={{ willChange: "transform" }}
                   >
                     <defs>
                       <path
@@ -299,15 +302,8 @@ const HeroSection = () => {
                       letterSpacing="4"
                       dy="-10"
                     >
-                      <textPath href="#home-saniya-border-path" startOffset="0%">
-                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • 
-                        <animate
-                          attributeName="startOffset"
-                          from="-100%"
-                          to="0%"
-                          dur="20s"
-                          repeatCount="indefinite"
-                        />
+                      <textPath href="#home-saniya-border-path">
+                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
                       </textPath>
                     </text>
                   </motion.svg>
