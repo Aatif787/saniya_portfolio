@@ -278,8 +278,8 @@ const HeroSection = () => {
               >
                 <div className="relative z-[80]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-[30%] z-[100] overflow-visible"
-                    viewBox="-90 -120 480 640"
+                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible"
+                    viewBox="-30 -40 360 480"
                     animate={reduceMotion ? undefined : { rotate: 360 }}
                     transition={reduceMotion ? undefined : { duration: 12, repeat: Infinity, ease: "linear" }}
                     style={{ willChange: "transform" }}
@@ -300,10 +300,10 @@ const HeroSection = () => {
                       fontSize="18"
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
-                      dy="-10"
+                      dy="-15"
                     >
                       <textPath href="#home-saniya-border-path">
-                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
                       </textPath>
                     </text>
                   </motion.svg>
