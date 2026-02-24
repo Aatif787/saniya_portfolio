@@ -136,7 +136,7 @@ const Header = () => {
           {/* Mobile Menu Button */}
           <button
             onClick={toggleMenu}
-            className="lg:hidden p-2 rounded-lg text-text-secondary hover:text-primary hover:bg-muted transition-colors duration-200"
+            className="lg:hidden p-3 rounded-lg text-text-secondary hover:text-primary hover:bg-muted transition-colors duration-200"
             aria-label="Toggle menu"
           >
             <Icon name={isMenuOpen ? "X" : "Menu"} size={24} />

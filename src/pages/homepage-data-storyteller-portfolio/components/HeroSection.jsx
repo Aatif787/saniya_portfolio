@@ -273,18 +273,19 @@ const HeroSection = () => {
               <motion.div 
                 className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible"
                 whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
                 transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
                 <div className="relative z-[80]">
                   <motion.svg
                     className="pointer-events-none absolute -inset-2 z-[100] overflow-visible"
-                    viewBox="-10 -15 320 410"
+                    viewBox="-5 -8 301 398"
                   >
                     <defs>
                       <path
                         id="home-saniya-border-path"
-                        d="M 20,0 L 280,0 A 20,20 0 0 1 300,20 L 300,380 A 20,20 0 0 1 280,400 L 20,400 A 20,20 0 0 1 0,380 L 0,20 A 20,20 0 0 1 20,0 Z"
+                        d="M 15,5 L 275,5 A 15,15 0 0 1 290,20 L 290,375 A 15,15 0 0 1 275,390 L 15,390 A 15,15 0 0 1 0,375 L 0,20 A 15,15 0 0 1 15,5 Z"
                       />
                       <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#22c55e" />
@@ -324,7 +325,7 @@ const HeroSection = () => {
                 
                 {/* Floating Info Cards */}
                 <motion.div 
-                  className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-xl p-4 shadow-lg"
+                  className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-xl p-4 shadow-lg pointer-events-none"
                   animate={{ y: [0, -8, 0], rotate: [0, 5, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
@@ -332,7 +333,7 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute -bottom-4 -left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-xl p-4 shadow-lg"
+                  className="absolute -bottom-4 -left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-xl p-4 shadow-lg pointer-events-none"
                   animate={{ y: [0, 8, 0], rotate: [0, -5, 5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                 >
@@ -340,7 +341,7 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute top-1/2 -left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-xl p-3 shadow-lg"
+                  className="absolute top-1/2 -left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-xl p-3 shadow-lg pointer-events-none"
                   animate={{ x: [0, -5, 0], scale: [1, 1.1, 1] }}
                   transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
                 >
