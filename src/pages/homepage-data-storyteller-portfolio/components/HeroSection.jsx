@@ -303,7 +303,7 @@ const HeroSection = () => {
                     >
                       <motion.textPath 
                         href="#home-saniya-border-path" 
-                        animate={{ startOffset: ["0%", "-100%"] }}
+                        animate={{ startOffset: ["-100%", "0%"] }}
                         transition={{ 
                           duration: 20, 
                           repeat: Infinity, 
