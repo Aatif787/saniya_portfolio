@@ -285,7 +285,7 @@ const HeroSection = () => {
                     <defs>
                       <path
                         id="home-saniya-border-path"
-                        d="M 17,7 L 273,7 A 15,15 0 0 1 288,22 L 288,365 A 15,15 0 0 1 273,380 L 17,380 A 15,15 0 0 1 2,365 L 2,22 A 15,15 0 0 1 17,7 Z"
+                        d="M 17,2 L 273,2 A 15,15 0 0 1 288,17 L 288,365 A 15,15 0 0 1 273,380 L 17,380 A 15,15 0 0 1 2,365 L 2,17 A 15,15 0 0 1 17,2 Z"
                       />
                       <linearGradient id="home-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#22c55e" />
