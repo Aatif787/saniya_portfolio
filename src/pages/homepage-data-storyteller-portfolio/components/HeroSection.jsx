@@ -280,9 +280,6 @@ const HeroSection = () => {
                   <motion.svg
                     className="pointer-events-none absolute -inset-2 z-[100] overflow-visible"
                     viewBox="-30 -40 360 480"
-                    animate={reduceMotion ? undefined : { rotate: 360 }}
-                    transition={reduceMotion ? undefined : { duration: 12, repeat: Infinity, ease: "linear" }}
-                    style={{ willChange: "transform" }}
                   >
                     <defs>
                       <path
@@ -302,8 +299,15 @@ const HeroSection = () => {
                       letterSpacing="4"
                       dy="-15"
                     >
-                      <textPath href="#home-saniya-border-path">
+                      <textPath href="#home-saniya-border-path" startOffset="0%">
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                        <animate
+                          attributeName="startOffset"
+                          from="0%"
+                          to="100%"
+                          dur="20s"
+                          repeatCount="indefinite"
+                        />
                       </textPath>
                     </text>
                   </motion.svg>
