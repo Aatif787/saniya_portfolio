@@ -27,7 +27,7 @@ const AnimatedRoutes = () => {
         <ScrollToTop />
         <div className="page-wrapper">
         <RouterRoutes location={location}>
-          <Route path="/" element={<AboutProfessionalJourney />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="/professional-assets-resume-hub" element={<ProfessionalAssetsResumeHub />} />
           <Route path="/about-professional-journey" element={<AboutProfessionalJourney />} />
           <Route path="/insights-professional-blog" element={<InsightsProfessionalBlog />} />

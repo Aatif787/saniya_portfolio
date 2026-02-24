@@ -78,8 +78,8 @@ const SocialProof = () => {
   const achievements = [
     {
       title: "BCA Graduate",
-      institution: "University of Technology",
-      year: "2024",
+      institution: "Programs Offered - JAIN (Deemed-to-be University)",
+      year: "2026",
       icon: "GraduationCap"
     },
     {
