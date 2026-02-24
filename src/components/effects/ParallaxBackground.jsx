@@ -24,10 +24,10 @@ const ParallaxBackground = () => {
   const translateY = useTransform(mouseY, [-0.5, 0.5], [-10, 10]);
 
   return (
-    <div ref={sectionRef} className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div ref={sectionRef} className="pointer-events-none absolute inset-0 -z-10 overflow-hidden transform-gpu">
       {/* Layer 1: Gradient */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 will-change-transform transform-gpu"
         style={reduceMotion ? undefined : { y: layerShift, x: translateX }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-indigo-950/40 to-black/60" />
@@ -35,23 +35,23 @@ const ParallaxBackground = () => {
 
       {/* Layer 2: Soft abstract shapes */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 will-change-transform transform-gpu"
         style={reduceMotion ? undefined : { y: useTransform(layerShift, [0, -60], [0, -30]), x: translateX }}
       >
-        <div className="absolute -top-20 -left-20 w-[36rem] h-[36rem] bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/3 -right-24 w-[28rem] h-[28rem] bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 w-[24rem] h-[24rem] bg-gradient-to-r from-amber-400/15 to-rose-400/15 rounded-full blur-3xl" />
+        <div className="absolute -top-20 -left-20 w-[36rem] h-[36rem] bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full blur-3xl transform-gpu" />
+        <div className="absolute top-1/3 -right-24 w-[28rem] h-[28rem] bg-gradient-to-r from-blue-500/20 to-teal-500/20 rounded-full blur-3xl transform-gpu" />
+        <div className="absolute bottom-0 left-1/4 w-[24rem] h-[24rem] bg-gradient-to-r from-amber-400/15 to-rose-400/15 rounded-full blur-3xl transform-gpu" />
       </motion.div>
 
       {/* Layer 3: Light texture / particles */}
       <motion.div
-        className="absolute inset-0"
+        className="absolute inset-0 will-change-transform transform-gpu"
         style={reduceMotion ? undefined : { y: useTransform(layerShift, [0, -60], [0, -15]), x: translateX }}
       >
         {[...Array(40)].map((_, i) => (
           <motion.span
             key={i}
-            className="absolute w-1 h-1 bg-white/10 rounded-full"
+            className="absolute w-1 h-1 bg-white/10 rounded-full transform-gpu"
             style={{ left: `${(i * 73) % 100}%`, top: `${(i * 37) % 100}%` }}
             animate={reduceMotion ? undefined : { opacity: [0.1, 0.25, 0.1], y: [0, -4, 0] }}
             transition={reduceMotion ? undefined : { duration: 4 + (i % 5), repeat: Infinity }}

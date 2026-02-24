@@ -41,14 +41,14 @@ const HeroSection = () => {
   const titleGlow = useTransform(scrollYProgress, [0, 1], [0.3, 0.7]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-x-hidden">
+    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-x-hidden section-optimize">
       <ParallaxBackground />
       {/* Animated Background Elements */}
-      <motion.div className="absolute inset-0 opacity-20 pointer-events-none" style={{ y: bgTranslateY }}>
+      <motion.div className="absolute inset-0 opacity-20 pointer-events-none will-change-transform" style={{ y: bgTranslateY }}>
         {floatingElements?.map((element, index) => (
           <motion.div
             key={index}
-            className={`absolute ${element?.color}`}
+            className={`absolute ${element?.color} transform-gpu will-change-transform`}
             style={{ left: `${element?.x}%`, top: `${element?.y}%` }}
             animate={reduceMotion ? undefined : {
               y: [0, -25, 0],
@@ -69,18 +69,18 @@ const HeroSection = () => {
       {/* Colorful Geometric Shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div 
-          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20"
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 blur-xl will-change-transform transform-gpu"
           style={{ rotate: shapeRotate }}
           animate={reduceMotion ? undefined : { scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
           transition={reduceMotion ? undefined : { duration: 8, repeat: Infinity }}
         />
         <motion.div 
-          className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-blue-400 to-green-400 rounded-full opacity-20"
+          className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-blue-400 to-green-400 rounded-full opacity-20 blur-xl will-change-transform transform-gpu"
           animate={reduceMotion ? undefined : { scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
           transition={reduceMotion ? undefined : { duration: 6, repeat: Infinity }}
         />
         <motion.div 
-          className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-20"
+          className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-20 blur-xl will-change-transform transform-gpu"
           animate={reduceMotion ? undefined : { y: [0, -30, 0], x: [0, 20, 0] }}
           transition={reduceMotion ? undefined : { duration: 5, repeat: Infinity }}
         />
@@ -271,7 +271,7 @@ const HeroSection = () => {
               ></motion.div>
               
               <motion.div 
-                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible"
+                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
@@ -279,7 +279,7 @@ const HeroSection = () => {
               >
                 <div className="relative z-[80]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible"
+                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible transform-gpu will-change-transform"
                     viewBox="-5 -8 301 398"
                   >
                     <defs>
@@ -299,17 +299,20 @@ const HeroSection = () => {
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
                       dy="-1"
+                      className="select-none"
                     >
-                      <textPath href="#home-saniya-border-path" startOffset="0%">
+                      <motion.textPath 
+                        href="#home-saniya-border-path" 
+                        animate={{ startOffset: ["0%", "-100%"] }}
+                        transition={{ 
+                          duration: 20, 
+                          repeat: Infinity, 
+                          ease: "linear",
+                          repeatType: "loop"
+                        }}
+                      >
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                        <animate
-                          attributeName="startOffset"
-                          from="-100%"
-                          to="0%"
-                          dur="20s"
-                          repeatCount="indefinite"
-                        />
-                      </textPath>
+                      </motion.textPath>
                     </text>
                   </motion.svg>
                   <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
@@ -325,7 +328,7 @@ const HeroSection = () => {
                 
                 {/* Floating Info Cards */}
                 <motion.div 
-                  className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-xl p-4 shadow-lg pointer-events-none"
+                  className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-xl p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ y: [0, -8, 0], rotate: [0, 5, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
@@ -333,7 +336,7 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute -bottom-4 -left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-xl p-4 shadow-lg pointer-events-none"
+                  className="absolute -bottom-4 -left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-xl p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ y: [0, 8, 0], rotate: [0, -5, 5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                 >
@@ -341,7 +344,7 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute top-1/2 -left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-xl p-3 shadow-lg pointer-events-none"
+                  className="absolute top-1/2 -left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-xl p-3 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ x: [0, -5, 0], scale: [1, 1.1, 1] }}
                   transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
                 >

@@ -97,7 +97,7 @@ const SocialProof = () => {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-transparent">
+    <section className="py-16 sm:py-20 bg-transparent section-optimize">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
         <motion.div 

@@ -71,7 +71,7 @@ const FeaturedProjects = () => {
   };
 
   return (
-    <section className="py-12 sm:py-20 bg-transparent">
+    <section className="py-12 sm:py-20 bg-transparent section-optimize">
       <div className="max-w-none sm:max-w-7xl mx-0 sm:mx-auto px-0 sm:px-6 lg:px-8 glass-section rounded-none sm:rounded-3xl p-4 sm:p-8">
         {/* Section Header */}
         <motion.div 
