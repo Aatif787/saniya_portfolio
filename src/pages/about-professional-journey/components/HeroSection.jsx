@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import ParallaxBackground from '../../../components/effects/ParallaxBackground';
@@ -33,10 +33,11 @@ const InteractiveName = () => {
 
 const HeroSection = () => {
   const [currentDataPoint, setCurrentDataPoint] = useState(0);
-  
+  const reduceMotion = useReducedMotion();
+
   const dataPoints = [
     "15+ Projects Completed",
-    "50,000+ Data Points Analyzed", 
+    "50,000+ Data Points Analyzed",
     "3+ Years Learning Journey",
     "100% Client Satisfaction"
   ];
@@ -85,17 +86,17 @@ const HeroSection = () => {
       </div>
       {/* Colorful Geometric Shapes */}
       <div className="absolute inset-0 overflow-hidden">
-        <motion.div 
+        <motion.div
           className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20"
           animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
           transition={{ duration: 8, repeat: Infinity }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-blue-400 to-green-400 rounded-full opacity-20"
           animate={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
           transition={{ duration: 6, repeat: Infinity }}
         />
-        <motion.div 
+        <motion.div
           className="absolute top-1/2 left-1/4 w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full opacity-20"
           animate={{ y: [0, -30, 0], x: [0, 20, 0] }}
           transition={{ duration: 5, repeat: Infinity }}
@@ -104,16 +105,16 @@ const HeroSection = () => {
       {/* Main Content */}
       <div className="relative z-10 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-4 sm:px-6 lg:px-10 pt-10 pb-12">
         <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
-          
+
           {/* Left Content */}
-          <motion.div 
+          <motion.div
             className="space-y-8"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Badge */}
-            <motion.div 
+            <motion.div
               className="inline-flex items-center space-x-2 bg-transparent border-2 border-purple-200 rounded-full px-6 py-3 shadow-lg animate-glow"
               whileHover={{ scale: 1.05 }}
               animate={{ y: [0, -2, 0] }}
@@ -125,14 +126,14 @@ const HeroSection = () => {
 
             {/* Enhanced Name Display */}
             <HeroOrb className="-left-4 -top-6 sm:-left-10 sm:-top-10" />
-            <motion.div 
+            <motion.div
               className="space-y-2"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
               <InteractiveName />
-              <motion.p 
+              <motion.p
                 className="text-base sm:text-lg lg:text-2xl font-semibold text-gray-600"
                 animate={{ opacity: [0.7, 1, 0.7] }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -143,14 +144,14 @@ const HeroSection = () => {
 
             {/* Main Headline */}
             <div className="space-y-4">
-              <motion.h1 
+              <motion.h1
                 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-800 leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 Transforming Data into{' '}
-                <motion.span 
+                <motion.span
                   className="text-gradient"
                   animate={{ scale: [1, 1.05, 1] }}
                   transition={{ duration: 2, repeat: Infinity }}
@@ -158,8 +159,8 @@ const HeroSection = () => {
                   Decisions
                 </motion.span>
               </motion.h1>
-              
-              <motion.h2 
+
+              <motion.h2
                 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-purple-600"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -170,26 +171,26 @@ const HeroSection = () => {
             </div>
 
             {/* Description */}
-            <motion.p 
+            <motion.p
               className="text-sm sm:text-base lg:text-lg text-gray-600 leading-[1.7] max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              BCA graduate specializing in data analytics and full-stack development. 
-              I bridge the gap between complex data insights and user-friendly solutions, 
+              BCA graduate specializing in data analytics and full-stack development.
+              I bridge the gap between complex data insights and user-friendly solutions,
               creating digital experiences that drive real business impact.
             </motion.p>
 
             {/* Enhanced Dynamic Stats */}
-            <motion.div 
+            <motion.div
               className="bg-transparent border border-purple-200 rounded-2xl p-6 shadow-xl max-w-md mx-auto sm:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
               whileHover={{ scale: 1.02 }}
             >
-              <motion.p 
+              <motion.p
                 className="text-purple-700 font-bold text-xl"
                 key={currentDataPoint}
                 initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
@@ -201,15 +202,15 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Enhanced CTA Buttons */}
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
             >
               <Link to="/project-case-studies-portfolio">
-                <Button 
-                  variant="default" 
+                <Button
+                  variant="default"
                   size="lg"
                   iconName="FolderOpen"
                   iconPosition="left"
@@ -218,9 +219,9 @@ const HeroSection = () => {
                   View My Work
                 </Button>
               </Link>
-              
-              <Button 
-                variant="outline" 
+
+              <Button
+                variant="outline"
                 size="lg"
                 iconName="Download"
                 iconPosition="left"
@@ -232,7 +233,7 @@ const HeroSection = () => {
             </motion.div>
 
             {/* Enhanced Quick Links */}
-            <motion.div 
+            <motion.div
               className="flex items-center space-x-8 pt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -243,10 +244,10 @@ const HeroSection = () => {
                 { href: "https://github.com/Saniyyadhada06", icon: "Github", color: "text-gray-600 hover:text-gray-800" },
                 { href: "mailto:saniyadhada06@gmail.com", icon: "Mail", color: "text-green-500 hover:text-green-600" }
               ]?.map((social, index) => (
-                <motion.a 
+                <motion.a
                   key={index}
                   href={social?.href}
-                  target="_blank" 
+                  target="_blank"
                   rel="noopener noreferrer"
                   className={`${social?.color} transition-all duration-300 transform hover:scale-125`}
                   whileHover={{ y: -3 }}
@@ -260,79 +261,69 @@ const HeroSection = () => {
           </motion.div>
 
           {/* Enhanced Right Content - Professional Image */}
-          <motion.div 
+          <motion.div
             className="relative z-20 pr-4 xl:pr-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative w-full max-w-none sm:max-w-lg mx-0 sm:mx-auto">
-              {/* Enhanced Background Decoration */}
-              <motion.div 
-                className="absolute -inset-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-3xl opacity-30 blur-2xl"
-                animate={{ rotate: [0, 5, -5, 0] }}
-                transition={{ duration: 8, repeat: Infinity }}
-              ></motion.div>
-              
-              {/* Main Image Container */}
-              <motion.div 
-                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
+            <div className="relative w-full max-w-[370px] mx-auto group">
+              {/* Image and SVG Wrapper */}
+              <motion.div
+                className="relative z-[70] aspect-[370/450] rounded-[20px] overflow-hidden shadow-2xl border border-purple-100 transform-gpu will-change-transform"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                animate={{ y: [0, -5, 0] }}
-                transition={{ y: { duration: 4, repeat: Infinity } }}
+                animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
+                transition={reduceMotion ? undefined : { y: { duration: 4, repeat: Infinity } }}
               >
-                <div className="relative z-[80]">
-                  <motion.svg
-                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible transform-gpu will-change-transform block"
-                    viewBox="-5 -8 301 398"
-                  >
-                    <defs>
-                      <path
-                        id="about-saniya-border-path"
-                        d="M 17,0 L 273,0 A 15,15 0 0 1 288,15 L 288,365 A 15,15 0 0 1 273,380 L 17,380 A 15,15 0 0 1 2,365 L 2,15 A 15,15 0 0 1 17,0 Z"
-                      />
-                      <linearGradient id="about-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#22c55e" />
-                        <stop offset="50%" stopColor="#38bdf8" />
-                        <stop offset="100%" stopColor="#f472b6" />
-                      </linearGradient>
-                    </defs>
-                    <text
-                      fill="url(#about-saniya-border-gradient)"
-                      fontSize="18"
-                      fontFamily="'Creepster', cursive"
-                      letterSpacing="4"
-                      dy="-1"
-                      className="select-none"
-                    >
-                      <motion.textPath 
-                        href="#about-saniya-border-path" 
-                        animate={{ startOffset: ["-100%", "0%"] }}
-                        transition={{ 
-                          duration: 20, 
-                          repeat: Infinity, 
-                          ease: "linear",
-                          repeatType: "loop"
-                        }}
-                      >
-                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                      </motion.textPath>
-                    </text>
-                  </motion.svg>
-                  <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
-                    <Image 
-                      src="/assets/images/img1.png" 
-                      alt="Saniya - Data Storyteller & Developer"
-                      className="w-full h-full object-cover"
+                {/* Profile Image - Base layer */}
+                <Image
+                  src="/assets/images/img1.png"
+                  alt="Saniya - Data Storyteller & Developer"
+                  className="absolute inset-0 w-full h-full object-cover select-none"
+                />
+
+                {/* 
+                  SVG Layer: Perfectly centered circular text.
+                  Calculation:
+                  Card Width: 370px | Card Height: 450px
+                  Radius: 170px (Inset from edges)
+                  Center Point: (185, 185)
+                */}
+                <motion.svg
+                  className="pointer-events-none absolute inset-0 z-[100] overflow-visible select-none transition-filter duration-300 group-hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+                  viewBox="0 0 370 450"
+                >
+                  <defs>
+                    <path
+                      id="about-saniya-circle-path"
+                      d="M 15, 185 a 170,170 0 1,1 340,0 a 170,170 0 1,1 -340,0"
                     />
-                  </div>
-                </div>
-                
-                {/* Enhanced Floating Info Cards */}
-                <motion.div 
-                  className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
-                  animate={{ 
+                    <linearGradient id="about-saniya-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#22c55e" />
+                      <stop offset="50%" stopColor="#38bdf8" />
+                      <stop offset="100%" stopColor="#f472b6" />
+                    </linearGradient>
+                  </defs>
+
+                  <motion.text
+                    fill="url(#about-saniya-gradient)"
+                    fontSize="18"
+                    fontFamily="JetBrains Mono, monospace"
+                    fontWeight="bold"
+                    letterSpacing="4"
+                    className="select-none transition-filter duration-500 animate-rotate-slow glow-text"
+                  >
+                    <textPath href="#about-saniya-circle-path" textLength="1068" lengthAdjust="spacingAndGlyphs">
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                    </textPath>
+                  </motion.text>
+                </motion.svg>
+
+                {/* Floating Info Cards - Correctly nested inside the profile card parent */}
+                <motion.div
+                  className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform z-[110]"
+                  animate={{
                     y: [0, -8, 0],
                     rotate: [0, 5, -5, 0]
                   }}
@@ -340,10 +331,10 @@ const HeroSection = () => {
                 >
                   <Icon name="Code" size={24} />
                 </motion.div>
-                
-                <motion.div 
-                  className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
-                  animate={{ 
+
+                <motion.div
+                  className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform z-[110]"
+                  animate={{
                     y: [0, 8, 0],
                     rotate: [0, -5, 5, 0]
                   }}
@@ -351,10 +342,10 @@ const HeroSection = () => {
                 >
                   <Icon name="BarChart3" size={24} />
                 </motion.div>
-                
-                <motion.div 
-                  className="absolute top-1/2 -left-4 sm:-left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg pointer-events-none transform-gpu will-change-transform"
-                  animate={{ 
+
+                <motion.div
+                  className="absolute top-1/2 -left-4 sm:-left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg pointer-events-none transform-gpu will-change-transform z-[110]"
+                  animate={{
                     x: [0, -5, 0],
                     scale: [1, 1.1, 1]
                   }}
@@ -367,8 +358,9 @@ const HeroSection = () => {
           </motion.div>
         </div>
       </div>
+
       {/* Enhanced Scroll Indicator */}
-      <motion.div 
+      <motion.div
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         animate={{ y: [0, 15, 0] }}
         transition={{ duration: 2, repeat: Infinity }}

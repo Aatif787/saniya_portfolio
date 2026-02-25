@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Icon from '../../../components/AppIcon';
 import TiltCard from '../../../components/effects/TiltCard';
 
@@ -19,7 +20,7 @@ const SkillsPreview = () => {
       ]
     },
     {
-      title: "Web Development", 
+      title: "Web Development",
       icon: "Code",
       color: "bg-green-500",
       skills: [
@@ -32,7 +33,7 @@ const SkillsPreview = () => {
     {
       title: "Tools & Platforms",
       icon: "Settings",
-      color: "bg-purple-500", 
+      color: "bg-purple-500",
       skills: [
         { name: "Git", level: 80, projects: 16, icon: "GitBranch" },
         { name: "AWS", level: 70, projects: 4, icon: "Cloud" },
@@ -46,7 +47,7 @@ const SkillsPreview = () => {
     <section className="py-16 sm:py-20 bg-transparent section-optimize">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -57,7 +58,7 @@ const SkillsPreview = () => {
             Technical Expertise
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            A comprehensive skill set spanning data analytics, web development, and modern tools. 
+            A comprehensive skill set spanning data analytics, web development, and modern tools.
             Hover over skills to see proficiency levels and project experience.
           </p>
         </motion.div>
@@ -66,80 +67,80 @@ const SkillsPreview = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {skillCategories?.map((category, categoryIndex) => (
             <TiltCard>
-            <motion.div
-              key={category?.title}
-              className="glass-panel rounded-xl p-6 hover-lift"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
-              viewport={{ once: true }}
-            >
-              {/* Category Header */}
-              <div className="flex items-center space-x-3 mb-6">
-                <div className={`w-10 h-10 ${category?.color} rounded-lg flex items-center justify-center`}>
-                  <Icon name={category?.icon} size={20} color="white" />
+              <motion.div
+                key={category?.title}
+                className="glass-panel rounded-xl p-6 hover-lift"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
+                viewport={{ once: true }}
+              >
+                {/* Category Header */}
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className={`w-10 h-10 ${category?.color} rounded-lg flex items-center justify-center`}>
+                    <Icon name={category?.icon} size={20} color="white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-primary">{category?.title}</h3>
                 </div>
-                <h3 className="text-xl font-semibold text-primary">{category?.title}</h3>
-              </div>
 
-              {/* Skills List */}
-              <div className="space-y-4">
-                {category?.skills?.map((skill, skillIndex) => (
-                  <motion.div
-                    key={skill?.name}
-                    className="relative"
-                    onMouseEnter={() => setHoveredSkill(`${categoryIndex}-${skillIndex}`)}
-                    onMouseLeave={() => setHoveredSkill(null)}
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-2">
-                        <Icon name={skill?.icon} size={16} className="text-text-secondary" />
-                        <span className="font-medium text-text-primary">{skill?.name}</span>
-                      </div>
-                      <span className="text-sm text-text-secondary font-mono">
-                        {skill?.level}%
-                      </span>
-                    </div>
-                    
-                    {/* Progress Bar */}
-                    <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                      <motion.div
-                        className={`h-full ${category?.color} rounded-full`}
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill?.level}%` }}
-                        transition={{ duration: 1, delay: categoryIndex * 0.1 + skillIndex * 0.1 }}
-                        viewport={{ once: true }}
-                      />
-                    </div>
-
-                    {/* Hover Tooltip */}
-                    {hoveredSkill === `${categoryIndex}-${skillIndex}` && (
-                      <motion.div
-                        className="absolute top-full left-0 mt-2 bg-primary text-primary-foreground rounded-lg p-3 shadow-brand-lg z-10 min-w-max"
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
+                {/* Skills List */}
+                <div className="space-y-4">
+                  {category?.skills?.map((skill, skillIndex) => (
+                    <motion.div
+                      key={skill?.name}
+                      className="relative"
+                      onMouseEnter={() => setHoveredSkill(`${categoryIndex}-${skillIndex}`)}
+                      onMouseLeave={() => setHoveredSkill(null)}
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center space-x-2">
-                          <Icon name="Briefcase" size={14} />
-                          <span className="text-sm font-medium">
-                            {skill?.projects} projects completed
-                          </span>
+                          <Icon name={skill?.icon} size={16} className="text-text-secondary" />
+                          <span className="font-medium text-text-primary">{skill?.name}</span>
                         </div>
-                        <div className="absolute -top-1 left-4 w-2 h-2 bg-primary transform rotate-45"></div>
-                      </motion.div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+                        <span className="text-sm text-text-secondary font-mono">
+                          {skill?.level}%
+                        </span>
+                      </div>
+
+                      {/* Progress Bar */}
+                      <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+                        <motion.div
+                          className={`h-full ${category?.color} rounded-full`}
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${skill?.level}%` }}
+                          transition={{ duration: 1, delay: categoryIndex * 0.1 + skillIndex * 0.1 }}
+                          viewport={{ once: true }}
+                        />
+                      </div>
+
+                      {/* Hover Tooltip */}
+                      {hoveredSkill === `${categoryIndex}-${skillIndex}` && (
+                        <motion.div
+                          className="absolute top-full left-0 mt-2 bg-primary text-primary-foreground rounded-lg p-3 shadow-brand-lg z-10 min-w-max"
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <Icon name="Briefcase" size={14} />
+                            <span className="text-sm font-medium">
+                              {skill?.projects} projects completed
+                            </span>
+                          </div>
+                          <div className="absolute -top-1 left-4 w-2 h-2 bg-primary transform rotate-45"></div>
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
             </TiltCard>
           ))}
         </div>
 
         {/* Bottom CTA */}
-        <motion.div 
+        <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -149,14 +150,14 @@ const SkillsPreview = () => {
           <p className="text-text-secondary mb-4">
             Want to see these skills in action?
           </p>
-          <motion.a
-            href="/skills-interactive-capabilities"
+          <Link
+            to="/skills-interactive-capabilities"
             className="inline-flex items-center space-x-2 text-primary hover:text-secondary transition-colors duration-200 font-medium"
             whileHover={{ x: 5 }}
           >
             <span>Explore Interactive Demos</span>
             <Icon name="ArrowRight" size={16} />
-          </motion.a>
+          </Link>
         </motion.div>
       </div>
     </section>

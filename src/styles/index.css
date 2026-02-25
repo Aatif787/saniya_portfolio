@@ -10,3 +10,21 @@ body {
   font-family: inherit;
   margin: unset;
 }
+
+@keyframes rotate-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-rotate-slow {
+  animation: rotate-slow 30s linear infinite;
+  transform-origin: 185px 185px;
+}
+
+.group:hover .animate-rotate-slow {
+  animation-duration: 10s;
+}
+
+.glow-text {
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.4);
+}

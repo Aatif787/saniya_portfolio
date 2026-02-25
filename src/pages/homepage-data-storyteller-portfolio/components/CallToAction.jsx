@@ -18,7 +18,7 @@ const CallToAction = () => {
   const handleNewsletterSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       setIsSubscribed(true);
@@ -63,9 +63,16 @@ const CallToAction = () => {
       color: "bg-blue-500"
     },
     {
+      title: "About My Journey",
+      description: "Discover the story behind my professional growth",
+      icon: "User",
+      link: "/about-professional-journey",
+      color: "bg-orange-500"
+    },
+    {
       title: "Download Resume",
       description: "Get comprehensive professional documentation",
-      icon: "Download", 
+      icon: "Download",
       action: () => window.open('/assets/images/resume.pdf', '_blank'),
       color: "bg-green-500"
     },
@@ -86,14 +93,14 @@ const CallToAction = () => {
       link: "mailto:saniya@example.com"
     },
     {
-      platform: "LinkedIn", 
+      platform: "LinkedIn",
       handle: "/in/saniya-portfolio",
       icon: "Linkedin",
       link: "https://linkedin.com/in/saniya-portfolio"
     },
     {
       platform: "GitHub",
-      handle: "/saniya-portfolio", 
+      handle: "/saniya-portfolio",
       icon: "Github",
       link: "https://github.com/saniya-portfolio"
     },
@@ -116,7 +123,7 @@ const CallToAction = () => {
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-start lg:items-center">
-          
+
           {/* Left Content */}
           <motion.div
             className="w-full max-w-full overflow-hidden"
@@ -126,10 +133,10 @@ const CallToAction = () => {
             viewport={{ once: true }}
           >
             <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight break-words">
-              Ready to Transform Your Data into 
+              Ready to Transform Your Data into
               <span className="text-accent"> Success Stories</span>?
             </h2>
-            
+
             <p className="text-base sm:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed break-words">
               Let's collaborate to turn your business challenges into data-driven solutions. Whether you need analytics insights or web development expertise, I'm here to help.
             </p>
@@ -161,7 +168,7 @@ const CallToAction = () => {
             </div>
 
             {/* Contact Methods */}
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -207,7 +214,7 @@ const CallToAction = () => {
                     Stay Updated
                   </h3>
                   <p className="text-white/80 text-sm sm:text-base leading-relaxed">
-                    Get the latest insights on data analytics, web development trends, 
+                    Get the latest insights on data analytics, web development trends,
                     and exclusive project case studies delivered to your inbox.
                   </p>
                 </div>
@@ -221,7 +228,7 @@ const CallToAction = () => {
                     required
                     className="bg-white/10 border-white/20 text-white placeholder-white/50 h-12 focus:bg-white/20"
                   />
-                  
+
                   <Button
                     type="submit"
                     variant="secondary"
@@ -240,7 +247,7 @@ const CallToAction = () => {
                   <p className="text-white/60 text-xs sm:text-sm text-center mb-6 uppercase tracking-widest font-bold">
                     Quick Connect
                   </p>
-                  
+
                   <form onSubmit={handleContactSubmit} className="grid grid-cols-1 gap-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <Input
@@ -281,7 +288,7 @@ const CallToAction = () => {
                       </Button>
                     </div>
                     {contactStatus && (
-                      <motion.p 
+                      <motion.p
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="text-xs text-center font-medium text-accent"
@@ -293,7 +300,7 @@ const CallToAction = () => {
                 </div>
               </>
             ) : (
-              <motion.div 
+              <motion.div
                 className="text-center py-8"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -306,19 +313,19 @@ const CallToAction = () => {
                   Welcome Aboard!
                 </h3>
                 <p className="text-white/80 mb-6">
-                  Thank you for subscribing! You'll receive valuable insights and updates 
+                  Thank you for subscribing! You'll receive valuable insights and updates
                   about data analytics and web development.
                 </p>
-                
+
                 <div className="space-y-3">
                   <Link to="/insights-professional-blog">
                     <Button variant="secondary" fullWidth>
                       Read Latest Articles
                     </Button>
                   </Link>
-                  
-                  <Button 
-                    variant="outline" 
+
+                  <Button
+                    variant="outline"
                     fullWidth
                     className="border-white/30 text-white hover:bg-white/20"
                     onClick={() => window.open('mailto:saniya@example.com', '_blank')}
@@ -332,7 +339,7 @@ const CallToAction = () => {
         </div>
 
         {/* Bottom Stats */}
-        <motion.div 
+        <motion.div
           className="mt-16 pt-16 border-t border-white/20"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
