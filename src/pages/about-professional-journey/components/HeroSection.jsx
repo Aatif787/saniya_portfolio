@@ -297,7 +297,7 @@ const HeroSection = () => {
                   <defs>
                     <path
                       id="about-saniya-circle-path"
-                      d="M 0, 185 a 185,185 0 1,1 370,0 a 185,185 0 1,1 -370,0"
+                      d="M 10, 185 a 175,175 0 1,1 350,0 a 175,175 0 1,1 -350,0"
                     />
                     <linearGradient id="about-saniya-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#22c55e" />
@@ -314,7 +314,7 @@ const HeroSection = () => {
                     letterSpacing="4"
                     className="select-none transition-filter duration-500 animate-rotate-slow glow-text"
                   >
-                    <textPath href="#about-saniya-circle-path" textLength="1162" lengthAdjust="spacingAndGlyphs">
+                    <textPath href="#about-saniya-circle-path" textLength="1099" lengthAdjust="spacingAndGlyphs">
                       SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
                     </textPath>
                   </motion.text>
