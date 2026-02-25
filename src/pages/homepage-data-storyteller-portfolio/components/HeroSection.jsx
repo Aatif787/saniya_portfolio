@@ -282,7 +282,7 @@ const HeroSection = () => {
               >
                 <div className="relative z-[80]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-1 sm:-inset-2 z-[100] overflow-visible transform-gpu will-change-transform hidden sm:block"
+                    className="pointer-events-none absolute -inset-1 sm:-inset-2 z-[100] overflow-visible transform-gpu will-change-transform block"
                     viewBox="-5 -8 301 398"
                   >
                     <defs>
