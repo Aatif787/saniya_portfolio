@@ -289,13 +289,10 @@ const HeroSection = () => {
                 >
                   {/* SVG aligned perfectly using inset-0 */}
                   <motion.svg
-                    className="pointer-events-none absolute inset-0 z-[100] overflow-visible select-none group-hover/card:drop-shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all duration-300 will-change-transform"
+                    className="pointer-events-none absolute inset-0 z-[100] overflow-visible select-none group-hover/card:drop-shadow-[0_0_15px_rgba(168,85,247,0.4)] transition-all duration-300"
                     viewBox="0 0 370 450"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
-                    animate={reduceMotion ? undefined : { rotate: 360 }}
-                    transition={reduceMotion ? undefined : { duration: 25, repeat: Infinity, ease: "linear" }}
-                    style={{ transformOrigin: "185px 225px" }}
                   >
                     <defs>
                       <path
@@ -320,12 +317,17 @@ const HeroSection = () => {
                       fontFamily="'Creepster', cursive"
                       letterSpacing="4"
                     >
-                      <textPath
+                      <motion.textPath
                         href="#home-saniya-border-path"
-                        startOffset="0%"
+                        animate={{ startOffset: ["0%", "-100%"] }}
+                        transition={{
+                          duration: 30,
+                          repeat: Infinity,
+                          ease: "linear"
+                        }}
                       >
                         SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                      </textPath>
+                      </motion.textPath>
                     </text>
                   </motion.svg>
 
