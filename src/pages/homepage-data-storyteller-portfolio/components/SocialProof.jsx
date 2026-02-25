@@ -117,22 +117,22 @@ const SocialProof = () => {
         </motion.div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6 mb-20">
           {metrics?.map((metric, index) => (
             <motion.div
               key={metric?.label}
-              className="text-center p-6 glass-panel rounded-xl hover-lift"
+              className="text-center p-4 sm:p-6 glass-panel rounded-xl hover-lift flex flex-col items-center justify-center min-h-[160px]"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
             >
-              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-muted mb-4 ${metric?.color}`}>
-                <Icon name={metric?.icon} size={24} />
+              <div className={`inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-muted mb-3 sm:mb-4 ${metric?.color}`}>
+                <Icon name={metric?.icon} size={20} />
               </div>
               
               <motion.div
-                className="text-2xl lg:text-3xl font-bold text-primary mb-2"
+                className="text-xl sm:text-2xl lg:text-3xl font-bold text-primary mb-1 sm:mb-2"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
@@ -141,11 +141,11 @@ const SocialProof = () => {
                 {metric?.value}
               </motion.div>
               
-              <h3 className="font-semibold text-text-primary mb-2 text-sm lg:text-base">
+              <h3 className="font-semibold text-text-primary mb-1 sm:mb-2 text-xs sm:text-sm lg:text-base">
                 {metric?.label}
               </h3>
               
-              <p className="text-text-secondary text-xs leading-relaxed">
+              <p className="text-text-secondary text-[10px] sm:text-xs leading-relaxed line-clamp-2">
                 {metric?.description}
               </p>
             </motion.div>
@@ -161,14 +161,14 @@ const SocialProof = () => {
           viewport={{ once: true }}
         >
           <h3 className="text-2xl font-bold text-primary text-center mb-12">
-            What Clients Say
+            What Collaborators Say
           </h3>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials?.map((testimonial, index) => (
               <motion.div
               key={testimonial?.name}
-                className="glass-panel rounded-2xl p-6 sm:p-8 hover-lift flex flex-col h-full border border-border/50 relative group"
+                className="glass-panel rounded-2xl p-5 sm:p-8 hover-lift flex flex-col h-full border border-border/50 relative group overflow-hidden"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -184,17 +184,17 @@ const SocialProof = () => {
                 </div>
 
                 {/* Testimonial Content */}
-                <blockquote className="text-text-secondary mb-8 leading-relaxed italic text-sm sm:text-base flex-1 relative z-10">
+                <blockquote className="text-text-secondary mb-8 leading-relaxed italic text-sm sm:text-base flex-1 relative z-10 break-words">
                   "{testimonial?.content}"
                 </blockquote>
 
                 {/* Author Info */}
                 <div className="flex items-center space-x-4 pt-6 border-t border-border/50 relative z-10">
-                  <div className="relative">
+                  <div className="relative flex-shrink-0">
                     <img 
                       src={testimonial?.avatar}
                       alt={testimonial?.name}
-                      className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/10"
+                      className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover ring-2 ring-primary/10"
                     />
                     <div className="absolute -bottom-1 -right-1 bg-accent rounded-full p-1 shadow-sm">
                       <Icon name="Check" size={8} className="text-white" />
@@ -204,7 +204,7 @@ const SocialProof = () => {
                     <h4 className="font-bold text-text-primary text-sm sm:text-base truncate">
                       {testimonial?.name}
                     </h4>
-                    <p className="text-text-secondary text-xs truncate">
+                    <p className="text-text-secondary text-[10px] sm:text-xs truncate">
                       {testimonial?.role} @ {testimonial?.company}
                     </p>
                   </div>

@@ -106,39 +106,40 @@ const CallToAction = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-brand text-white relative overflow-hidden">
+    <section className="py-12 sm:py-20 bg-gradient-brand text-white relative overflow-hidden w-full">
       {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
         <div className="absolute top-10 left-10 w-20 h-20 border border-white/20 rounded-full"></div>
         <div className="absolute top-32 right-20 w-16 h-16 border border-white/20 rounded-full"></div>
         <div className="absolute bottom-20 left-1/4 w-12 h-12 border border-white/20 rounded-full"></div>
         <div className="absolute bottom-32 right-1/3 w-24 h-24 border border-white/20 rounded-full"></div>
       </div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-start lg:items-center">
           
           {/* Left Content */}
           <motion.div
+            className="w-full max-w-full overflow-hidden"
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl lg:text-5xl font-bold mb-6 leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight break-words">
               Ready to Transform Your Data into 
               <span className="text-accent"> Success Stories</span>?
             </h2>
             
-            <p className="text-xl text-white/90 mb-8 leading-relaxed">
+            <p className="text-base sm:text-xl text-white/90 mb-6 sm:mb-8 leading-relaxed break-words">
               Let's collaborate to turn your business challenges into data-driven solutions. Whether you need analytics insights or web development expertise, I'm here to help.
             </p>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 mb-6 sm:mb-8">
               {quickActions?.map((action, index) => (
                 <motion.div
                   key={action?.title}
-                  className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group"
+                  className="flex items-center space-x-3 sm:space-x-4 p-3 sm:p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -147,14 +148,14 @@ const CallToAction = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <div className={`w-12 h-12 ${action?.color} rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                    <Icon name={action?.icon} size={20} color="white" />
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 ${action?.color} rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                    <Icon name={action?.icon} size={18} color="white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-white mb-0.5 truncate">{action?.title}</h3>
-                    <p className="text-white/70 text-xs truncate">{action?.description}</p>
+                    <h3 className="font-semibold text-white text-sm sm:text-base mb-0.5 truncate">{action?.title}</h3>
+                    <p className="text-white/70 text-[10px] sm:text-xs truncate">{action?.description}</p>
                   </div>
-                  <Icon name="ArrowRight" size={18} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
+                  <Icon name="ArrowRight" size={16} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all flex-shrink-0" />
                 </motion.div>
               ))}
             </div>
@@ -173,14 +174,14 @@ const CallToAction = () => {
                   href={method?.link}
                   target={method?.platform !== 'Email' && method?.platform !== 'Phone' ? '_blank' : undefined}
                   rel={method?.platform !== 'Email' && method?.platform !== 'Phone' ? 'noopener noreferrer' : undefined}
-                  className="flex items-center space-x-3 p-3 bg-white/10 rounded-xl border border-white/10 hover:bg-white/20 transition-all duration-200 group"
+                  className="flex items-center space-x-3 p-3 bg-white/10 rounded-xl border border-white/10 hover:bg-white/20 transition-all duration-200 group overflow-hidden"
                 >
                   <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                     <Icon name={method?.icon} size={14} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-white/60 text-[10px] uppercase tracking-wider font-bold mb-0.5">{method?.platform}</p>
-                    <p className="text-white font-medium text-xs sm:text-sm truncate">{method?.handle}</p>
+                    <p className="text-white font-medium text-xs sm:text-sm truncate break-all">{method?.handle}</p>
                   </div>
                 </a>
               ))}
@@ -189,7 +190,7 @@ const CallToAction = () => {
 
           {/* Right Content - Newsletter & CTA */}
           <motion.div
-            className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl relative overflow-hidden group"
+            className="w-full bg-white/10 backdrop-blur-md rounded-3xl p-5 sm:p-8 border border-white/20 shadow-2xl relative overflow-hidden group"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}

@@ -111,19 +111,21 @@
   
   html, body {
     max-width: 100vw;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
     position: relative;
-    touch-action: manipulation;
+    touch-action: pan-y pinch-zoom;
     overflow-y: auto;
     scroll-behavior: smooth;
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
   }
 
   /* Fix for elements that might cause horizontal overflow */
   * {
     box-sizing: border-box;
+    max-width: 100%;
   }
 }
 
