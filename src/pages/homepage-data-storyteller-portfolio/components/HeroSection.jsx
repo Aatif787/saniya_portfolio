@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
-import ParallaxBackground from '../../../components/effects/ParallaxBackground';
 import HeroOrb from '../../../components/effects/HeroOrb';
 import Button from '../../../components/ui/Button';
 
@@ -41,21 +40,20 @@ const HeroSection = () => {
   const titleGlow = useTransform(scrollYProgress, [0, 1], [0.3, 0.7]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-x-hidden section-optimize">
-      <ParallaxBackground />
+    <section ref={sectionRef} className="relative min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 overflow-hidden">
       {/* Animated Background Elements */}
-      <motion.div className="absolute inset-0 opacity-20 pointer-events-none will-change-transform" style={{ y: bgTranslateY }}>
+      <motion.div className="absolute inset-0 opacity-20" style={{ y: bgTranslateY }}>
         {floatingElements?.map((element, index) => (
           <motion.div
             key={index}
-            className={`absolute ${element?.color} transform-gpu will-change-transform`}
+            className={`absolute ${element?.color}`}
             style={{ left: `${element?.x}%`, top: `${element?.y}%` }}
-            animate={reduceMotion ? undefined : {
+            animate={{
               y: [0, -25, 0],
               rotate: [0, 10, -10, 0],
               scale: [1, 1.2, 1]
             }}
-            transition={reduceMotion ? undefined : {
+            transition={{
               duration: 4 + index * 0.5,
               delay: element?.delay,
               repeat: Infinity,
@@ -67,15 +65,15 @@ const HeroSection = () => {
         ))}
       </motion.div>
       {/* Colorful Geometric Shapes */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden">
         <motion.div 
-          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 blur-xl will-change-transform transform-gpu"
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full opacity-20 blur-3xl will-change-transform transform-gpu"
           style={{ rotate: shapeRotate }}
-          animate={reduceMotion ? undefined : { scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
-          transition={reduceMotion ? undefined : { duration: 8, repeat: Infinity }}
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+          transition={{ duration: 8, repeat: Infinity }}
         />
         <motion.div 
-          className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-blue-400 to-green-400 rounded-full opacity-20 blur-xl will-change-transform transform-gpu"
+          className="absolute bottom-20 right-10 w-24 h-24 bg-gradient-to-r from-blue-400 to-green-400 rounded-full opacity-20 blur-2xl will-change-transform transform-gpu"
           animate={reduceMotion ? undefined : { scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
           transition={reduceMotion ? undefined : { duration: 6, repeat: Infinity }}
         />
@@ -274,7 +272,7 @@ const HeroSection = () => {
               ></motion.div>
               
               <motion.div 
-                className="relative z-[70] glass-panel rounded-3xl p-3 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
+                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
@@ -282,7 +280,7 @@ const HeroSection = () => {
               >
                 <div className="relative z-[80]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-1 sm:-inset-2 z-[100] overflow-visible transform-gpu will-change-transform block"
+                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible transform-gpu will-change-transform block"
                     viewBox="-5 -8 301 398"
                   >
                     <defs>

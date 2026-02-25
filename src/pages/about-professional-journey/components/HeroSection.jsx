@@ -276,50 +276,62 @@ const HeroSection = () => {
               
               {/* Main Image Container */}
               <motion.div 
-                className="relative bg-transparent rounded-3xl p-8 shadow-2xl border border-purple-100"
+                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
                 whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 animate={{ y: [0, -5, 0] }}
                 transition={{ y: { duration: 4, repeat: Infinity } }}
               >
-                <motion.svg
-                  className="pointer-events-none absolute -inset-10 z-50 overflow-visible"
-                  viewBox="-20 -20 240 240"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                >
-                  <defs>
-                    <path
-                      id="saniya-border-path"
-                      d="M100,10 a90,90 0 1,1 0,180 a90,90 0 1,1 0,-180"
-                    />
-                    <linearGradient id="saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#22c55e" />
-                      <stop offset="50%" stopColor="#38bdf8" />
-                      <stop offset="100%" stopColor="#f472b6" />
-                    </linearGradient>
-                  </defs>
-                  <text
-                    fill="url(#saniya-border-gradient)"
-                    fontSize="12"
-                    fontFamily="JetBrains Mono, monospace"
-                    letterSpacing="3"
+                <div className="relative z-[80]">
+                  <motion.svg
+                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible transform-gpu will-change-transform block"
+                    viewBox="-5 -8 301 398"
                   >
-                    <textPath href="#saniya-border-path" textLength="565.48" lengthAdjust="spacingAndGlyphs">
-                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                    </textPath>
-                  </text>
-                </motion.svg>
-                <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
-                  <Image 
-                    src="/assets/images/img1.png" 
-                    alt="Saniya - Data Storyteller & Developer"
-                    className="w-full h-full object-cover"
-                  />
+                    <defs>
+                      <path
+                        id="about-saniya-border-path"
+                        d="M 17,0 L 273,0 A 15,15 0 0 1 288,15 L 288,365 A 15,15 0 0 1 273,380 L 17,380 A 15,15 0 0 1 2,365 L 2,15 A 15,15 0 0 1 17,0 Z"
+                      />
+                      <linearGradient id="about-saniya-border-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#22c55e" />
+                        <stop offset="50%" stopColor="#38bdf8" />
+                        <stop offset="100%" stopColor="#f472b6" />
+                      </linearGradient>
+                    </defs>
+                    <text
+                      fill="url(#about-saniya-border-gradient)"
+                      fontSize="18"
+                      fontFamily="'Creepster', cursive"
+                      letterSpacing="4"
+                      dy="-1"
+                      className="select-none"
+                    >
+                      <motion.textPath 
+                        href="#about-saniya-border-path" 
+                        animate={{ startOffset: ["-100%", "0%"] }}
+                        transition={{ 
+                          duration: 20, 
+                          repeat: Infinity, 
+                          ease: "linear",
+                          repeatType: "loop"
+                        }}
+                      >
+                        SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                      </motion.textPath>
+                    </text>
+                  </motion.svg>
+                  <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
+                    <Image 
+                      src="/assets/images/img1.png" 
+                      alt="Saniya - Data Storyteller & Developer"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
                 
                 {/* Enhanced Floating Info Cards */}
                 <motion.div 
-                  className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-xl p-4 shadow-lg"
+                  className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ 
                     y: [0, -8, 0],
                     rotate: [0, 5, -5, 0]
@@ -330,7 +342,7 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute -bottom-4 -left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-xl p-4 shadow-lg"
+                  className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ 
                     y: [0, 8, 0],
                     rotate: [0, -5, 5, 0]
@@ -341,7 +353,7 @@ const HeroSection = () => {
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute top-1/2 -left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-xl p-3 shadow-lg"
+                  className="absolute top-1/2 -left-4 sm:-left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ 
                     x: [0, -5, 0],
                     scale: [1, 1.1, 1]
