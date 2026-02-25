@@ -300,9 +300,9 @@ const HeroSection = () => {
                       d="M 10, 185 a 175,175 0 1,1 350,0 a 175,175 0 1,1 -350,0"
                     />
                     <linearGradient id="about-saniya-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#22c55e" />
-                      <stop offset="50%" stopColor="#38bdf8" />
-                      <stop offset="100%" stopColor="#f472b6" />
+                      <stop offset="0%" stopColor="#a3e635" />
+                      <stop offset="50%" stopColor="#1a1a1a" />
+                      <stop offset="100%" stopColor="#a3e635" />
                     </linearGradient>
                   </defs>
 
