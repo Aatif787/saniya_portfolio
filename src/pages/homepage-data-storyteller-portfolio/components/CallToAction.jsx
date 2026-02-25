@@ -134,26 +134,27 @@ const CallToAction = () => {
             </p>
 
             {/* Quick Actions */}
-            <div className="space-y-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 mb-8">
               {quickActions?.map((action, index) => (
                 <motion.div
                   key={action?.title}
-                  className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer"
+                  className="flex items-center space-x-4 p-4 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 hover:bg-white/20 transition-all duration-200 cursor-pointer group"
                   initial={{ opacity: 0, x: -30 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  onClick={action?.action}
+                  onClick={action?.action || (() => window.location.href = action.link)}
                   whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <div className={`w-12 h-12 ${action?.color} rounded-lg flex items-center justify-center`}>
+                  <div className={`w-12 h-12 ${action?.color} rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
                     <Icon name={action?.icon} size={20} color="white" />
                   </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-white mb-1">{action?.title}</h3>
-                    <p className="text-white/80 text-sm">{action?.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-white mb-0.5 truncate">{action?.title}</h3>
+                    <p className="text-white/70 text-xs truncate">{action?.description}</p>
                   </div>
-                  <Icon name="ArrowRight" size={20} className="text-white/60" />
+                  <Icon name="ArrowRight" size={18} className="text-white/40 group-hover:text-white group-hover:translate-x-1 transition-all" />
                 </motion.div>
               ))}
             </div>

@@ -86,69 +86,71 @@ const HeroSection = () => {
         />
       </div>
       {/* Main Content */}
-      <div className="relative z-20 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-0 sm:px-6 lg:px-10 pt-24 pb-12 glass-section rounded-none sm:rounded-3xl !overflow-visible">
-        <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-12 items-start min-h-[80vh]">
+      <div className="relative z-20 max-w-none sm:max-w-[90rem] mx-0 sm:mx-auto px-4 sm:px-6 lg:px-10 pt-24 pb-12 glass-section rounded-none sm:rounded-3xl !overflow-visible">
+        <div className="grid lg:grid-cols-[62%_38%] xl:grid-cols-[60%_40%] gap-8 sm:gap-12 items-start min-h-[80vh]">
           
           {/* Left Content */}
           <motion.div 
-            className="space-y-8"
+            className="space-y-6 sm:space-y-8 text-center lg:text-left flex flex-col items-center lg:items-start"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Badge */}
             <motion.div 
-              className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm border-2 border-purple-200 rounded-full px-6 py-3 shadow-lg animate-glow"
+              className="inline-flex items-center space-x-2 bg-white/80 backdrop-blur-sm border-2 border-purple-200 rounded-full px-4 sm:px-6 py-2 sm:py-3 shadow-lg animate-glow"
               whileHover={{ scale: 1.05 }}
               animate={{ y: [0, -2, 0] }}
               transition={{ y: { duration: 2, repeat: Infinity } }}
             >
-              <div className="w-3 h-3 bg-gradient-to-r from-green-400 to-blue-500 rounded-full animate-pulse"></div>
-              <span className="text-base font-semibold text-gray-700">Available for opportunities</span>
+              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-gradient-to-r from-green-400 to-blue-500 rounded-full animate-pulse"></div>
+              <span className="text-xs sm:text-base font-semibold text-gray-700">Available for opportunities</span>
             </motion.div>
 
             {/* Name */}
-            <HeroOrb className="-left-4 -top-6 sm:-left-10 sm:-top-10" />
-            <motion.div 
-              className="space-y-2"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
+            <div className="relative w-full">
+              <HeroOrb className="-left-4 -top-6 sm:-left-10 sm:-top-10" />
               <motion.div 
-                className="text-[clamp(1.5rem,10vw,5.5rem)] font-semibold text-gradient-rainbow leading-none whitespace-nowrap tracking-tight font-['Poppins']"
-                style={{ filter: `drop-shadow(0 0 ${titleGlow.get()}rem rgba(99,102,241,0.4))` }}
-                animate={reduceMotion ? undefined : { 
-                  textShadow: [
-                    "0 0 20px rgba(99, 102, 241, 0.3)",
-                    "0 0 40px rgba(236, 72, 153, 0.4)",
-                    "0 0 20px rgba(99, 102, 241, 0.3)"
-                  ]
-                }}
-                transition={reduceMotion ? undefined : { duration: 3, repeat: Infinity }}
+                className="space-y-2"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
               >
-              Saniya Dhada
+                <motion.div 
+                  className="text-[clamp(2.5rem,12vw,5.5rem)] font-bold text-gradient-rainbow leading-[1.1] sm:leading-none tracking-tighter font-['Poppins'] text-center lg:text-left"
+                  style={{ filter: `drop-shadow(0 0 ${titleGlow.get()}rem rgba(99,102,241,0.4))` }}
+                  animate={reduceMotion ? undefined : { 
+                    textShadow: [
+                      "0 0 20px rgba(99, 102, 241, 0.3)",
+                      "0 0 40px rgba(236, 72, 153, 0.4)",
+                      "0 0 20px rgba(99, 102, 241, 0.3)"
+                    ]
+                  }}
+                  transition={reduceMotion ? undefined : { duration: 3, repeat: Infinity }}
+                >
+                Saniya Dhada
+                </motion.div>
+                <motion.p 
+                  className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-600"
+                  animate={{ opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 2, repeat: Infinity }}
+                >
+                  Data Storyteller & Developer
+                </motion.p>
               </motion.div>
-              <motion.p 
-                className="text-2xl lg:text-3xl font-semibold text-gray-600"
-                animate={{ opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Data Storyteller & Developer
-              </motion.p>
-            </motion.div>
+            </div>
 
             {/* Main Headline */}
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               <motion.h1 
-                className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-800 leading-tight"
+                className="text-2xl sm:text-4xl lg:text-6xl font-bold text-gray-800 leading-tight"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
               >
                 Transforming Data into{' '}
                 <motion.span 
-                  className="text-gradient"
+                  className="text-gradient block sm:inline"
                   animate={reduceMotion ? undefined : { scale: [1, 1.05, 1] }}
                   transition={reduceMotion ? undefined : { duration: 2, repeat: Infinity }}
                 >
@@ -157,7 +159,7 @@ const HeroSection = () => {
               </motion.h1>
               
               <motion.h2 
-                className="text-xl sm:text-2xl lg:text-3xl font-semibold text-purple-600"
+                className="text-lg sm:text-2xl lg:text-3xl font-semibold text-purple-600"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
@@ -168,26 +170,25 @@ const HeroSection = () => {
 
             {/* Description */}
             <motion.p 
-              className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg"
+              className="text-sm sm:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
               BCA graduate specializing in data analytics and full-stack development. 
-              I bridge the gap between complex data insights and user-friendly solutions, 
-              creating digital experiences that drive real business impact.
+              I bridge the gap between complex data insights and user-friendly solutions.
             </motion.p>
 
             {/* Stats */}
             <motion.div 
-              className="glass-panel rounded-2xl p-6 shadow-xl"
+              className="glass-panel rounded-2xl p-4 sm:p-6 shadow-xl w-full sm:w-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
               whileHover={{ scale: 1.02 }}
             >
               <motion.p 
-                className="text-purple-700 font-bold text-xl"
+                className="text-purple-700 font-bold text-lg sm:text-xl"
                 key={currentDataPoint}
                 initial={{ opacity: 0, scale: 0.8, rotateY: 90 }}
                 animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -199,15 +200,16 @@ const HeroSection = () => {
 
             {/* Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
             >
-              <Link to="/project-case-studies-portfolio">
+              <Link to="/project-case-studies-portfolio" className="w-full sm:w-auto">
                 <Button 
                   variant="default" 
                   size="lg"
+                  fullWidth
                   iconName="FolderOpen"
                   iconPosition="left"
                   className="hover-lift bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white shadow-lg animate-glow"
@@ -219,18 +221,19 @@ const HeroSection = () => {
               <Button 
                 variant="outline" 
                 size="lg"
+                fullWidth
                 iconName="Download"
                 iconPosition="left"
-                className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50 animate-wiggle"
+                className="hover-lift border-2 border-purple-300 text-purple-600 hover:bg-purple-50"
                 onClick={() => window.open("/assets/images/resume.pdf", '_blank')}
               >
-                Download Resume
+                Resume
               </Button>
             </motion.div>
 
             {/* Social Links */}
             <motion.div 
-              className="flex items-center space-x-8 pt-4"
+              className="flex items-center justify-center lg:justify-start space-x-6 sm:space-x-8 pt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 1.4 }}
@@ -238,7 +241,7 @@ const HeroSection = () => {
               {[
                 { href: "https://www.linkedin.com/in/saniya-dhada-618311326?", icon: "Linkedin", color: "text-blue-500 hover:text-blue-600" },
                 { href: "https://github.com/Saniyyadhada06", icon: "Github", color: "text-gray-600 hover:text-gray-800" },
-                { href: "mailto:saniyadhada@gmail.com", icon: "Mail", color: "text-green-500 hover:text-green-600" }
+                { href: "mailto:saniyadhada71@gmail.com", icon: "Mail", color: "text-green-500 hover:text-green-600" }
               ]?.map((social, index) => (
                 <motion.a 
                   key={index}
@@ -258,20 +261,20 @@ const HeroSection = () => {
 
           {/* Right Content - Profile Photo */}
           <motion.div 
-            className="relative z-[60] pr-4 xl:pr-6"
+            className="relative z-[60] px-4 sm:px-0 lg:pr-4 xl:pr-6"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <div className="relative w-full max-w-none sm:max-w-lg mx-0 sm:mx-auto">
+            <div className="relative w-full max-w-sm sm:max-w-lg mx-auto">
               <motion.div 
-                className="absolute -inset-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-3xl opacity-30 blur-2xl"
+                className="absolute -inset-4 sm:-inset-6 bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 rounded-3xl opacity-30 blur-2xl"
                 animate={reduceMotion ? undefined : { rotate: [0, 5, -5, 0] }}
                 transition={reduceMotion ? undefined : { duration: 8, repeat: Infinity }}
               ></motion.div>
               
               <motion.div 
-                className="relative z-[70] glass-panel rounded-3xl p-4 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
+                className="relative z-[70] glass-panel rounded-3xl p-3 sm:p-8 shadow-2xl border border-purple-100 overflow-visible transform-gpu will-change-transform"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 animate={reduceMotion ? undefined : { y: [0, -5, 0] }}
@@ -279,7 +282,7 @@ const HeroSection = () => {
               >
                 <div className="relative z-[80]">
                   <motion.svg
-                    className="pointer-events-none absolute -inset-2 z-[100] overflow-visible transform-gpu will-change-transform"
+                    className="pointer-events-none absolute -inset-1 sm:-inset-2 z-[100] overflow-visible transform-gpu will-change-transform hidden sm:block"
                     viewBox="-5 -8 301 398"
                   >
                     <defs>
@@ -316,39 +319,37 @@ const HeroSection = () => {
                     </text>
                   </motion.svg>
                   <div className="aspect-[3/4] overflow-hidden rounded-xl sm:rounded-2xl">
-                    
                     <Image 
                       src="/assets/images/img1.png"
                       alt="My Profile Photo"
                       className="w-full h-full object-cover"
                     />
-
                   </div>
                 </div>
                 
                 {/* Floating Info Cards */}
                 <motion.div 
-                  className="absolute -top-4 -right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-xl p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
+                  className="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 bg-gradient-to-r from-yellow-400 to-orange-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ y: [0, -8, 0], rotate: [0, 5, -5, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
                 >
-                  <Icon name="Code" size={24} />
+                  <Icon name="Code" size={reduceMotion ? 20 : 24} />
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute -bottom-4 -left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-xl p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
+                  className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 bg-gradient-to-r from-green-400 to-blue-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-4 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ y: [0, 8, 0], rotate: [0, -5, 5, 0] }}
                   transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
                 >
-                  <Icon name="BarChart3" size={24} />
+                  <Icon name="BarChart3" size={reduceMotion ? 20 : 24} />
                 </motion.div>
                 
                 <motion.div 
-                  className="absolute top-1/2 -left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-xl p-3 shadow-lg pointer-events-none transform-gpu will-change-transform"
+                  className="absolute top-1/2 -left-4 sm:-left-6 bg-gradient-to-r from-purple-400 to-pink-400 text-white rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-lg pointer-events-none transform-gpu will-change-transform"
                   animate={{ x: [0, -5, 0], scale: [1, 1.1, 1] }}
                   transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
                 >
-                  <Icon name="Sparkles" size={20} />
+                  <Icon name="Sparkles" size={reduceMotion ? 18 : 20} />
                 </motion.div>
               </motion.div>
             </div>

@@ -50,7 +50,7 @@ const SocialProof = () => {
 
   const testimonials = [
     {
-      name: "Rajesh Kumar",
+      name: "Aatif Farooqui",
       role: "Product Manager",
       company: "TechStart Solutions",
       content: "Saniya's data analysis helped us identify key customer segments that increased our conversion rate by 35%. Her insights were actionable and clearly presented.",
@@ -58,7 +58,7 @@ const SocialProof = () => {
       rating: 5
     },
     {
-      name: "Priya Sharma", 
+      name: "Sanu", 
       role: "Marketing Director",
       company: "Digital Growth Co",
       content: "The React dashboard Saniya built transformed how our team tracks campaign performance. Intuitive design and powerful analytics in one platform.",
@@ -66,7 +66,7 @@ const SocialProof = () => {
       rating: 5
     },
     {
-      name: "Amit Patel",
+      name: "Khalid",
       role: "Startup Founder",
       company: "InnovateLab",
       content: "Working with Saniya was excellent. She understood our business needs and delivered a solution that exceeded expectations. Highly recommended!",

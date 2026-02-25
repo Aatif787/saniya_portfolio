@@ -2,9 +2,8 @@ import * as THREE from 'three'
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js'
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js'
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js'
-import { RGBShiftShader } from 'three/examples/jsm/shaders/RGBShiftShader.js'
-import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js'
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js'
+
 class BackgroundEngine {
   constructor(canvas) {
     this.canvas = canvas

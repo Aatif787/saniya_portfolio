@@ -87,60 +87,60 @@ const ProblemSolvingSection = () => {
   };
 
   return (
-    <section className="py-16 bg-muted/30">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-text-primary mb-4">
+    <section className="py-12 sm:py-16 bg-muted/30">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-10 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-3 sm:mb-4">
             My Problem-Solving Approach
           </h2>
-          <p className="text-lg text-text-secondary max-w-3xl mx-auto">
+          <p className="text-sm sm:text-lg text-text-secondary max-w-3xl mx-auto px-4">
             How I combine analytical thinking with user empathy to deliver solutions that work
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-start">
           {/* Steps Navigation */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {problemSolvingSteps?.map((step, index) => (
               <div
                 key={step?.id}
                 onClick={() => setActiveStep(index)}
-                className={`p-4 rounded-lg border cursor-pointer transition-all duration-300 ${
+                className={`p-3 sm:p-4 rounded-xl border cursor-pointer transition-all duration-300 ${
                   activeStep === index
-                    ? 'bg-primary text-primary-foreground border-primary shadow-brand'
+                    ? 'bg-primary text-primary-foreground border-primary shadow-brand scale-[1.02]'
                     : 'bg-surface border-border hover:border-primary/50 hover:shadow-brand'
                 }`}
               >
-                <div className="flex items-center space-x-4">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                <div className="flex items-center space-x-3 sm:space-x-4">
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
                     activeStep === index
                       ? 'bg-primary-foreground/20'
                       : 'bg-primary/10'
                   }`}>
                     <Icon 
                       name={step?.icon} 
-                      size={20} 
+                      size={18} 
                       className={activeStep === index ? 'text-primary-foreground' : 'text-primary'} 
                     />
                   </div>
-                  <div className="flex-1">
-                    <h3 className={`font-semibold ${
+                  <div className="flex-1 min-w-0">
+                    <h3 className={`font-semibold text-sm sm:text-base truncate ${
                       activeStep === index ? 'text-primary-foreground' : 'text-text-primary'
                     }`}>
                       {step?.title}
                     </h3>
-                    <p className={`text-sm ${
+                    <p className={`text-xs sm:text-sm line-clamp-1 ${
                       activeStep === index ? 'text-primary-foreground/80' : 'text-text-secondary'
                     }`}>
                       {step?.description}
                     </p>
                   </div>
-                  <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center ${
+                  <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
                     activeStep === index
                       ? 'border-primary-foreground bg-primary-foreground text-primary'
                       : 'border-primary/30 text-primary'
                   }`}>
-                    <span className="text-sm font-bold">{index + 1}</span>
+                    <span className="text-xs sm:text-sm font-bold">{index + 1}</span>
                   </div>
                 </div>
               </div>
@@ -148,77 +148,61 @@ const ProblemSolvingSection = () => {
           </div>
 
           {/* Step Details */}
-          <div className="bg-surface rounded-lg shadow-brand-lg p-8">
+          <div className="bg-surface rounded-2xl shadow-brand-lg p-5 sm:p-8 border border-border">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Icon name={problemSolvingSteps?.[activeStep]?.icon} size={24} className="text-primary" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <Icon name={problemSolvingSteps?.[activeStep]?.icon} size={20} className="text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-text-primary">
+                  <h3 className="text-lg sm:text-xl font-semibold text-text-primary">
                     {problemSolvingSteps?.[activeStep]?.title}
                   </h3>
-                  <p className="text-text-secondary">
+                  <p className="text-xs sm:text-sm text-text-secondary">
                     Step {activeStep + 1} of {problemSolvingSteps?.length}
                   </p>
                 </div>
               </div>
-              <div className="flex space-x-2">
-                <Button variant="outline" size="icon" onClick={prevStep}>
-                  <Icon name="ChevronLeft" size={16} />
+              <div className="flex space-x-1 sm:space-x-2">
+                <Button variant="outline" size="sm" className="p-2" onClick={prevStep}>
+                  <Icon name="ChevronLeft" size={14} />
                 </Button>
-                <Button variant="outline" size="icon" onClick={nextStep}>
-                  <Icon name="ChevronRight" size={16} />
+                <Button variant="outline" size="sm" className="p-2" onClick={nextStep}>
+                  <Icon name="ChevronRight" size={14} />
                 </Button>
               </div>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-5 sm:space-y-6">
               <div>
-                <h4 className="font-medium text-text-primary mb-3">Methodology</h4>
-                <p className="text-text-secondary leading-relaxed whitespace-pre-line">
+                <h4 className="text-sm font-semibold text-text-primary mb-2 sm:mb-3">Methodology</h4>
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed whitespace-pre-line bg-muted/20 p-3 rounded-xl">
                   {problemSolvingSteps?.[activeStep]?.details}
                 </p>
               </div>
 
-              <div className="bg-blue-50 rounded-lg p-4">
-                <h4 className="font-medium text-blue-900 mb-2 flex items-center">
-                  <Icon name="FileText" size={16} className="mr-2" />
+              <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-100">
+                <h4 className="text-sm font-semibold text-blue-900 mb-2 flex items-center">
+                  <Icon name="FileText" size={14} className="mr-2" />
                   Real Project Example
                 </h4>
-                <p className="text-blue-700 text-sm leading-relaxed">
+                <p className="text-blue-700 text-xs sm:text-sm leading-relaxed">
                   {problemSolvingSteps?.[activeStep]?.example}
                 </p>
               </div>
 
               <div>
-                <h4 className="font-medium text-text-primary mb-3">Tools & Techniques</h4>
-                <div className="flex flex-wrap gap-2">
+                <h4 className="text-sm font-semibold text-text-primary mb-2 sm:mb-3">Tools & Techniques</h4>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {problemSolvingSteps?.[activeStep]?.tools?.map((tool, index) => (
                     <span
                       key={index}
-                      className="px-3 py-1 bg-accent/10 text-accent-foreground text-sm rounded-full border border-accent/20"
+                      className="px-2.5 py-1 bg-accent/10 text-accent-foreground text-[10px] sm:text-xs font-medium rounded-full border border-accent/20"
                     >
                       {tool}
                     </span>
                   ))}
                 </div>
-              </div>
-            </div>
-
-            {/* Progress Indicator */}
-            <div className="mt-8 pt-6 border-t border-border">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm text-text-muted">Progress</span>
-                <span className="text-sm text-text-muted">
-                  {activeStep + 1} / {problemSolvingSteps?.length}
-                </span>
-              </div>
-              <div className="w-full bg-muted rounded-full h-2">
-                <div 
-                  className="bg-primary h-2 rounded-full transition-all duration-300"
-                  style={{ width: `${((activeStep + 1) / problemSolvingSteps?.length) * 100}%` }}
-                ></div>
               </div>
             </div>
           </div>
