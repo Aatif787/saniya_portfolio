@@ -161,7 +161,7 @@ const CallToAction = () => {
 
             {/* Contact Methods */}
             <motion.div 
-              className="grid grid-cols-2 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -173,12 +173,14 @@ const CallToAction = () => {
                   href={method?.link}
                   target={method?.platform !== 'Email' && method?.platform !== 'Phone' ? '_blank' : undefined}
                   rel={method?.platform !== 'Email' && method?.platform !== 'Phone' ? 'noopener noreferrer' : undefined}
-                  className="flex items-center space-x-3 p-3 bg-white/10 rounded-lg hover:bg-white/20 transition-all duration-200"
+                  className="flex items-center space-x-3 p-3 bg-white/10 rounded-xl border border-white/10 hover:bg-white/20 transition-all duration-200 group"
                 >
-                  <Icon name={method?.icon} size={16} />
-                  <div>
-                    <p className="text-white/80 text-xs">{method?.platform}</p>
-                    <p className="text-white font-medium text-sm">{method?.handle}</p>
+                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                    <Icon name={method?.icon} size={14} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-white/60 text-[10px] uppercase tracking-wider font-bold mb-0.5">{method?.platform}</p>
+                    <p className="text-white font-medium text-xs sm:text-sm truncate">{method?.handle}</p>
                   </div>
                 </a>
               ))}
@@ -187,35 +189,36 @@ const CallToAction = () => {
 
           {/* Right Content - Newsletter & CTA */}
           <motion.div
-            className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20"
+            className="bg-white/10 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/20 shadow-2xl relative overflow-hidden group"
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/20 blur-3xl -mr-16 -mt-16 rounded-full group-hover:bg-accent/30 transition-colors"></div>
             {!isSubscribed ? (
               <>
-                <div className="text-center mb-8">
-                  <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                <div className="text-center mb-8 relative z-10">
+                  <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center mx-auto mb-4 rotate-3 group-hover:rotate-0 transition-transform shadow-lg">
                     <Icon name="Mail" size={24} color="white" />
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-3">
                     Stay Updated
                   </h3>
-                  <p className="text-white/80">
+                  <p className="text-white/80 text-sm sm:text-base leading-relaxed">
                     Get the latest insights on data analytics, web development trends, 
                     and exclusive project case studies delivered to your inbox.
                   </p>
                 </div>
 
-                <form onSubmit={handleNewsletterSubmit} className="space-y-4">
+                <form onSubmit={handleNewsletterSubmit} className="space-y-4 relative z-10">
                   <Input
                     type="email"
                     placeholder="Enter your email address"
                     value={email}
                     onChange={(e) => setEmail(e?.target?.value)}
                     required
-                    className="bg-white/20 border-white/30 text-white placeholder-white/60"
+                    className="bg-white/10 border-white/20 text-white placeholder-white/50 h-12 focus:bg-white/20"
                   />
                   
                   <Button
@@ -226,72 +229,65 @@ const CallToAction = () => {
                     iconName="Send"
                     iconPosition="right"
                     disabled={!email}
+                    className="h-12 shadow-brand"
                   >
-                    Subscribe to Newsletter
+                    Subscribe Now
                   </Button>
                 </form>
 
-                <div className="mt-6 pt-6 border-t border-white/20">
-                  <p className="text-white/60 text-sm text-center mb-4">
-                    Or connect directly:
+                <div className="mt-8 pt-8 border-t border-white/10 relative z-10">
+                  <p className="text-white/60 text-xs sm:text-sm text-center mb-6 uppercase tracking-widest font-bold">
+                    Quick Connect
                   </p>
                   
-                  <div className="flex justify-center space-x-4">
-                    <Link to="/project-case-studies-portfolio">
-                      <Button variant="outline" size="sm" className="border-white/30 text-white hover:bg-white/20">
-                        View Projects
-                      </Button>
-                    </Link>
-                    
-                    <Button 
-                      variant="outline" 
-                      size="sm"
-                      className="border-white/30 text-white hover:bg-white/20"
-                      onClick={() => window.open('mailto:saniya@example.com', '_blank')}
-                    >
-                      Send Message
-                    </Button>
-                  </div>
-
-                  <form onSubmit={handleContactSubmit} className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl mx-auto">
-                    <Input
-                      type="text"
-                      placeholder="Your name"
-                      value={contactName}
-                      onChange={(e) => setContactName(e?.target?.value)}
-                      required
-                      className="bg-white/20 border-white/30 text-white placeholder-white/60"
-                    />
-                    <Input
-                      type="email"
-                      placeholder="Your email"
-                      value={contactEmail}
-                      onChange={(e) => setContactEmail(e?.target?.value)}
-                      required
-                      className="bg-white/20 border-white/30 text-white placeholder-white/60"
-                    />
+                  <form onSubmit={handleContactSubmit} className="grid grid-cols-1 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <Input
+                        type="text"
+                        placeholder="Your name"
+                        value={contactName}
+                        onChange={(e) => setContactName(e?.target?.value)}
+                        required
+                        className="bg-white/10 border-white/20 text-white placeholder-white/50 h-11"
+                      />
+                      <Input
+                        type="email"
+                        placeholder="Your email"
+                        value={contactEmail}
+                        onChange={(e) => setContactEmail(e?.target?.value)}
+                        required
+                        className="bg-white/10 border-white/20 text-white placeholder-white/50 h-11"
+                      />
+                    </div>
                     <textarea
-                      placeholder="Your message"
+                      placeholder="How can I help you?"
                       value={contactMessage}
                       onChange={(e) => setContactMessage(e?.target?.value)}
                       required
-                      className="col-span-1 sm:col-span-2 w-full min-h-[110px] rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/60 p-3 focus:outline-none focus:ring-2 focus:ring-white/40"
+                      className="w-full min-h-[100px] rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/50 p-3 focus:outline-none focus:ring-2 focus:ring-accent/50 transition-all text-sm"
                     />
-                    <div className="col-span-1 sm:col-span-2 flex flex-col sm:flex-row items-center gap-3">
+                    <div className="flex flex-col sm:flex-row items-center gap-4">
                       <Button
                         type="submit"
-                        variant="secondary"
+                        variant="default"
                         fullWidth
                         loading={contactSending}
-                        iconName="Send"
-                        iconPosition="right"
+                        iconName="MessageSquare"
+                        iconPosition="left"
+                        className="h-11 bg-white text-primary hover:bg-white/90"
                       >
-                        Send to Saniya
+                        Send Message
                       </Button>
-                      {contactStatus && (
-                        <span className="text-sm text-white/80">{contactStatus}</span>
-                      )}
                     </div>
+                    {contactStatus && (
+                      <motion.p 
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-xs text-center font-medium text-accent"
+                      >
+                        {contactStatus}
+                      </motion.p>
+                    )}
                   </form>
                 </div>
               </>

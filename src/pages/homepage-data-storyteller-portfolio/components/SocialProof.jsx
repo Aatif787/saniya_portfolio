@@ -168,37 +168,44 @@ const SocialProof = () => {
             {testimonials?.map((testimonial, index) => (
               <motion.div
               key={testimonial?.name}
-                className="glass-panel rounded-xl p-6 hover-lift"
+                className="glass-panel rounded-2xl p-6 sm:p-8 hover-lift flex flex-col h-full border border-border/50 relative group"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
+                <Icon name="Quote" size={40} className="absolute top-4 right-4 text-primary/5 group-hover:text-primary/10 transition-colors" />
+                
                 {/* Rating Stars */}
-                <div className="flex items-center space-x-1 mb-4">
+                <div className="flex items-center space-x-1 mb-6 relative z-10">
                   {[...Array(testimonial?.rating)]?.map((_, i) => (
                     <Icon key={i} name="Star" size={16} className="text-accent fill-current" />
                   ))}
                 </div>
 
                 {/* Testimonial Content */}
-                <blockquote className="text-text-secondary mb-6 leading-relaxed">
+                <blockquote className="text-text-secondary mb-8 leading-relaxed italic text-sm sm:text-base flex-1 relative z-10">
                   "{testimonial?.content}"
                 </blockquote>
 
                 {/* Author Info */}
-                <div className="flex items-center space-x-3">
-                  <img 
-                    src={testimonial?.avatar}
-                    alt={testimonial?.name}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                  <div>
-                    <h4 className="font-semibold text-text-primary text-sm">
+                <div className="flex items-center space-x-4 pt-6 border-t border-border/50 relative z-10">
+                  <div className="relative">
+                    <img 
+                      src={testimonial?.avatar}
+                      alt={testimonial?.name}
+                      className="w-12 h-12 rounded-full object-cover ring-2 ring-primary/10"
+                    />
+                    <div className="absolute -bottom-1 -right-1 bg-accent rounded-full p-1 shadow-sm">
+                      <Icon name="Check" size={8} className="text-white" />
+                    </div>
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="font-bold text-text-primary text-sm sm:text-base truncate">
                       {testimonial?.name}
                     </h4>
-                    <p className="text-text-secondary text-xs">
-                      {testimonial?.role} at {testimonial?.company}
+                    <p className="text-text-secondary text-xs truncate">
+                      {testimonial?.role} @ {testimonial?.company}
                     </p>
                   </div>
                 </div>
