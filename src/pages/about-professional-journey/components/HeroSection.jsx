@@ -293,19 +293,11 @@ const HeroSection = () => {
                 <motion.svg
                   className="pointer-events-none absolute inset-0 z-[100] overflow-visible select-none transition-filter duration-300 group-hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
                   viewBox="0 0 370 450"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
                     <path
-                      id="about-saniya-border-path"
-                      /* 
-                        PATH CALCULATION:
-                        SVG Size: 370x450
-                        Image centered with 20px padding -> Bounds: (20,20) to (350,430), Radius: 20px
-                        Text spacing: 15px INSET from edge (moved 5px more inside) -> Path Bounds: (15,15) to (355,435), Radius: 30px
-                      */
-                      d="M 45,15 L 325,15 A 30,30 0 0 1 355,45 L 355,405 A 30,30 0 0 1 325,435 L 45,435 A 30,30 0 0 1 15,405 L 15,45 A 30,30 0 0 1 45,15 Z"
+                      id="about-saniya-circle-path"
+                      d="M 0, 185 a 185,185 0 1,1 370,0 a 185,185 0 1,1 -370,0"
                     />
                     <linearGradient id="about-saniya-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#22c55e" />
@@ -314,25 +306,18 @@ const HeroSection = () => {
                     </linearGradient>
                   </defs>
 
-                  <text
+                  <motion.text
                     fill="url(#about-saniya-gradient)"
-                    fontSize="16"
-                    fontFamily="'Creepster', cursive"
+                    fontSize="18"
+                    fontFamily="JetBrains Mono, monospace"
+                    fontWeight="bold"
                     letterSpacing="4"
-                    className="select-none"
+                    className="select-none transition-filter duration-500 animate-rotate-slow glow-text"
                   >
-                    <motion.textPath
-                      href="#about-saniya-border-path"
-                      animate={{ startOffset: ["0%", "-100%"] }}
-                      transition={{
-                        duration: 30,
-                        repeat: Infinity,
-                        ease: "linear"
-                      }}
-                    >
-                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
-                    </motion.textPath>
-                  </text>
+                    <textPath href="#about-saniya-circle-path" textLength="1162" lengthAdjust="spacingAndGlyphs">
+                      SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA • SANIYA •
+                    </textPath>
+                  </motion.text>
                 </motion.svg>
 
                 {/* Floating Info Cards - Correctly nested inside the profile card parent */}
