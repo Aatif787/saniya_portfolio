@@ -1,10 +1,10 @@
 import React, { Suspense, lazy, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import Button from "@/components/ui/Button";
-import { portfolioData } from "@/data/portfolioData";
+import Button from "../ui/Button";
+import { portfolioData } from "../../data/portfolioData";
 
-import LatestInsights from "@/pages/homepage-data-storyteller-portfolio/components/LatestInsights";
-import SocialProof from "@/pages/homepage-data-storyteller-portfolio/components/SocialProof";
+import LatestInsights from "../../pages/homepage-data-storyteller-portfolio/components/LatestInsights";
+import SocialProof from "../../pages/homepage-data-storyteller-portfolio/components/SocialProof";
 
 const ArmoryOfCreation = lazy(() => import("./ArmoryOfCreation"));
 const RobotCompanion = lazy(() => import("./RobotCompanion"));

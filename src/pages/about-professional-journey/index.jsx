@@ -10,7 +10,7 @@ import ResourcesSection from './components/ResourcesSection';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { SectionSkeleton } from '../../components/SkeletonLoader';
 
-import { portfolioData } from '@/data/portfolioData';
+import { portfolioData } from '../../data/portfolioData';
 
 const AboutProfessionalJourney = () => {
   useEffect(() => {

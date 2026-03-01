@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Icon from '../../../components/AppIcon';
 import TiltCard from '../../../components/effects/TiltCard';
-import { portfolioData } from '@/data/portfolioData';
+import { portfolioData } from '../../../data/portfolioData';
 
 const SkillsPreview = () => {
   const [hoveredSkill, setHoveredSkill] = useState(null);

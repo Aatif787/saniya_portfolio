@@ -5,7 +5,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useTheme } from '../../context/ThemeContext';
-import { portfolioData } from '@/data/portfolioData';
+import { portfolioData } from '../../data/portfolioData';
 
 gsap.registerPlugin(ScrollTrigger);
 

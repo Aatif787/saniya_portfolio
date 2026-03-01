@@ -10,7 +10,7 @@ import CyberSection from '../../components/cyber/CyberSection';
 import LatestInsights from './components/LatestInsights';
 import SocialProof from './components/SocialProof';
 import CallToAction from './components/CallToAction';
-import { portfolioData } from '@/data/portfolioData';
+import { portfolioData } from '../../data/portfolioData';
 import { useTheme } from '../../context/ThemeContext';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { SectionSkeleton } from '../../components/SkeletonLoader';

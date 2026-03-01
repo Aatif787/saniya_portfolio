@@ -5,7 +5,7 @@ import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import HeroOrb from '../../../components/effects/HeroOrb';
 import Button from '../../../components/ui/Button';
-import { portfolioData } from '@/data/portfolioData';
+import { portfolioData } from '../../../data/portfolioData';
 
 const HeroSection = () => {
   const [currentDataPoint, setCurrentDataPoint] = useState(0);

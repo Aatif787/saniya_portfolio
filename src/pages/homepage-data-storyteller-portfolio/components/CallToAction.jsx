@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
-import { portfolioData } from '@/data/portfolioData';
+import { portfolioData } from '../../../data/portfolioData';
 
 const CallToAction = () => {
   const [email, setEmail] = useState('');

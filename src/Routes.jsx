@@ -4,13 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import ScrollToTop from "./components/ScrollToTop";
 import ThreeBackground from "./components/ThreeBackground";
 import ErrorBoundary from "./components/ErrorBoundary";
-const Homepage = lazy(() => import('./pages/homepage-data-storyteller-portfolio/index'));
-const AboutProfessionalJourney = lazy(() => import('./pages/about-professional-journey/index'));
-const ProfessionalAssetsResumeHub = lazy(() => import('./pages/professional-assets-resume-hub/index'));
-const InsightsProfessionalBlog = lazy(() => import('./pages/insights-professional-blog/index'));
-const ProjectCaseStudiesPortfolio = lazy(() => import('./pages/project-case-studies-portfolio/index'));
-const SkillsInteractiveCapabilities = lazy(() => import('./pages/skills-interactive-capabilities/index'));
-const NotFound = lazy(() => import('./pages/NotFound'));
+const Homepage = lazy(() => import('./pages/homepage-data-storyteller-portfolio/index.jsx'));
+const About = lazy(() => import('./pages/about-professional-journey/index.jsx'));
+const Skills = lazy(() => import('./pages/skills-interactive-capabilities/index.jsx'));
+const Projects = lazy(() => import('./pages/project-case-studies-portfolio/index.jsx'));
+const ResumeHub = lazy(() => import('./pages/professional-assets-resume-hub/index.jsx'));
+const Blog = lazy(() => import('./pages/insights-professional-blog/index.jsx'));
+const NotFound = lazy(() => import('./pages/NotFound.jsx'));
 
 const AnimatedRoutes = () => {
   const location = useLocation();
