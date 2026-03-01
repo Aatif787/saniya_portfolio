@@ -81,9 +81,9 @@ const InsightsProfessionalBlog = () => {
       title: "SQL Performance Optimization: Real-World Strategies",
       excerpt: `Practical techniques to improve database query performance based on real-world scenarios. Learn indexing strategies, query optimization, and performance monitoring.`,
       content: `Database performance can make or break an application. Slow queries frustrate users and waste server resources. After working with various database systems and optimizing countless queries, I've learned that performance optimization is both systematic and creative.\n\nThe key to SQL optimization lies in understanding how databases execute queries and where bottlenecks typically occur. This knowledge allows you to write efficient queries from the start and optimize existing ones effectively.`,
-      category: 'data-analytics',date: '2024-12-28',readTime: 15,image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop',slug: 'sql-performance-optimization',
+      category: 'data-analytics', date: '2024-12-28', readTime: 15, image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop', slug: 'sql-performance-optimization',
       author: {
-        name: 'Saniya',role: 'Data Storyteller',avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
+        name: 'Saniya', role: 'Data Storyteller', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
       },
       tags: ['SQL', 'Performance', 'Database', 'Optimization']
     },
@@ -108,9 +108,9 @@ const InsightsProfessionalBlog = () => {
       id: 6,
       title: "Understanding User Behavior Through Data",
       excerpt: `Learn how to collect, analyze, and interpret user behavior data to make informed product decisions. From analytics setup to actionable insights.`,
-      content: `User behavior data is one of the most valuable assets for any digital product. It tells us not just what users do, but why they do it. Understanding these patterns allows us to create better user experiences and make data-driven product decisions.\n\nThe challenge isn't collecting data - modern analytics tools make that relatively easy. The real challenge is extracting meaningful insights from the noise and translating those insights into actionable improvements.`,category: 'data-analytics',date: '2024-12-22',readTime: 9,image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop',slug: 'user-behavior-data-analysis',
+      content: `User behavior data is one of the most valuable assets for any digital product. It tells us not just what users do, but why they do it. Understanding these patterns allows us to create better user experiences and make data-driven product decisions.\n\nThe challenge isn't collecting data - modern analytics tools make that relatively easy. The real challenge is extracting meaningful insights from the noise and translating those insights into actionable improvements.`, category: 'data-analytics', date: '2024-12-22', readTime: 9, image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop', slug: 'user-behavior-data-analysis',
       author: {
-        name: 'Saniya',role: 'Data Storyteller',avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
+        name: 'Saniya', role: 'Data Storyteller', avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
       },
       tags: ['User Analytics', 'Behavior Analysis', 'Product Development', 'Data Science']
     }
@@ -156,16 +156,16 @@ const InsightsProfessionalBlog = () => {
                 <Icon name="BookOpen" size={20} />
                 <span className="text-sm font-medium">Professional Insights</span>
               </div>
-              
+
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 Insights & Learning
               </h1>
-              
+
               <p className="text-xl text-white/90 mb-8 leading-relaxed">
-                Sharing knowledge on data analytics, development best practices, and career insights 
+                Sharing knowledge on data analytics, development best practices, and career insights
                 from my journey as a BCA graduate in the tech industry.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
                 <div className="flex items-center space-x-2 text-white/80">
                   <Icon name="FileText" size={20} />
@@ -187,15 +187,15 @@ const InsightsProfessionalBlog = () => {
         {/* Search and Filter Section */}
         <section className="py-12 bg-transparent">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
-            <div className="max-w-4xl mx-auto">
-              <div className="mb-8">
+            <div className="max-w-3xl mx-auto flex flex-col items-center">
+              <div className="mb-8 w-full">
                 <SearchBar
                   searchTerm={searchTerm}
                   onSearchChange={setSearchTerm}
                   placeholder="Search articles, tutorials, and insights..."
                 />
               </div>
-              
+
               <CategoryFilter
                 categories={categories}
                 activeCategory={activeCategory}
@@ -215,7 +215,7 @@ const InsightsProfessionalBlog = () => {
                   In-depth insights and practical guidance from real-world experience
                 </p>
               </div>
-              
+
               <div className="max-w-4xl mx-auto">
                 <BlogCard post={featuredPost} featured={true} />
               </div>
@@ -233,7 +233,7 @@ const InsightsProfessionalBlog = () => {
                   <h2 className="text-2xl font-bold text-text-primary">
                     {searchTerm ? `Search Results (${regularPosts?.length})` : 'Latest Articles'}
                   </h2>
-                  
+
                   {searchTerm && (
                     <button
                       onClick={() => setSearchTerm('')}
@@ -297,16 +297,16 @@ const InsightsProfessionalBlog = () => {
                 <div className="w-16 h-16 bg-gradient-brand rounded-full flex items-center justify-center mx-auto mb-6">
                   <Icon name="Mic" size={32} className="text-white" />
                 </div>
-                
+
                 <h2 className="text-3xl font-bold text-text-primary mb-4">
                   Speaking & Collaboration
                 </h2>
-                
+
                 <p className="text-text-secondary text-lg mb-8 leading-relaxed">
-                  I'm available for speaking engagements, guest posts, and collaborative projects. 
+                  I'm available for speaking engagements, guest posts, and collaborative projects.
                   Let's share knowledge and build something meaningful together.
                 </p>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                   <div className="text-center">
                     <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
@@ -315,7 +315,7 @@ const InsightsProfessionalBlog = () => {
                     <h3 className="font-semibold text-text-primary mb-1">Speaking</h3>
                     <p className="text-sm text-text-secondary">Tech conferences & meetups</p>
                   </div>
-                  
+
                   <div className="text-center">
                     <div className="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mx-auto mb-3">
                       <Icon name="PenTool" size={24} className="text-secondary" />
@@ -323,7 +323,7 @@ const InsightsProfessionalBlog = () => {
                     <h3 className="font-semibold text-text-primary mb-1">Guest Posts</h3>
                     <p className="text-sm text-text-secondary">Industry publications</p>
                   </div>
-                  
+
                   <div className="text-center">
                     <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-3">
                       <Icon name="Handshake" size={24} className="text-accent" />
@@ -332,7 +332,7 @@ const InsightsProfessionalBlog = () => {
                     <p className="text-sm text-text-secondary">Joint projects & research</p>
                   </div>
                 </div>
-                
+
                 <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
                   <a
                     href="mailto:saniya@example.com"
@@ -341,7 +341,7 @@ const InsightsProfessionalBlog = () => {
                     <Icon name="Mail" size={18} />
                     <span>Get in Touch</span>
                   </a>
-                  
+
                   <a
                     href="#"
                     className="inline-flex items-center space-x-2 bg-surface border border-border text-text-primary px-6 py-3 rounded-lg font-medium hover:bg-muted transition-colors duration-200"
@@ -368,11 +368,11 @@ const InsightsProfessionalBlog = () => {
                 <p className="text-sm text-primary-foreground/80">Data Storyteller</p>
               </div>
             </div>
-            
+
             <p className="text-primary-foreground/80 mb-6">
               Transforming data into insights, building meaningful digital experiences
             </p>
-            
+
             <div className="flex items-center justify-center space-x-6 mb-8">
               <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-200">
                 <Icon name="Linkedin" size={20} />
@@ -387,10 +387,10 @@ const InsightsProfessionalBlog = () => {
                 <Icon name="Mail" size={20} />
               </a>
             </div>
-            
+
             <div className="border-t border-primary-foreground/20 pt-6">
               <p className="text-primary-foreground/60 text-sm">
-                © {new Date()?.getFullYear()} Saniya. All rights reserved.
+                &copy; {new Date()?.getFullYear()} Saniya. All rights reserved.
               </p>
             </div>
           </div>

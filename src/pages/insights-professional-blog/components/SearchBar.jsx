@@ -4,7 +4,7 @@ import Input from '../../../components/ui/Input';
 
 const SearchBar = ({ searchTerm, onSearchChange, placeholder = "Search articles..." }) => {
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted">
         <Icon name="Search" size={18} />
       </div>

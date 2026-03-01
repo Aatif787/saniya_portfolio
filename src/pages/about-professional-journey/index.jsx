@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/ui/Header';
-import { initScrollReveal } from '../../utils/scrollReveal';
 import HeroSection from './components/HeroSection';
 import TimelineSection from './components/TimelineSection';
 import PhilosophySection from './components/PhilosophySection';
 import SkillsLabSection from './components/SkillsLabSection';
 import BehindScenesSection from './components/BehindScenesSection';
 import ResourcesSection from './components/ResourcesSection';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { SectionSkeleton } from '../../components/SkeletonLoader';
+
+import { portfolioData } from '@/data/portfolioData';
 
 const AboutProfessionalJourney = () => {
   useEffect(() => {
@@ -24,31 +27,48 @@ const AboutProfessionalJourney = () => {
 
     // Scroll to top on page load
     window.scrollTo(0, 0);
-    initScrollReveal();
   }, []);
 
   return (
     <div className="min-h-screen bg-transparent about-page">
       <Header />
       <main className="pt-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent rounded-3xl p-4 sm:p-5 lg:p-8 shadow-none border-none backdrop-blur-0">
-          {/* Hero Section */}
-          <HeroSection />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-transparent rounded-3xl p-4 sm:p-5 lg:p-8 shadow-none border-none backdrop-blur-0 space-y-12">
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <HeroSection />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Professional Timeline */}
-          <TimelineSection />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <TimelineSection />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Philosophy & Approach */}
-          <PhilosophySection />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <PhilosophySection />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Skills Laboratory */}
-          <SkillsLabSection />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <SkillsLabSection />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Behind the Scenes */}
-          <BehindScenesSection />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <BehindScenesSection />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Professional Resources */}
-          <ResourcesSection />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <ResourcesSection />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </main>
       {/* Footer */}
@@ -92,9 +112,9 @@ const AboutProfessionalJourney = () => {
             <div>
               <h4 className="font-semibold mb-4">Get In Touch</h4>
               <div className="space-y-2 text-sm">
-                <p className="opacity-80">saniya@example.com</p>
-                <p className="opacity-80">+91 88649 31247</p>
-                <p className="opacity-80">Available for new opportunities</p>
+                <p className="opacity-80">{portfolioData.contact.email}</p>
+                <p className="opacity-80">{portfolioData.contact.phone}</p>
+                <p className="opacity-80">{portfolioData.contact.availability}</p>
               </div>
             </div>
           </div>

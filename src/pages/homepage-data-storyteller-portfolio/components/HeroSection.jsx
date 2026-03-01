@@ -5,17 +5,13 @@ import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import HeroOrb from '../../../components/effects/HeroOrb';
 import Button from '../../../components/ui/Button';
+import { portfolioData } from '@/data/portfolioData';
 
 const HeroSection = () => {
   const [currentDataPoint, setCurrentDataPoint] = useState(0);
   const reduceMotion = useReducedMotion();
 
-  const dataPoints = [
-    "15+ Projects Completed",
-    "50,000+ Data Points Analyzed",
-    "3+ Years Learning Journey",
-    "100% Client Satisfaction"
-  ];
+  const dataPoints = portfolioData.stats;
 
   const floatingElements = [
     { icon: 'BarChart3', delay: 0, x: 20, y: 30, color: 'text-purple-500' },
@@ -116,7 +112,7 @@ const HeroSection = () => {
               >
                 <motion.div
                   className="text-[clamp(2.5rem,12vw,5.5rem)] font-bold text-gradient-rainbow leading-[1.1] sm:leading-none tracking-tighter font-['Poppins'] text-center lg:text-left"
-                  style={{ filter: `drop-shadow(0 0 ${titleGlow.get()}rem rgba(99,102,241,0.4))` }}
+                  style={{ filter: `drop-shadow(0 0 10px rgba(99,102,241,0.4))` }}
                   animate={reduceMotion ? undefined : {
                     textShadow: [
                       "0 0 20px rgba(99, 102, 241, 0.3)",
@@ -126,14 +122,14 @@ const HeroSection = () => {
                   }}
                   transition={reduceMotion ? undefined : { duration: 3, repeat: Infinity }}
                 >
-                  Saniya Dhada
+                  {portfolioData.name}
                 </motion.div>
                 <motion.p
                   className="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-600"
                   animate={{ opacity: [0.7, 1, 0.7] }}
                   transition={{ duration: 2, repeat: Infinity }}
                 >
-                  Data Storyteller & Developer
+                  {portfolioData.role}
                 </motion.p>
               </motion.div>
             </div>
@@ -173,8 +169,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              BCA graduate specializing in data analytics and full-stack development.
-              I bridge the gap between complex data insights and user-friendly solutions.
+              {portfolioData.about}
             </motion.p>
 
             {/* Stats */}

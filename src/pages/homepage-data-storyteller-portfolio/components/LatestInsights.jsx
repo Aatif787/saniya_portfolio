@@ -23,7 +23,7 @@ const LatestInsights = () => {
       title: "Building Scalable React Applications: Lessons from Real Projects",
       excerpt: "Key architectural decisions and best practices learned while building production React applications. Performance optimization, state management, and component design patterns.",
       category: "Web Development",
-      readTime: "7 min read", 
+      readTime: "7 min read",
       publishDate: "2025-01-10",
       image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=250&fit=crop",
       tags: ["React", "JavaScript", "Performance", "Architecture"],
@@ -55,17 +55,17 @@ const LatestInsights = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date?.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date?.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
     });
   };
 
   const getCategoryColor = (category) => {
     const colors = {
       "Data Analytics": "bg-blue-100 text-blue-800",
-      "Web Development": "bg-green-100 text-green-800", 
+      "Web Development": "bg-green-100 text-green-800",
       "Career Growth": "bg-purple-100 text-purple-800",
       "Machine Learning": "bg-orange-100 text-orange-800"
     };
@@ -76,7 +76,7 @@ const LatestInsights = () => {
     <section className="py-16 sm:py-20 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6 sm:p-8">
         {/* Section Header */}
-        <motion.div 
+        <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -87,13 +87,13 @@ const LatestInsights = () => {
             Latest Insights
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Sharing knowledge, experiences, and insights from the world of data analytics and web development. 
+            Sharing knowledge, experiences, and insights from the world of data analytics and web development.
             Practical tutorials, industry trends, and lessons learned from real projects.
           </p>
         </motion.div>
 
         {/* Featured Article */}
-        <motion.div 
+        <motion.div
           className="mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -103,14 +103,14 @@ const LatestInsights = () => {
           <div className="glass-panel rounded-2xl overflow-hidden hover-lift">
             <div className="grid lg:grid-cols-2 gap-0">
               {/* Featured Image */}
-              <div className="relative h-64 lg:h-auto overflow-hidden">
-                <Image 
+              <div className="relative h-64 lg:h-auto overflow-hidden lg:rounded-l-2xl lg:rounded-tr-none rounded-t-2xl">
+                <Image
                   src={insights?.[0]?.image}
                   alt={insights?.[0]?.title}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                
+
                 {/* Featured Badge */}
                 <div className="absolute top-4 left-4">
                   <span className="bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-medium flex items-center">
@@ -143,7 +143,7 @@ const LatestInsights = () => {
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-6">
                   {insights?.[0]?.tags?.map((tag) => (
-                    <span 
+                    <span
                       key={tag}
                       className="bg-primary/10 text-primary px-2 py-1 rounded text-sm"
                     >
@@ -156,9 +156,9 @@ const LatestInsights = () => {
                   <span className="text-text-secondary text-sm">
                     {formatDate(insights?.[0]?.publishDate)}
                   </span>
-                  
+
                   <Link to="/insights-professional-blog">
-                    <Button 
+                    <Button
                       variant="default"
                       iconName="ArrowRight"
                       iconPosition="right"
@@ -184,8 +184,8 @@ const LatestInsights = () => {
               viewport={{ once: true }}
             >
               {/* Article Image */}
-              <div className="relative h-48 overflow-hidden">
-                <Image 
+              <div className="relative h-48 overflow-hidden rounded-t-xl">
+                <Image
                   src={article?.image}
                   alt={article?.title}
                   className="w-full h-full object-cover"
@@ -216,7 +216,7 @@ const LatestInsights = () => {
                 {/* Tags */}
                 <div className="flex flex-wrap gap-1 mb-4">
                   {article?.tags?.slice(0, 2)?.map((tag) => (
-                    <span 
+                    <span
                       key={tag}
                       className="bg-muted text-text-secondary px-2 py-1 rounded text-xs"
                     >
@@ -234,8 +234,8 @@ const LatestInsights = () => {
                   <span className="text-text-secondary text-xs">
                     {formatDate(article?.publishDate)}
                   </span>
-                  
-                  <Link 
+
+                  <Link
                     to="/insights-professional-blog"
                     className="text-primary hover:text-secondary transition-colors duration-200 text-sm font-medium flex items-center space-x-1"
                   >
@@ -249,7 +249,7 @@ const LatestInsights = () => {
         </div>
 
         {/* Bottom CTA */}
-        <motion.div 
+        <motion.div
           className="text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -257,8 +257,8 @@ const LatestInsights = () => {
           viewport={{ once: true }}
         >
           <Link to="/insights-professional-blog">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="lg"
               iconName="BookOpen"
               iconPosition="left"

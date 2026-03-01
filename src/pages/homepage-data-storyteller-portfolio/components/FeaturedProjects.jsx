@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Image from '../../../components/AppImage';
 import Button from '../../../components/ui/Button';
+import { portfolioData } from '@/data/portfolioData';
 
 const FeaturedProjects = () => {
   const [activeProject, setActiveProject] = useState(0);
@@ -11,56 +12,7 @@ const FeaturedProjects = () => {
   const [tiltStyle, setTiltStyle] = useState({ transform: 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)', transition: 'transform 200ms ease' });
   const [shineStyle, setShineStyle] = useState({ opacity: 0 });
 
-  const projects = [
-    {
-      id: 1,
-      title: "DocMeet - Online Doctor Appointment Platform",
-      category: "Full-Stack",
-      problem: "Clinics and patients relied on phone calls and spreadsheets, causing scheduling conflicts and no-shows.",
-      solution: "Responsive web app to browse doctors, book slots, receive automated reminders, with role-based dashboards for staff and doctors.",
-      outcome: "Reduced scheduling time by 60%, improved patient satisfaction by 35%, and decreased no-shows by 25%.",
-      image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=600&h=400&fit=crop",
-      technologies: ["React", "Node.js", "MongoDB", "Express", "JWT"],
-      metrics: {
-        impact: "60% Time Reduction",
-        users: "1,000+ Bookings/Month",
-        timeline: "8 Weeks"
-      },
-      link: "/project-case-studies-portfolio"
-    },
-    {
-      id: 2,
-      title: "HR Analytics Dashboard",
-      category: "Data Analytics",
-      problem: "HR teams lacked consolidated insight across 1,000+ employee records for attrition, performance, and hiring decisions.",
-      solution: "Developed Power BI dashboards fed by SQL and Excel ETL; built predictive models for attrition and performance.",
-      outcome: "Achieved 85% model accuracy, reduced manual processing by 50%, and improved decision-making efficiency by 30%.",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop",
-      technologies: ["Power BI", "SQL", "Excel", "Python"],
-      metrics: {
-        accuracy: "85% Accuracy",
-        efficiency: "30% Decision Efficiency",
-        time: "50% Manual Time Cut"
-      },
-      link: "/project-case-studies-portfolio"
-    },
-    {
-      id: 3,
-      title: "DataHorizon with AI - Full-Stack Data Analysis",
-      category: "Full-Stack",
-      problem: "Organizations struggled with fragmented data pipelines and slow manual reporting across teams.",
-      solution: "Unified platform for ingestion, model training, and real-time dashboards with AI-assisted insights and feature store.",
-      outcome: "Delivered 2× faster analytics cycles and 90% forecast accuracy with automated, repeatable pipelines.",
-      image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=600&h=400&fit=crop",
-      technologies: ["React", "FastAPI", "PostgreSQL", "TensorFlow", "Docker"],
-      metrics: {
-        speed: "2× Faster Insights",
-        accuracy: "90% Forecast Accuracy",
-        timeline: "12 Weeks"
-      },
-      link: "/project-case-studies-portfolio"
-    }
-  ];
+  const projects = portfolioData.projects;
 
   const nextProject = () => {
     setActiveProject((prev) => (prev + 1) % projects?.length);
@@ -82,10 +34,10 @@ const FeaturedProjects = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-primary mb-3 sm:mb-4">
-            Featured Projects
+            {portfolioData.labels.projectsTitle}
           </h2>
           <p className="text-sm sm:text-lg text-text-secondary max-w-2xl mx-auto px-4 sm:px-0">
-            Real-world solutions that demonstrate the intersection of data analytics and web development.
+            {portfolioData.labels.projectsSubtitle}
           </p>
         </motion.div>
 

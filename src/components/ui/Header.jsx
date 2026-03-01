@@ -81,18 +81,17 @@ const Header = () => {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        isScrolled 
-          ? 'glass-nav py-2' 
-          : 'bg-transparent py-4'
-      }`}
+    <header
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled
+        ? 'glass-nav py-2'
+        : 'bg-transparent py-4'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link 
-            to="/homepage-data-storyteller-portfolio" 
+          <Link
+            to="/homepage-data-storyteller-portfolio"
             className="flex items-center space-x-3 group"
             onClick={closeMenu}
           >
@@ -103,8 +102,8 @@ const Header = () => {
               <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-accent rounded-full animate-bounce-slow"></div>
             </div>
             <div className="flex flex-col">
-              <h1 className="text-lg sm:text-[23px] font-bold text-gradient-rainbow whitespace-nowrap tracking-tight">Saniya Dhada</h1>
-              <p className="text-[10px] sm:text-sm text-text-secondary font-mono animate-pulse-slow leading-none">Data Storyteller</p>
+              <h1 className="text-base sm:text-lg md:text-[23px] font-bold text-gradient-rainbow whitespace-nowrap tracking-tight">Saniya Dhada</h1>
+              <p className="hidden sm:block text-[10px] lg:text-sm text-text-secondary font-mono animate-pulse-slow leading-none mt-1">Data Storyteller</p>
             </div>
           </Link>
 
@@ -114,33 +113,31 @@ const Header = () => {
               <Link
                 key={item?.path}
                 to={item?.path}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${
-                  isActivePath(item?.path)
-                    ? 'bg-primary text-primary-foreground shadow-brand'
-                    : 'text-text-secondary hover:text-primary hover:bg-muted'
-                }`}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover-lift ${isActivePath(item?.path)
+                  ? 'bg-primary text-primary-foreground shadow-brand'
+                  : 'text-text-secondary hover:text-primary hover:bg-muted'
+                  }`}
               >
                 <Icon name={item?.icon} size={16} />
                 <span>{item?.name}</span>
               </Link>
             ))}
-            
+
             {/* More Menu */}
             <div className="relative group">
               <button className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium text-text-secondary hover:text-primary hover:bg-muted transition-all duration-200">
                 <Icon name="MoreHorizontal" size={16} />
                 <span>More</span>
               </button>
-              
+
               <div className="absolute top-full right-0 mt-2 w-48 bg-surface border border-border rounded-lg shadow-brand-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                 {secondaryItems?.map((item) => (
                   <Link
                     key={item?.path}
                     to={item?.path}
-                    className={`flex items-center space-x-3 px-4 py-3 text-sm hover:bg-muted transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg ${
-                      isActivePath(item?.path)
-                        ? 'text-primary bg-muted' :'text-text-secondary'
-                    }`}
+                    className={`flex items-center space-x-3 px-4 py-3 text-sm hover:bg-muted transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg ${isActivePath(item?.path)
+                      ? 'text-primary bg-muted' : 'text-text-secondary'
+                      }`}
                   >
                     <Icon name={item?.icon} size={16} />
                     <span>{item?.name}</span>
@@ -152,8 +149,8 @@ const Header = () => {
 
           {/* CTA Button */}
           <div className="hidden lg:flex items-center space-x-4">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               size="sm"
               iconName="Download"
               iconPosition="left"
@@ -161,8 +158,8 @@ const Header = () => {
             >
               Resume
             </Button>
-            <Button 
-              variant="default" 
+            <Button
+              variant="default"
               size="sm"
               iconName="MessageCircle"
               iconPosition="left"
@@ -186,7 +183,7 @@ const Header = () => {
         {/* Mobile Navigation */}
         <AnimatePresence>
           {isMenuOpen && (
-            <motion.div 
+            <motion.div
               initial="closed"
               animate="open"
               exit="closed"
@@ -204,18 +201,17 @@ const Header = () => {
                       <Link
                         to={item?.path}
                         onClick={closeMenu}
-                        className={`flex items-center space-x-4 px-6 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${
-                          isActivePath(item?.path)
-                            ? 'bg-primary text-primary-foreground shadow-brand-lg scale-[1.02]'
-                            : 'text-text-secondary hover:text-primary hover:bg-muted'
-                        }`}
+                        className={`flex items-center space-x-4 px-6 py-4 rounded-2xl text-lg font-semibold transition-all duration-300 ${isActivePath(item?.path)
+                          ? 'bg-primary text-primary-foreground shadow-brand-lg scale-[1.02]'
+                          : 'text-text-secondary hover:text-primary hover:bg-muted'
+                          }`}
                       >
                         <div className={`p-2 rounded-xl ${isActivePath(item?.path) ? 'bg-white/20' : 'bg-muted'}`}>
                           <Icon name={item?.icon} size={22} />
                         </div>
                         <span>{item?.name}</span>
                         {isActivePath(item?.path) && (
-                          <motion.div 
+                          <motion.div
                             layoutId="activeIndicator"
                             className="ml-auto w-2 h-2 bg-white rounded-full"
                           />
@@ -224,15 +220,15 @@ const Header = () => {
                     </motion.div>
                   ))}
                 </nav>
-                
+
                 {/* Mobile CTA Buttons */}
-                <motion.div 
+                <motion.div
                   variants={itemVariants}
                   transition={{ delay: (navigationItems.length + secondaryItems.length) * 0.05 }}
                   className="mt-8 pt-8 border-t border-border space-y-4"
                 >
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     fullWidth
                     size="lg"
                     iconName="Download"
@@ -245,8 +241,8 @@ const Header = () => {
                   >
                     Download Resume
                   </Button>
-                  <Button 
-                    variant="default" 
+                  <Button
+                    variant="default"
                     fullWidth
                     size="lg"
                     iconName="MessageCircle"
@@ -262,7 +258,7 @@ const Header = () => {
                 </motion.div>
 
                 {/* Social Links Mobile */}
-                <motion.div 
+                <motion.div
                   variants={itemVariants}
                   transition={{ delay: (navigationItems.length + secondaryItems.length + 2) * 0.05 }}
                   className="mt-8 flex justify-center space-x-6"
@@ -272,7 +268,7 @@ const Header = () => {
                     { href: "https://github.com/Saniyyadhada06", icon: "Github" },
                     { href: "mailto:saniyadhada71@gmail.com", icon: "Mail" }
                   ].map((social, i) => (
-                    <a 
+                    <a
                       key={i}
                       href={social.href}
                       target="_blank"

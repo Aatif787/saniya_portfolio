@@ -1,0 +1,155 @@
+/* Neural Cyber Interface Styles */
+
+:root[data-theme='cyber3d'] {
+    --cyber-bg: #050510;
+    --cyber-neon-blue: #00f2ff;
+    --cyber-electric-purple: #bc13fe;
+    --cyber-pink: #ff00ff;
+    --cyber-glass: rgba(10, 10, 25, 0.7);
+    --cyber-border: rgba(0, 242, 255, 0.3);
+}
+
+[data-theme='cyber3d'] body {
+    background-color: var(--cyber-bg);
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Glassmorphism */
+.cyber-glass {
+    background: var(--cyber-glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--cyber-border);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* Neon Edge Glow */
+.neon-border {
+    position: relative;
+    border: 1px solid var(--cyber-neon-blue);
+    box-shadow: 0 0 10px var(--cyber-neon-blue), inset 0 0 5px var(--cyber-neon-blue);
+}
+
+.neon-text {
+    color: var(--cyber-neon-blue);
+    text-shadow: 0 0 5px var(--cyber-neon-blue), 0 0 10px var(--cyber-neon-blue);
+}
+
+/* Glitch Effect */
+@keyframes glitch {
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
+}
+
+.glitch-hover:hover {
+    animation: glitch 0.2s infinite;
+}
+
+/* 3D Tilt utility */
+.tilt-card {
+    transition: transform 0.1s ease-out;
+}
+
+/* Grid Background */
+.cyber-grid {
+    background-image: linear-gradient(var(--cyber-border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--cyber-border) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: linear-gradient(to bottom, transparent, black, transparent);
+}
+
+@keyframes grid-flow {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 50px;
+    }
+}
+
+.animate-grid-flow {
+    animation: grid-flow 2s linear infinite;
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(1000%);
+    }
+}
+
+.animate-scanline {
+    animation: scanline 8s linear infinite;
+}
+
+@keyframes sweep {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.animate-sweep {
+    animation: sweep 4s ease-in-out infinite;
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.animate-fade-out {
+    animation: fade-out 0.35s ease-out;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin-slow {
+    animation: spin-slow 10s linear infinite;
+}

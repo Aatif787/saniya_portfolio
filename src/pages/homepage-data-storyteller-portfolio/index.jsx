@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense, lazy } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import Header from '../../components/ui/Header';
@@ -6,15 +6,21 @@ import { initScrollReveal } from '../../utils/scrollReveal';
 import HeroSection from './components/HeroSection';
 import SkillsPreview from './components/SkillsPreview';
 import FeaturedProjects from './components/FeaturedProjects';
+import CyberSection from '../../components/cyber/CyberSection';
 import LatestInsights from './components/LatestInsights';
 import SocialProof from './components/SocialProof';
 import CallToAction from './components/CallToAction';
+import { portfolioData } from '@/data/portfolioData';
+import { useTheme } from '../../context/ThemeContext';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { SectionSkeleton } from '../../components/SkeletonLoader';
 
-const Homepage = () => {
+const Cyber3DHome = lazy(() => import('../../components/cyber/Cyber3DHome'));
+
+const ClassicHomepage = () => {
   useEffect(() => {
     // Smooth scroll behavior for anchor links
     document.documentElement.style.scrollBehavior = 'smooth';
-    initScrollReveal();
 
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';
@@ -77,28 +83,44 @@ const Homepage = () => {
         </script>
       </Helmet>
       <div className="min-h-screen bg-transparent">
-        {/* Header */}
         <Header />
 
-        {/* Main Content */}
-        <main>
-          {/* Hero Section */}
-          <HeroSection />
+        <main className="space-y-0">
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <HeroSection />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Skills Preview */}
-          <SkillsPreview />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <SkillsPreview />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Featured Projects */}
-          <FeaturedProjects />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <FeaturedProjects />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Latest Insights */}
-          <LatestInsights />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <LatestInsights />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Social Proof */}
-          <SocialProof />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <SocialProof />
+            </Suspense>
+          </ErrorBoundary>
 
-          {/* Call to Action */}
-          <CallToAction />
+          <ErrorBoundary>
+            <Suspense fallback={<SectionSkeleton />}>
+              <CallToAction />
+            </Suspense>
+          </ErrorBoundary>
         </main>
 
         {/* Footer */}
@@ -112,8 +134,8 @@ const Homepage = () => {
                     <span className="text-accent-foreground font-bold text-lg font-mono">S</span>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold">Saniya</h3>
-                    <p className="text-sm text-primary-foreground/80 font-mono">Data Storyteller</p>
+                    <h3 className="text-xl font-bold">{portfolioData.name}</h3>
+                    <p className="text-sm text-primary-foreground/80 font-mono">{portfolioData.role}</p>
                   </div>
                 </div>
                 <p className="text-primary-foreground/80 mb-4 max-w-md">
@@ -144,7 +166,7 @@ const Homepage = () => {
                     </svg>
                   </a>
                   <a
-                    href="mailto:saniyadhada71@gmail.com"
+                    href={`mailto:${portfolioData.contact.email}`}
                     className="text-primary-foreground/60 hover:text-primary-foreground transition-colors duration-200"
                   >
                     <span className="sr-only">Email</span>
@@ -184,12 +206,12 @@ const Homepage = () => {
 
               {/* Contact */}
               <div>
-                <h4 className="font-semibold mb-4">Get in Touch</h4>
+                <h4 className="font-semibold mb-4">{portfolioData.labels.contactTitle}</h4>
                 <ul className="space-y-2 text-sm text-primary-foreground/80">
-                  <li>saniyadhada71@gmail.com</li>
-                  <li>+91 88649 31247</li>
-                  <li>Available for freelance</li>
-                  <li>Remote & On-site</li>
+                  <li>{portfolioData.contact.email}</li>
+                  <li>{portfolioData.contact.phone}</li>
+                  <li>{portfolioData.contact.availability}</li>
+                  <li>{portfolioData.contact.location}</li>
                 </ul>
               </div>
             </div>
@@ -197,7 +219,7 @@ const Homepage = () => {
             {/* Bottom Bar */}
             <div className="mt-8 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center">
               <p className="text-text-secondary text-sm">
-                © {new Date()?.getFullYear()} Saniya. All rights reserved.
+                © {new Date()?.getFullYear()} {portfolioData.name}. All rights reserved.
               </p>
               <div className="flex space-x-6 mt-4 md:mt-0">
                 <a href="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground text-sm transition-colors duration-200">
@@ -215,4 +237,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default ClassicHomepage;

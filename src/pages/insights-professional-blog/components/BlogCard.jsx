@@ -19,7 +19,7 @@ const BlogCard = ({ post, featured = false }) => {
   if (featured) {
     return (
       <article className="group relative bg-surface rounded-2xl overflow-hidden shadow-brand-lg hover-lift transition-all duration-300">
-        <div className="aspect-[16/9] overflow-hidden">
+        <div className="aspect-[16/9] overflow-hidden rounded-t-2xl">
           <Image
             src={post?.image}
             alt={post?.title}
@@ -35,15 +35,15 @@ const BlogCard = ({ post, featured = false }) => {
             <span className="text-white/80 text-sm">{formatDate(post?.date)}</span>
             <span className="text-white/80 text-sm">{formatReadTime(post?.readTime)}</span>
           </div>
-          
+
           <h2 className="text-2xl font-bold text-white mb-3 group-hover:text-accent transition-colors duration-200">
             {post?.title}
           </h2>
-          
+
           <p className="text-white/90 text-base mb-4 line-clamp-2">
             {post?.excerpt}
           </p>
-          
+
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 rounded-full overflow-hidden">
@@ -58,7 +58,7 @@ const BlogCard = ({ post, featured = false }) => {
                 <p className="text-white/70 text-xs">{post?.author?.role}</p>
               </div>
             </div>
-            
+
             <Link
               to={`/insights-professional-blog/${post?.slug}`}
               className="inline-flex items-center space-x-2 text-white hover:text-accent transition-colors duration-200"
@@ -74,7 +74,7 @@ const BlogCard = ({ post, featured = false }) => {
 
   return (
     <article className="group bg-surface rounded-xl overflow-hidden shadow-brand hover-lift transition-all duration-300 border border-border">
-      <div className="aspect-[16/10] overflow-hidden">
+      <div className="aspect-[16/10] overflow-hidden rounded-t-xl">
         <Image
           src={post?.image}
           alt={post?.title}
@@ -89,15 +89,15 @@ const BlogCard = ({ post, featured = false }) => {
           <span className="text-text-muted text-xs">{formatDate(post?.date)}</span>
           <span className="text-text-muted text-xs">{formatReadTime(post?.readTime)}</span>
         </div>
-        
+
         <h3 className="text-lg font-semibold text-text-primary mb-2 group-hover:text-primary transition-colors duration-200 line-clamp-2">
           {post?.title}
         </h3>
-        
+
         <p className="text-text-secondary text-sm mb-4 line-clamp-3">
           {post?.excerpt}
         </p>
-        
+
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-full overflow-hidden">
@@ -111,7 +111,7 @@ const BlogCard = ({ post, featured = false }) => {
               <p className="text-text-primary font-medium text-xs">{post?.author?.name}</p>
             </div>
           </div>
-          
+
           <Link
             to={`/insights-professional-blog/${post?.slug}`}
             className="inline-flex items-center space-x-1 text-primary hover:text-accent transition-colors duration-200"

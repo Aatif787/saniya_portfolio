@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import Icon from '../../../components/AppIcon';
 import Button from '../../../components/ui/Button';
 import Input from '../../../components/ui/Input';
+import { portfolioData } from '@/data/portfolioData';
 
 const CallToAction = () => {
   const [email, setEmail] = useState('');
@@ -40,15 +41,15 @@ const CallToAction = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        setContactStatus('Message sent successfully');
+        setContactStatus(portfolioData.labels.contactForm.success);
         setContactName('');
         setContactEmail('');
         setContactMessage('');
       } else {
-        setContactStatus(data?.error || 'Failed to send message');
+        setContactStatus(data?.error || portfolioData.labels.contactForm.failure);
       }
     } catch (err) {
-      setContactStatus('Network error');
+      setContactStatus(portfolioData.labels.contactForm.network);
     } finally {
       setContactSending(false);
     }
@@ -80,7 +81,7 @@ const CallToAction = () => {
       title: "Schedule Call",
       description: "Book a consultation to discuss your project",
       icon: "Calendar",
-      action: () => window.open('mailto:saniya@example.com?subject=Project Consultation', '_blank'),
+      action: () => window.open(`mailto:${portfolioData.contact.email}?subject=Project Consultation`, '_blank'),
       color: "bg-purple-500"
     }
   ];
@@ -88,9 +89,9 @@ const CallToAction = () => {
   const contactMethods = [
     {
       platform: "Email",
-      handle: "saniya@example.com",
+      handle: portfolioData.contact.email,
       icon: "Mail",
-      link: "mailto:saniya@example.com"
+      link: `mailto:${portfolioData.contact.email}`
     },
     {
       platform: "LinkedIn",
@@ -106,7 +107,7 @@ const CallToAction = () => {
     },
     {
       platform: "Phone",
-      handle: "+91 88649 31247",
+      handle: portfolioData.contact.phone,
       icon: "Phone",
       link: "tel:+918864931247"
     }
@@ -252,7 +253,7 @@ const CallToAction = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <Input
                         type="text"
-                        placeholder="Your name"
+                        placeholder={portfolioData.labels.contactForm.namePlaceholder}
                         value={contactName}
                         onChange={(e) => setContactName(e?.target?.value)}
                         required
@@ -260,7 +261,7 @@ const CallToAction = () => {
                       />
                       <Input
                         type="email"
-                        placeholder="Your email"
+                        placeholder={portfolioData.labels.contactForm.emailPlaceholder}
                         value={contactEmail}
                         onChange={(e) => setContactEmail(e?.target?.value)}
                         required
@@ -268,7 +269,7 @@ const CallToAction = () => {
                       />
                     </div>
                     <textarea
-                      placeholder="How can I help you?"
+                      placeholder={portfolioData.labels.contactForm.messagePlaceholder}
                       value={contactMessage}
                       onChange={(e) => setContactMessage(e?.target?.value)}
                       required
@@ -284,7 +285,7 @@ const CallToAction = () => {
                         iconPosition="left"
                         className="h-11 bg-white text-primary hover:bg-white/90"
                       >
-                        Send Message
+                        {portfolioData.labels.contactForm.sendLabel}
                       </Button>
                     </div>
                     {contactStatus && (
@@ -328,7 +329,7 @@ const CallToAction = () => {
                     variant="outline"
                     fullWidth
                     className="border-white/30 text-white hover:bg-white/20"
-                    onClick={() => window.open('mailto:saniya@example.com', '_blank')}
+                    onClick={() => window.open(`mailto:${portfolioData.contact.email}`, '_blank')}
                   >
                     Start a Conversation
                   </Button>

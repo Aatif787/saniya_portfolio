@@ -3,45 +3,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Icon from '../../../components/AppIcon';
 import TiltCard from '../../../components/effects/TiltCard';
+import { portfolioData } from '@/data/portfolioData';
 
 const SkillsPreview = () => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
 
-  const skillCategories = [
-    {
-      title: "Data Analytics",
-      icon: "BarChart3",
-      color: "bg-blue-500",
-      skills: [
-        { name: "Python", level: 90, projects: 12, icon: "Code" },
-        { name: "SQL", level: 85, projects: 15, icon: "Database" },
-        { name: "Tableau", level: 80, projects: 8, icon: "PieChart" },
-        { name: "Excel", level: 95, projects: 20, icon: "FileSpreadsheet" }
-      ]
-    },
-    {
-      title: "Web Development",
-      icon: "Code",
-      color: "bg-green-500",
-      skills: [
-        { name: "React", level: 88, projects: 10, icon: "Zap" },
-        { name: "JavaScript", level: 85, projects: 14, icon: "Braces" },
-        { name: "Node.js", level: 75, projects: 6, icon: "Server" },
-        { name: "HTML/CSS", level: 92, projects: 18, icon: "Layout" }
-      ]
-    },
-    {
-      title: "Tools & Platforms",
-      icon: "Settings",
-      color: "bg-purple-500",
-      skills: [
-        { name: "Git", level: 80, projects: 16, icon: "GitBranch" },
-        { name: "AWS", level: 70, projects: 4, icon: "Cloud" },
-        { name: "MongoDB", level: 75, projects: 7, icon: "Database" },
-        { name: "Figma", level: 85, projects: 9, icon: "Palette" }
-      ]
-    }
-  ];
+  const skillCategories = portfolioData.skills;
 
   return (
     <section className="py-16 sm:py-20 bg-transparent section-optimize">
@@ -55,11 +22,10 @@ const SkillsPreview = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl lg:text-4xl font-bold text-primary mb-4">
-            Technical Expertise
+            {portfolioData.labels.skillsTitle}
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            A comprehensive skill set spanning data analytics, web development, and modern tools.
-            Hover over skills to see proficiency levels and project experience.
+            {portfolioData.labels.skillsSubtitle}
           </p>
         </motion.div>
 

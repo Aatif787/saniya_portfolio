@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import { Helmet } from 'react-helmet';
 import Header from '../../components/ui/Header';
 import Icon from '../../components/AppIcon';
 import Button from '../../components/ui/Button';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { SectionSkeleton } from '../../components/SkeletonLoader';
 
 // Import all components
 import ResumeFormats from './components/ResumeFormats';
@@ -77,52 +79,52 @@ const ProfessionalAssetsResumeHub = () => {
       </Helmet>
       <Header />
       <main className="pt-16">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary via-primary to-secondary text-white py-16">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
-                <Icon name="Shield" size={16} />
-                <span>Professional Resource Center</span>
-              </div>
-              
-              <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
-                Professional Assets &
-                <span className="block text-accent">Resume Hub</span>
-              </h1>
-              
-              <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 leading-relaxed">
-                Your comprehensive resource center for all professional documentation, credentials, 
-                and assets. Everything you need to evaluate my qualifications and expertise.
-              </p>
+        <ErrorBoundary>
+          <Suspense fallback={<SectionSkeleton />}>
+            {/* Hero Section */}
+            <section className="bg-gradient-to-br from-primary via-primary to-secondary text-white py-16">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-12">
+                  <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium mb-6">
+                    <Icon name="Shield" size={16} />
+                    <span>Professional Resource Center</span>
+                  </div>
+                  
+                  <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
+                    Professional Assets &
+                    <span className="block text-accent">Resume Hub</span>
+                  </h1>
+                  
+                  <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8 leading-relaxed">
+                    Your comprehensive resource center for all professional documentation, credentials, 
+                    and assets. Everything you need to evaluate my qualifications and expertise.
+                  </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  iconName="Download"
-                  iconPosition="left"
-                  onClick={() => {
-                    const link = document.createElement('a');
-                    link.href = '/assets/images/resume.pdf';
-                    link.download = 'Saniya_Dhada_Resume_2025.pdf';
-                    link?.click();
-                  }}
-                >
-                  Download Resume
-                </Button>
-                <Button
-                  variant="outline"
-                  size="lg"
-                  iconName="ExternalLink"
-                  iconPosition="left"
-                  onClick={() => window.open('/interactive-resume', '_blank')}
-                  className="border-white text-white hover:bg-white hover:text-primary"
-                >
-                  View Interactive Resume
-                </Button>
-              </div>
-            </div>
+                  <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <Button
+                      variant="default"
+                      size="xl"
+                      iconName="Download"
+                      onClick={() => {
+                        const link = document.createElement('a');
+                        link.href = '/assets/images/resume.pdf';
+                        link.download = 'Saniya_Dhada_Resume_2025.pdf';
+                        link?.click();
+                      }}
+                    >
+                      Download Resume PDF
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="xl"
+                      iconName="ExternalLink"
+                      onClick={() => window.open('/interactive-resume', '_blank')}
+                      className="bg-white/10 border-white/20 hover:bg-white/20 text-white"
+                    >
+                      Interactive Version
+                    </Button>
+                  </div>
+                </div>
 
             {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
@@ -178,39 +180,44 @@ const ProfessionalAssetsResumeHub = () => {
           </div>
         </section>
 
-        {/* Main Content */}
-        <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 glass-section rounded-3xl p-6">
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Sidebar Navigation */}
-              <div className="lg:w-64 flex-shrink-0">
-                <div className="glass-panel rounded-xl p-4 sticky top-24">
-                  <h3 className="font-semibold text-primary mb-4">Resource Sections</h3>
-                  <nav className="space-y-1">
-                    {navigationSections?.map((section) => (
-                      <button
-                        key={section?.id}
-                        onClick={() => setActiveSection(section?.id)}
-                        className={`w-full flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                          activeSection === section?.id
-                            ? 'bg-primary text-white' :'text-text-secondary hover:text-primary hover:bg-muted'
-                        }`}
-                      >
-                        <Icon name={section?.icon} size={16} />
-                        <span>{section?.name}</span>
-                      </button>
-                    ))}
-                  </nav>
+            {/* Main Navigation & Content */}
+            <section className="py-12 bg-transparent">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid lg:grid-cols-12 gap-12">
+                  {/* Left Navigation */}
+                  <aside className="lg:col-span-3 space-y-6">
+                    <div className="glass-panel rounded-2xl p-6 sticky top-24">
+                      <h3 className="text-lg font-semibold mb-6 px-2">Navigation</h3>
+                      <nav className="space-y-2">
+                        {navigationSections.map(section => (
+                          <button
+                            key={section.id}
+                            onClick={() => setActiveSection(section.id)}
+                            className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                              activeSection === section.id
+                                ? 'bg-primary text-white shadow-brand-md translate-x-1'
+                                : 'text-text-secondary hover:bg-muted hover:text-primary'
+                            }`}
+                          >
+                            <Icon name={section.icon} size={20} />
+                            <span className="font-medium">{section.name}</span>
+                          </button>
+                        ))}
+                      </nav>
+                    </div>
+                  </aside>
+
+                  {/* Main Display Area */}
+                  <div className="lg:col-span-9">
+                    <div className="min-h-[600px] glass-section rounded-3xl p-6 sm:p-10">
+                      {ActiveComponent && <ActiveComponent />}
+                    </div>
+                  </div>
                 </div>
               </div>
-
-              {/* Content Area */}
-              <div className="flex-1">
-                {ActiveComponent && <ActiveComponent />}
-              </div>
-            </div>
-          </div>
-        </section>
+            </section>
+          </Suspense>
+        </ErrorBoundary>
 
         {/* Contact CTA */}
         <section className="py-16 bg-gradient-to-r from-primary/5 to-accent/5">
