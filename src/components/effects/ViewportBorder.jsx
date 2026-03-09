@@ -6,153 +6,146 @@ const ViewportBorder = () => {
     const animationRef = useRef(null);
     const boltsRef = useRef([]);
     const flashRef = useRef(0);
-    const ambientRef = useRef([]);
+    const afterimagesRef = useRef([]);
 
-    const NEON_COLORS = [
-        { r: 200, g: 220, b: 255 },  // blue-white lightning
-        { r: 230, g: 240, b: 255 },  // bright white-blue
-        { r: 170, g: 200, b: 255 },  // cool electric blue
-        { r: 210, g: 225, b: 250 },  // pale silver-blue
-        { r: 240, g: 245, b: 255 },  // near-white flash
+    // Realistic thunder colors — blue-white spectrum like real lightning
+    const BOLT_COLORS = [
+        { r: 220, g: 235, b: 255 },  // blue-white
+        { r: 245, g: 248, b: 255 },  // near-white
+        { r: 190, g: 215, b: 255 },  // electric blue
+        { r: 255, g: 250, b: 245 },  // warm white flash
+        { r: 200, g: 225, b: 255 },  // silver-blue
     ];
 
     const randomColor = useCallback(() => {
-        return NEON_COLORS[Math.floor(Math.random() * NEON_COLORS.length)];
+        return BOLT_COLORS[Math.floor(Math.random() * BOLT_COLORS.length)];
     }, []);
 
-    // Generate a lightning bolt path along a border edge
-    const generateBolt = useCallback((startX, startY, endX, endY, detail = 5) => {
-        const points = [{ x: startX, y: startY }];
-        const dx = endX - startX;
-        const dy = endY - startY;
-        const len = Math.sqrt(dx * dx + dy * dy);
-        const segments = Math.max(8, Math.floor(len / detail));
-
-        // perpendicular direction for displacement
-        const nx = -dy / len;
-        const ny = dx / len;
-
-        for (let i = 1; i < segments; i++) {
-            const t = i / segments;
-            const baseX = startX + dx * t;
-            const baseY = startY + dy * t;
-            // displacement follows a jagged pattern — higher in the middle
-            const midFactor = Math.sin(t * Math.PI);
-            const displacement = (Math.random() - 0.5) * 12 * midFactor;
-            points.push({
-                x: baseX + nx * displacement,
-                y: baseY + ny * displacement,
-            });
+    // Midpoint displacement algorithm for hyper-realistic jagged lightning
+    const subdivide = useCallback((p1, p2, depth, maxOffset, points) => {
+        if (depth <= 0) {
+            points.push(p2);
+            return;
         }
-        points.push({ x: endX, y: endY });
-        return points;
+        const midX = (p1.x + p2.x) / 2 + (Math.random() - 0.5) * maxOffset;
+        const midY = (p1.y + p2.y) / 2 + (Math.random() - 0.5) * maxOffset;
+        const mid = { x: midX, y: midY };
+        subdivide(p1, mid, depth - 1, maxOffset * 0.55, points);
+        subdivide(mid, p2, depth - 1, maxOffset * 0.55, points);
     }, []);
 
-    // Generate a single lightning bolt along a border edge
+    const generateBolt = useCallback((sx, sy, ex, ey) => {
+        const dx = ex - sx;
+        const dy = ey - sy;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const maxOffset = len * 0.15;
+        const depth = Math.min(7, Math.max(4, Math.floor(Math.log2(len / 5))));
+        const points = [{ x: sx, y: sy }];
+        subdivide({ x: sx, y: sy }, { x: ex, y: ey }, depth, maxOffset, points);
+        return points;
+    }, [subdivide]);
+
+    // Spawn a bolt on a random viewport edge
     const spawnBolt = useCallback((w, h) => {
         const edge = Math.floor(Math.random() * 4);
-        const borderInset = 2;
+        const inset = 1;
         let sx, sy, ex, ey;
-        const segLen = 120 + Math.random() * 300;
+        const segLen = 150 + Math.random() * 350;
 
         switch (edge) {
-            case 0: // top
-                sx = Math.random() * w;
-                sy = borderInset;
-                ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen));
-                ey = borderInset;
-                break;
-            case 1: // right
-                sx = w - borderInset;
-                sy = Math.random() * h;
-                ex = w - borderInset;
-                ey = Math.min(h, Math.max(0, sy + (Math.random() - 0.5) * segLen));
-                break;
-            case 2: // bottom
-                sx = Math.random() * w;
-                sy = h - borderInset;
-                ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen));
-                ey = h - borderInset;
-                break;
-            case 3: // left
-                sx = borderInset;
-                sy = Math.random() * h;
-                ex = borderInset;
-                ey = Math.min(h, Math.max(0, sy + (Math.random() - 0.5) * segLen));
-                break;
+            case 0: sx = Math.random() * w; sy = inset; ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen)); ey = inset; break;
+            case 1: sx = w - inset; sy = Math.random() * h; ex = w - inset; ey = Math.min(h, Math.max(0, sy + (Math.random() - 0.5) * segLen)); break;
+            case 2: sx = Math.random() * w; sy = h - inset; ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen)); ey = h - inset; break;
+            case 3: sx = inset; sy = Math.random() * h; ex = inset; ey = Math.min(h, Math.max(0, sy + (Math.random() - 0.5) * segLen)); break;
         }
 
         const color = randomColor();
-        const points = generateBolt(sx, sy, ex, ey, 4 + Math.random() * 4);
+        const points = generateBolt(sx, sy, ex, ey);
 
-        // Generate 0-2 branch bolts from random points
+        // Generate realistic branches — thinner forks splitting off the main bolt
         const branches = [];
-        const numBranches = Math.floor(Math.random() * 3);
+        const numBranches = 1 + Math.floor(Math.random() * 4);
         for (let b = 0; b < numBranches; b++) {
-            const branchIdx = Math.floor(Math.random() * (points.length - 2)) + 1;
+            const branchIdx = Math.floor(points.length * 0.2 + Math.random() * points.length * 0.6);
+            if (branchIdx >= points.length) continue;
             const bp = points[branchIdx];
-            const branchLen = 20 + Math.random() * 50;
+            const branchLen = 15 + Math.random() * 60;
             const angle = Math.random() * Math.PI * 2;
             const bex = bp.x + Math.cos(angle) * branchLen;
             const bey = bp.y + Math.sin(angle) * branchLen;
-            branches.push(generateBolt(bp.x, bp.y, bex, bey, 6));
+            const branchPoints = generateBolt(bp.x, bp.y, bex, bey);
+
+            // Sub-branches (micro forks)
+            const subBranches = [];
+            if (Math.random() < 0.4 && branchPoints.length > 3) {
+                const sbi = Math.floor(Math.random() * (branchPoints.length - 2)) + 1;
+                const sbp = branchPoints[sbi];
+                const sbLen = 8 + Math.random() * 20;
+                const sbAngle = Math.random() * Math.PI * 2;
+                subBranches.push(generateBolt(sbp.x, sbp.y, sbp.x + Math.cos(sbAngle) * sbLen, sbp.y + Math.sin(sbAngle) * sbLen));
+            }
+
+            branches.push({ points: branchPoints, subBranches });
         }
+
+        // Random intensity multiplier — some bolts are brighter "main strikes"
+        const isMainStrike = Math.random() < 0.2;
+        const intensityMul = isMainStrike ? 1.5 : 0.8 + Math.random() * 0.4;
 
         return {
             points,
             branches,
             color,
             life: 1.0,
-            decay: 0.015 + Math.random() * 0.035,
-            thickness: 0.5 + Math.random() * 0.8,
+            decay: isMainStrike ? 0.008 + Math.random() * 0.015 : 0.02 + Math.random() * 0.04,
+            thickness: isMainStrike ? 0.8 + Math.random() * 0.6 : 0.3 + Math.random() * 0.5,
             flickerPhase: Math.random() * Math.PI * 2,
-            flickerSpeed: 8 + Math.random() * 12,
+            flickerSpeed: 15 + Math.random() * 25,
+            intensityMul,
+            isMainStrike,
             edge,
+            // Multi-flash: main strikes flash 2-3 times rapidly
+            restrikeCount: isMainStrike ? 1 + Math.floor(Math.random() * 2) : 0,
+            restrikeTimer: 0,
         };
     }, [randomColor, generateBolt]);
 
-    // Ambient glow particles that drift along the border
-    const spawnAmbient = useCallback((w, h) => {
-        const edge = Math.floor(Math.random() * 4);
-        const borderInset = 2;
-        let x, y, vx, vy;
-
-        switch (edge) {
-            case 0: x = Math.random() * w; y = borderInset; vx = (Math.random() - 0.5) * 1.5; vy = 0; break;
-            case 1: x = w - borderInset; y = Math.random() * h; vx = 0; vy = (Math.random() - 0.5) * 1.5; break;
-            case 2: x = Math.random() * w; y = h - borderInset; vx = (Math.random() - 0.5) * 1.5; vy = 0; break;
-            case 3: x = borderInset; y = Math.random() * h; vx = 0; vy = (Math.random() - 0.5) * 1.5; break;
-        }
-
-        const color = randomColor();
-        return { x, y, vx, vy, color, life: 1.0, decay: 0.003 + Math.random() * 0.005, radius: 1 + Math.random() * 2.5 };
-    }, [randomColor]);
-
-    const drawBoltPath = useCallback((ctx, points, color, alpha, thickness) => {
+    // Draw a single bolt path with multi-layer glow
+    const drawBoltPath = useCallback((ctx, points, color, alpha, thickness, intensityMul) => {
         if (points.length < 2) return;
+        const a = Math.min(1, alpha * intensityMul);
+        if (a <= 0.01) return;
+
         ctx.beginPath();
         ctx.moveTo(points[0].x, points[0].y);
         for (let i = 1; i < points.length; i++) {
             ctx.lineTo(points[i].x, points[i].y);
         }
-        // outer glow — bright halo
-        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.4})`;
-        ctx.lineWidth = thickness * 6;
-        ctx.shadowColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.7})`;
-        ctx.shadowBlur = 28;
+
+        // Layer 1: wide atmospheric glow
+        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${a * 0.2})`;
+        ctx.lineWidth = thickness * 10;
+        ctx.shadowColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${a * 0.5})`;
+        ctx.shadowBlur = 40;
         ctx.stroke();
 
-        // mid glow — intense
-        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.75})`;
-        ctx.lineWidth = thickness * 3;
-        ctx.shadowBlur = 16;
+        // Layer 2: bright corona
+        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${a * 0.55})`;
+        ctx.lineWidth = thickness * 4;
+        ctx.shadowBlur = 20;
         ctx.stroke();
 
-        // core — blazing white-hot center
-        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.1)})`;
-        ctx.lineWidth = thickness * 0.8;
-        ctx.shadowColor = `rgba(${color.r}, ${color.g}, ${color.b}, ${Math.min(1, alpha * 1.0)})`;
+        // Layer 3: intense inner glow
+        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${a * 0.85})`;
+        ctx.lineWidth = thickness * 1.8;
         ctx.shadowBlur = 10;
+        ctx.stroke();
+
+        // Layer 4: white-hot plasma core
+        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, a * 1.2)})`;
+        ctx.lineWidth = thickness * 0.6;
+        ctx.shadowColor = `rgba(255, 255, 255, ${a * 0.7})`;
+        ctx.shadowBlur = 4;
         ctx.stroke();
     }, []);
 
@@ -174,11 +167,6 @@ const ViewportBorder = () => {
         resize();
         window.addEventListener('resize', resize);
 
-        // Spawn initial ambient particles
-        for (let i = 0; i < 40; i++) {
-            ambientRef.current.push(spawnAmbient(w, h));
-        }
-
         let lastBoltTime = 0;
         let time = 0;
 
@@ -186,72 +174,68 @@ const ViewportBorder = () => {
             time = timestamp * 0.001;
             ctx.clearRect(0, 0, w, h);
 
-            // --- Draw the continuous neon border glow ---
-            const borderWidth = 1;
-            const pulseIntensity = 0.4 + 0.2 * Math.sin(time * 2);
-
-            // Draw each edge with a subtle neon glow
-            const drawEdgeGlow = (x1, y1, x2, y2, colorIdx) => {
-                const c = NEON_COLORS[colorIdx % NEON_COLORS.length];
-                const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-                const c2 = NEON_COLORS[(colorIdx + 1) % NEON_COLORS.length];
-                gradient.addColorStop(0, `rgba(${c.r}, ${c.g}, ${c.b}, ${pulseIntensity})`);
-                gradient.addColorStop(0.5, `rgba(${c2.r}, ${c2.g}, ${c2.b}, ${pulseIntensity * 1.2})`);
-                gradient.addColorStop(1, `rgba(${c.r}, ${c.g}, ${c.b}, ${pulseIntensity})`);
-
-                // Outer glow
-                ctx.beginPath();
-                ctx.moveTo(x1, y1);
-                ctx.lineTo(x2, y2);
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = borderWidth * 6;
-                ctx.shadowColor = `rgba(${c.r}, ${c.g}, ${c.b}, 0.5)`;
-                ctx.shadowBlur = 22;
-                ctx.stroke();
-
-                // Inner bright line
-                ctx.lineWidth = borderWidth;
-                ctx.shadowBlur = 12;
-                ctx.stroke();
-            };
-
-            const edgeShift = Math.floor(time * 0.3) % NEON_COLORS.length;
-            drawEdgeGlow(0, 1, w, 1, edgeShift);           // top
-            drawEdgeGlow(w - 1, 0, w - 1, h, edgeShift + 1); // right
-            drawEdgeGlow(w, h - 1, 0, h - 1, edgeShift + 2); // bottom
-            drawEdgeGlow(1, h, 1, 0, edgeShift + 3);         // left
-
-            // --- Lightning bolts ---
-            // Spawn new bolts periodically
-            const boltInterval = 0.15 + Math.random() * 0.25;
+            // --- Spawn lightning bolts ---
+            const boltInterval = 0.1 + Math.random() * 0.2;
             if (time - lastBoltTime > boltInterval) {
-                const numBolts = 1 + Math.floor(Math.random() * 2);
+                const numBolts = 1 + Math.floor(Math.random() * 3);
                 for (let i = 0; i < numBolts; i++) {
                     boltsRef.current.push(spawnBolt(w, h));
-                }
-                // Random screen flash
-                if (Math.random() < 0.12) {
-                    flashRef.current = 0.18 + Math.random() * 0.12;
                 }
                 lastBoltTime = time;
             }
 
-            // Draw and update lightning bolts
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
 
+            // --- Draw and update lightning bolts ---
             for (let i = boltsRef.current.length - 1; i >= 0; i--) {
                 const bolt = boltsRef.current[i];
-                // Flicker effect
-                const flicker = 0.5 + 0.5 * Math.sin(time * bolt.flickerSpeed + bolt.flickerPhase);
-                const alpha = bolt.life * flicker;
 
-                drawBoltPath(ctx, bolt.points, bolt.color, alpha, bolt.thickness);
+                // Realistic flicker — rapid staccato for main strikes
+                let flicker;
+                if (bolt.isMainStrike) {
+                    // Harsh on/off flicker like real lightning
+                    const f1 = Math.sin(time * bolt.flickerSpeed + bolt.flickerPhase);
+                    const f2 = Math.sin(time * bolt.flickerSpeed * 2.7 + bolt.flickerPhase * 1.3);
+                    flicker = Math.max(0, f1 * 0.5 + 0.5) * Math.max(0, f2 * 0.3 + 0.7);
+                } else {
+                    flicker = 0.4 + 0.6 * Math.sin(time * bolt.flickerSpeed + bolt.flickerPhase);
+                }
+                const alpha = bolt.life * Math.max(0.15, flicker);
+
+                // Draw main bolt
+                drawBoltPath(ctx, bolt.points, bolt.color, alpha, bolt.thickness, bolt.intensityMul);
 
                 // Draw branches
                 for (const branch of bolt.branches) {
-                    drawBoltPath(ctx, branch, bolt.color, alpha * 0.6, bolt.thickness * 0.6);
+                    drawBoltPath(ctx, branch.points, bolt.color, alpha * 0.5, bolt.thickness * 0.5, bolt.intensityMul * 0.7);
+                    // Sub-branches
+                    for (const sub of branch.subBranches) {
+                        drawBoltPath(ctx, sub, bolt.color, alpha * 0.3, bolt.thickness * 0.3, bolt.intensityMul * 0.5);
+                    }
                 }
+
+                // Screen flash for main strikes
+                if (bolt.isMainStrike && bolt.life > 0.85) {
+                    flashRef.current = Math.max(flashRef.current, 0.15 * bolt.life * bolt.intensityMul);
+                }
+
+                // Restrike effect — bolt re-illuminates after a brief pause
+                if (bolt.restrikeCount > 0 && bolt.life < 0.6 && bolt.restrikeTimer <= 0) {
+                    bolt.life = Math.min(1.0, bolt.life + 0.4);
+                    bolt.restrikeCount--;
+                    bolt.restrikeTimer = 0.08 + Math.random() * 0.06;
+                    flashRef.current = Math.max(flashRef.current, 0.1);
+                    // Save an afterimage
+                    afterimagesRef.current.push({
+                        points: [...bolt.points],
+                        color: bolt.color,
+                        alpha: 0.25,
+                        thickness: bolt.thickness * 0.4,
+                        decay: 0.015,
+                    });
+                }
+                bolt.restrikeTimer -= 0.016;
 
                 bolt.life -= bolt.decay;
                 if (bolt.life <= 0) {
@@ -259,39 +243,46 @@ const ViewportBorder = () => {
                 }
             }
 
-            // --- Ambient particles ---
-            for (let i = ambientRef.current.length - 1; i >= 0; i--) {
-                const p = ambientRef.current[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.life -= p.decay;
-
-                if (p.life <= 0) {
-                    ambientRef.current.splice(i, 1);
-                    ambientRef.current.push(spawnAmbient(w, h));
+            // --- Afterimages (residual glow where bolts were) ---
+            for (let i = afterimagesRef.current.length - 1; i >= 0; i--) {
+                const ai = afterimagesRef.current[i];
+                if (ai.alpha <= 0.01) {
+                    afterimagesRef.current.splice(i, 1);
                     continue;
                 }
-
-                const pa = p.life * (0.6 + 0.4 * Math.sin(time * 5 + p.x));
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${pa})`;
-                ctx.shadowColor = `rgba(${p.color.r}, ${p.color.g}, ${p.color.b}, ${pa})`;
-                ctx.shadowBlur = 16;
-                ctx.fill();
+                ctx.moveTo(ai.points[0].x, ai.points[0].y);
+                for (let j = 1; j < ai.points.length; j++) {
+                    ctx.lineTo(ai.points[j].x, ai.points[j].y);
+                }
+                ctx.strokeStyle = `rgba(${ai.color.r}, ${ai.color.g}, ${ai.color.b}, ${ai.alpha * 0.4})`;
+                ctx.lineWidth = ai.thickness * 3;
+                ctx.shadowColor = `rgba(${ai.color.r}, ${ai.color.g}, ${ai.color.b}, ${ai.alpha * 0.3})`;
+                ctx.shadowBlur = 20;
+                ctx.stroke();
+
+                ctx.strokeStyle = `rgba(200, 180, 255, ${ai.alpha * 0.2})`;
+                ctx.lineWidth = ai.thickness;
+                ctx.shadowBlur = 6;
+                ctx.stroke();
+
+                ai.alpha -= ai.decay;
             }
 
-            // --- Screen flash overlay ---
+            // --- Thunder flash (full screen white flash) ---
             if (flashRef.current > 0) {
-                ctx.fillStyle = `rgba(180, 210, 255, ${flashRef.current})`;
+                // Two-tone flash — bright center, dimmer edges
+                const grad = ctx.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, Math.max(w, h) * 0.7);
+                grad.addColorStop(0, `rgba(220, 235, 255, ${flashRef.current * 0.7})`);
+                grad.addColorStop(0.5, `rgba(200, 220, 255, ${flashRef.current * 0.4})`);
+                grad.addColorStop(1, `rgba(180, 200, 240, ${flashRef.current * 0.15})`);
+                ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, w, h);
-                flashRef.current *= 0.88;
-                if (flashRef.current < 0.005) flashRef.current = 0;
+                flashRef.current *= 0.85;
+                if (flashRef.current < 0.003) flashRef.current = 0;
             }
 
-            // Reset shadow for performance
             ctx.shadowBlur = 0;
-
             animationRef.current = requestAnimationFrame(animate);
         };
 
@@ -301,9 +292,9 @@ const ViewportBorder = () => {
             cancelAnimationFrame(animationRef.current);
             window.removeEventListener('resize', resize);
             boltsRef.current = [];
-            ambientRef.current = [];
+            afterimagesRef.current = [];
         };
-    }, [spawnBolt, spawnAmbient, drawBoltPath, generateBolt, randomColor]);
+    }, [spawnBolt, drawBoltPath]);
 
     return (
         <div className="viewport-neon-root" aria-hidden="true">
