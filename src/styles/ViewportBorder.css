@@ -1,71 +1,16 @@
-/* 1. Locks strictly to the exact bounds of the viewport */
+/* Neon Thunder Lightning Border */
 .viewport-neon-root {
     position: fixed;
     inset: 0;
     z-index: 99999;
     pointer-events: none;
-    /* Allows all clicks to pass through naturally */
     overflow: hidden;
-    /* Prevents oversized gradient from causing scrollbars */
 }
 
-/* 2. Common logic for the sharp layer and glow layer */
-.viewport-neon-glow,
-.viewport-neon-border {
+.viewport-lightning-canvas {
     position: absolute;
     inset: 0;
-    box-sizing: border-box;
-    padding: 3px;
-    /* ⬅️ ADJUST THICKNESS HERE */
-
-    /* 3. Mask Magic: Perfectly hollows out the inner core, leaving ONLY the padding visible */
-    -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-    mask-composite: exclude;
-}
-
-/* 4. Secondary layer to create the high-end premium neon blur */
-.viewport-neon-glow {
-    filter: blur(12px);
-    opacity: 0.65;
-    /* Optional: Scale down or up for stronger glow */
-}
-
-/* 5. Smooth, GPU-accelerated RGB continuous gradient */
-.viewport-neon-gradient {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200vmax;
-    /* Ensures corners are completely covered while spinning */
-    height: 200vmax;
-    transform: translate(-50%, -50%);
-    background: conic-gradient(from 0deg,
-            #ff0000,
-            #ff7f00,
-            #ffff00,
-            #00ff00,
-            #0000ff,
-            #4b0082,
-            #8f00ff,
-            #ff0000);
-    animation: viewport-neon-spin 4s linear infinite;
-    will-change: transform;
-    /* Hardware acceleration */
-}
-
-/* 6. Linear infinite edge rotation */
-@keyframes viewport-neon-spin {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+    width: 100%;
+    height: 100%;
+    display: block;
 }
