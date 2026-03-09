@@ -41,30 +41,80 @@ const ViewportBorder = () => {
         return points;
     }, []);
 
+    // Spawn a bolt at a random position anywhere on screen
+    const spawnRandomBolt = useCallback((w, h) => {
+        // Random start point anywhere on screen
+        const sx = Math.random() * w;
+        const sy = Math.random() * h;
+
+        // Random angle and length — bolts stretch 15-45% of screen diagonal
+        const diagonal = Math.sqrt(w * w + h * h);
+        const boltLen = diagonal * (0.15 + Math.random() * 0.30);
+        const angle = Math.random() * Math.PI * 2;
+
+        const ex = sx + Math.cos(angle) * boltLen;
+        const ey = sy + Math.sin(angle) * boltLen;
+
+        const color = randomColor();
+        const points = generateBolt(sx, sy, ex, ey);
+
+        // 1-3 branches for random bolts — more dramatic
+        const branches = [];
+        const branchCount = Math.floor(Math.random() * 3) + 1;
+        for (let b = 0; b < branchCount && points.length > 4; b++) {
+            const bi = Math.floor(points.length * 0.2 + Math.random() * points.length * 0.6);
+            const bp = points[bi];
+            const bLen = 20 + Math.random() * 60;
+            const bAngle = angle + (Math.random() - 0.5) * Math.PI * 0.8;
+            branches.push(generateBolt(bp.x, bp.y, bp.x + Math.cos(bAngle) * bLen, bp.y + Math.sin(bAngle) * bLen));
+        }
+
+        return {
+            points,
+            branches,
+            color,
+            life: 1.0,
+            decay: 0.02 + Math.random() * 0.04,
+            thickness: 1.5 + Math.random() * 1.5,
+        };
+    }, [randomColor, generateBolt]);
+
+    // Spawn a bolt along a viewport edge
     const spawnBolt = useCallback((w, h) => {
+        // 40% chance to spawn a random screen-wide bolt
+        if (Math.random() < 0.4) {
+            return spawnRandomBolt(w, h);
+        }
+
         const edge = Math.floor(Math.random() * 4);
         const inset = 1;
         let sx, sy, ex, ey;
-        const segLen = 200 + Math.random() * 450;
+
+        // Bolt covers 50-90% of the edge it appears on
+        const isHorizontal = edge === 0 || edge === 2;
+        const edgeLen = isHorizontal ? w : h;
+        const boltLen = edgeLen * (0.5 + Math.random() * 0.4);
+        const startPos = Math.random() * (edgeLen - boltLen);
 
         switch (edge) {
-            case 0: sx = Math.random() * w; sy = inset; ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen)); ey = inset; break;
-            case 1: sx = w - inset; sy = Math.random() * h; ex = w - inset; ey = Math.min(h, Math.max(0, sy + (Math.random() - 0.5) * segLen)); break;
-            case 2: sx = Math.random() * w; sy = h - inset; ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen)); ey = h - inset; break;
-            case 3: sx = inset; sy = Math.random() * h; ex = inset; ey = Math.min(h, Math.max(0, sy + (Math.random() - 0.5) * segLen)); break;
+            case 0: sx = startPos; sy = inset; ex = startPos + boltLen; ey = inset; break;
+            case 1: sx = w - inset; sy = startPos; ex = w - inset; ey = startPos + boltLen; break;
+            case 2: sx = startPos; sy = h - inset; ex = startPos + boltLen; ey = h - inset; break;
+            case 3: sx = inset; sy = startPos; ex = inset; ey = startPos + boltLen; break;
         }
 
         const color = randomColor();
         const points = generateBolt(sx, sy, ex, ey);
 
-        // 0-1 branch only
+        // 0-2 branches
         const branches = [];
-        if (Math.random() < 0.5 && points.length > 4) {
+        const branchCount = Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 2) + 1;
+        for (let b = 0; b < branchCount && points.length > 4; b++) {
             const bi = Math.floor(points.length * 0.3 + Math.random() * points.length * 0.4);
             const bp = points[bi];
-            const bLen = 12 + Math.random() * 30;
-            const angle = Math.random() * Math.PI * 2;
-            branches.push(generateBolt(bp.x, bp.y, bp.x + Math.cos(angle) * bLen, bp.y + Math.sin(angle) * bLen));
+            const bLen = 12 + Math.random() * 40;
+            const bAngle = Math.random() * Math.PI * 2;
+            branches.push(generateBolt(bp.x, bp.y, bp.x + Math.cos(bAngle) * bLen, bp.y + Math.sin(bAngle) * bLen));
         }
 
         return {
@@ -75,7 +125,7 @@ const ViewportBorder = () => {
             decay: 0.03 + Math.random() * 0.05,
             thickness: 1.2 + Math.random() * 1.0,
         };
-    }, [randomColor, generateBolt]);
+    }, [randomColor, generateBolt, spawnRandomBolt]);
 
     // Lightweight 2-layer draw — no expensive shadowBlur
     const drawBolt = useCallback((ctx, points, color, alpha, thickness) => {
