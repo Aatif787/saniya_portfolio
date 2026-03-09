@@ -24,14 +24,14 @@ const ViewportBorder = () => {
         const dx = ex - sx;
         const dy = ey - sy;
         const len = Math.sqrt(dx * dx + dy * dy);
-        const segments = Math.max(6, Math.min(14, Math.floor(len / 12)));
+        const segments = Math.max(8, Math.min(18, Math.floor(len / 10)));
         const nx = -dy / len;
         const ny = dx / len;
 
         for (let i = 1; i < segments; i++) {
             const t = i / segments;
             const mid = Math.sin(t * Math.PI);
-            const offset = (Math.random() - 0.5) * 10 * mid;
+            const offset = (Math.random() - 0.5) * 20 * mid;
             points.push({
                 x: sx + dx * t + nx * offset,
                 y: sy + dy * t + ny * offset,
@@ -45,7 +45,7 @@ const ViewportBorder = () => {
         const edge = Math.floor(Math.random() * 4);
         const inset = 1;
         let sx, sy, ex, ey;
-        const segLen = 100 + Math.random() * 250;
+        const segLen = 200 + Math.random() * 450;
 
         switch (edge) {
             case 0: sx = Math.random() * w; sy = inset; ex = Math.min(w, Math.max(0, sx + (Math.random() - 0.5) * segLen)); ey = inset; break;
@@ -73,7 +73,7 @@ const ViewportBorder = () => {
             color,
             life: 1.0,
             decay: 0.03 + Math.random() * 0.05,
-            thickness: 0.4 + Math.random() * 0.4,
+            thickness: 1.2 + Math.random() * 1.0,
         };
     }, [randomColor, generateBolt]);
 
@@ -87,14 +87,19 @@ const ViewportBorder = () => {
             ctx.lineTo(points[i].x, points[i].y);
         }
 
-        // Outer glow — use wider line + low alpha instead of shadowBlur
-        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.3})`;
-        ctx.lineWidth = thickness * 5;
+        // Outer glow — wide halo
+        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.2})`;
+        ctx.lineWidth = thickness * 12;
+        ctx.stroke();
+
+        // Mid glow — visible colored band
+        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.5})`;
+        ctx.lineWidth = thickness * 4;
         ctx.stroke();
 
         // Core — bright white center
-        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.1)})`;
-        ctx.lineWidth = thickness * 0.7;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.2)})`;
+        ctx.lineWidth = thickness * 1.2;
         ctx.stroke();
     }, []);
 
