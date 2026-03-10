@@ -1,157 +1,9 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../../styles/ViewportBorder.css';
 
 const ViewportBorder = () => {
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
-    const boltsRef = useRef([]);
-    const flashRef = useRef(0);
-
-    const BOLT_COLORS = [
-        { r: 220, g: 235, b: 255 },
-        { r: 245, g: 248, b: 255 },
-        { r: 190, g: 215, b: 255 },
-        { r: 255, g: 250, b: 245 },
-    ];
-
-    const randomColor = useCallback(() => {
-        return BOLT_COLORS[Math.floor(Math.random() * BOLT_COLORS.length)];
-    }, []);
-
-    // Lightweight bolt generation — simple midpoint displacement, low depth
-    const generateBolt = useCallback((sx, sy, ex, ey) => {
-        const points = [{ x: sx, y: sy }];
-        const dx = ex - sx;
-        const dy = ey - sy;
-        const len = Math.sqrt(dx * dx + dy * dy);
-        const segments = Math.max(8, Math.min(18, Math.floor(len / 10)));
-        const nx = -dy / len;
-        const ny = dx / len;
-
-        for (let i = 1; i < segments; i++) {
-            const t = i / segments;
-            const mid = Math.sin(t * Math.PI);
-            const offset = (Math.random() - 0.5) * 20 * mid;
-            points.push({
-                x: sx + dx * t + nx * offset,
-                y: sy + dy * t + ny * offset,
-            });
-        }
-        points.push({ x: ex, y: ey });
-        return points;
-    }, []);
-
-    // Spawn a bolt at a random position anywhere on screen
-    const spawnRandomBolt = useCallback((w, h) => {
-        // Random start point anywhere on screen
-        const sx = Math.random() * w;
-        const sy = Math.random() * h;
-
-        // Random angle and length — bolts stretch 15-45% of screen diagonal
-        const diagonal = Math.sqrt(w * w + h * h);
-        const boltLen = diagonal * (0.15 + Math.random() * 0.30);
-        const angle = Math.random() * Math.PI * 2;
-
-        const ex = sx + Math.cos(angle) * boltLen;
-        const ey = sy + Math.sin(angle) * boltLen;
-
-        const color = randomColor();
-        const points = generateBolt(sx, sy, ex, ey);
-
-        // 1-3 branches for random bolts — more dramatic
-        const branches = [];
-        const branchCount = Math.floor(Math.random() * 3) + 1;
-        for (let b = 0; b < branchCount && points.length > 4; b++) {
-            const bi = Math.floor(points.length * 0.2 + Math.random() * points.length * 0.6);
-            const bp = points[bi];
-            const bLen = 20 + Math.random() * 60;
-            const bAngle = angle + (Math.random() - 0.5) * Math.PI * 0.8;
-            branches.push(generateBolt(bp.x, bp.y, bp.x + Math.cos(bAngle) * bLen, bp.y + Math.sin(bAngle) * bLen));
-        }
-
-        return {
-            points,
-            branches,
-            color,
-            life: 1.0,
-            decay: 0.02 + Math.random() * 0.04,
-            thickness: 1.5 + Math.random() * 1.5,
-        };
-    }, [randomColor, generateBolt]);
-
-    // Spawn a bolt along a viewport edge
-    const spawnBolt = useCallback((w, h) => {
-        // 40% chance to spawn a random screen-wide bolt
-        if (Math.random() < 0.4) {
-            return spawnRandomBolt(w, h);
-        }
-
-        const edge = Math.floor(Math.random() * 4);
-        const inset = 1;
-        let sx, sy, ex, ey;
-
-        // Bolt covers 50-90% of the edge it appears on
-        const isHorizontal = edge === 0 || edge === 2;
-        const edgeLen = isHorizontal ? w : h;
-        const boltLen = edgeLen * (0.5 + Math.random() * 0.4);
-        const startPos = Math.random() * (edgeLen - boltLen);
-
-        switch (edge) {
-            case 0: sx = startPos; sy = inset; ex = startPos + boltLen; ey = inset; break;
-            case 1: sx = w - inset; sy = startPos; ex = w - inset; ey = startPos + boltLen; break;
-            case 2: sx = startPos; sy = h - inset; ex = startPos + boltLen; ey = h - inset; break;
-            case 3: sx = inset; sy = startPos; ex = inset; ey = startPos + boltLen; break;
-        }
-
-        const color = randomColor();
-        const points = generateBolt(sx, sy, ex, ey);
-
-        // 0-2 branches
-        const branches = [];
-        const branchCount = Math.random() < 0.5 ? 0 : Math.floor(Math.random() * 2) + 1;
-        for (let b = 0; b < branchCount && points.length > 4; b++) {
-            const bi = Math.floor(points.length * 0.3 + Math.random() * points.length * 0.4);
-            const bp = points[bi];
-            const bLen = 12 + Math.random() * 40;
-            const bAngle = Math.random() * Math.PI * 2;
-            branches.push(generateBolt(bp.x, bp.y, bp.x + Math.cos(bAngle) * bLen, bp.y + Math.sin(bAngle) * bLen));
-        }
-
-        return {
-            points,
-            branches,
-            color,
-            life: 1.0,
-            decay: 0.03 + Math.random() * 0.05,
-            thickness: 1.2 + Math.random() * 1.0,
-        };
-    }, [randomColor, generateBolt, spawnRandomBolt]);
-
-    // Lightweight 2-layer draw — no expensive shadowBlur
-    const drawBolt = useCallback((ctx, points, color, alpha, thickness) => {
-        if (points.length < 2 || alpha < 0.02) return;
-
-        ctx.beginPath();
-        ctx.moveTo(points[0].x, points[0].y);
-        for (let i = 1; i < points.length; i++) {
-            ctx.lineTo(points[i].x, points[i].y);
-        }
-
-        // Outer glow — wide halo
-        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.2})`;
-        ctx.lineWidth = thickness * 12;
-        ctx.stroke();
-
-        // Mid glow — visible colored band
-        ctx.strokeStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha * 0.5})`;
-        ctx.lineWidth = thickness * 4;
-        ctx.stroke();
-
-        // Core — bright white center
-        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(1, alpha * 1.2)})`;
-        ctx.lineWidth = thickness * 1.2;
-        ctx.stroke();
-    }, []);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -162,7 +14,7 @@ const ViewportBorder = () => {
         const resize = () => {
             w = window.innerWidth;
             h = window.innerHeight;
-            const dpr = window.devicePixelRatio;
+            const dpr = window.devicePixelRatio || 1;
             canvas.width = w * dpr;
             canvas.height = h * dpr;
             canvas.style.width = w + 'px';
@@ -172,70 +24,284 @@ const ViewportBorder = () => {
         resize();
         window.addEventListener('resize', resize);
 
-        let nextBoltTime = performance.now() * 0.001 + 0.5 + Math.random() * 2;
+        // Border thickness & glow config
+        const BORDER = 2;
+        const GLOW_SIZE = 14;
+        const CORNER_RADIUS = 18;
+
+        // Color palette — warm amber / molten gold
+        const BASE_HUE = 30;      // amber-orange
+        const BASE_SAT = 100;
+        const BASE_LIGHT = 50;
+
+        // Create rough / organic noise points along border path
+        // Returns array of {x, y, nx, ny} where nx,ny is outward normal
+        const buildBorderPath = (width, height, segments) => {
+            const pts = [];
+            const r = CORNER_RADIUS;
+            const perimeter = 2 * (width + height) - 8 * r + 2 * Math.PI * r;
+            const step = perimeter / segments;
+
+            // Walk the rounded-rect perimeter clockwise
+            // Top edge (left to right)
+            for (let x = r; x <= width - r; x += step) {
+                pts.push({ x, y: 0, nx: 0, ny: -1 });
+            }
+            // Top-right corner
+            for (let a = -Math.PI / 2; a <= 0; a += step / r) {
+                const cx = width - r, cy = r;
+                pts.push({
+                    x: cx + Math.cos(a) * r,
+                    y: cy + Math.sin(a) * r,
+                    nx: Math.cos(a),
+                    ny: Math.sin(a),
+                });
+            }
+            // Right edge (top to bottom)
+            for (let y = r; y <= height - r; y += step) {
+                pts.push({ x: width, y, nx: 1, ny: 0 });
+            }
+            // Bottom-right corner
+            for (let a = 0; a <= Math.PI / 2; a += step / r) {
+                const cx = width - r, cy = height - r;
+                pts.push({
+                    x: cx + Math.cos(a) * r,
+                    y: cy + Math.sin(a) * r,
+                    nx: Math.cos(a),
+                    ny: Math.sin(a),
+                });
+            }
+            // Bottom edge (right to left)
+            for (let x = width - r; x >= r; x -= step) {
+                pts.push({ x, y: height, nx: 0, ny: 1 });
+            }
+            // Bottom-left corner
+            for (let a = Math.PI / 2; a <= Math.PI; a += step / r) {
+                const cx = r, cy = height - r;
+                pts.push({
+                    x: cx + Math.cos(a) * r,
+                    y: cy + Math.sin(a) * r,
+                    nx: Math.cos(a),
+                    ny: Math.sin(a),
+                });
+            }
+            // Left edge (bottom to top)
+            for (let y = height - r; y >= r; y -= step) {
+                pts.push({ x: 0, y, nx: -1, ny: 0 });
+            }
+            // Top-left corner
+            for (let a = Math.PI; a <= 1.5 * Math.PI; a += step / r) {
+                const cx = r, cy = r;
+                pts.push({
+                    x: cx + Math.cos(a) * r,
+                    y: cy + Math.sin(a) * r,
+                    nx: Math.cos(a),
+                    ny: Math.sin(a),
+                });
+            }
+            return pts;
+        };
+
+        // Seeded noise offsets for organic roughness
+        let noiseOffsets = [];
+        const regenerateNoise = (count) => {
+            noiseOffsets = [];
+            for (let i = 0; i < count; i++) {
+                noiseOffsets.push({
+                    phase: Math.random() * Math.PI * 2,
+                    speed: 0.3 + Math.random() * 0.7,
+                    amp: 0.4 + Math.random() * 0.6,
+                    phase2: Math.random() * Math.PI * 2,
+                    speed2: 0.5 + Math.random() * 1.0,
+                    amp2: 0.2 + Math.random() * 0.4,
+                });
+            }
+        };
+
+        // Crackle / spark points
+        let sparkPoints = [];
+        const generateSparks = (count) => {
+            sparkPoints = [];
+            for (let i = 0; i < count; i++) {
+                sparkPoints.push({
+                    index: Math.floor(Math.random() * 400),
+                    intensity: 0.5 + Math.random() * 0.5,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: 1 + Math.random() * 3,
+                    size: 1 + Math.random() * 3,
+                });
+            }
+        };
+
+        let borderPts = buildBorderPath(w, h, 400);
+        regenerateNoise(borderPts.length);
+        generateSparks(30);
 
         const animate = (timestamp) => {
             const time = timestamp * 0.001;
             ctx.clearRect(0, 0, w, h);
 
-            // Spawn bolts rarely — random intervals of 0.8s to 3s
-            if (time > nextBoltTime) {
-                boltsRef.current.push(spawnBolt(w, h));
-                // Occasional double strike
-                if (Math.random() < 0.25) {
-                    boltsRef.current.push(spawnBolt(w, h));
-                }
-                // Subtle flash
-                if (Math.random() < 0.3) {
-                    flashRef.current = 0.06 + Math.random() * 0.06;
-                }
-                nextBoltTime = time + 0.8 + Math.random() * 2.2;
+            if (borderPts.length < 2) {
+                animationRef.current = requestAnimationFrame(animate);
+                return;
             }
 
-            // Cap max bolts for safety
-            if (boltsRef.current.length > 6) {
-                boltsRef.current.splice(0, boltsRef.current.length - 6);
-            }
+            // Inset margin
+            const margin = 8;
 
+            // ============ DRAW LAYERS ============
+
+            // --- Layer 1: Outer soft glow ---
+            ctx.save();
+            ctx.globalCompositeOperation = 'lighter';
+
+            // Build the distorted path
+            const buildPath = (offsetScale) => {
+                ctx.beginPath();
+                for (let i = 0; i < borderPts.length; i++) {
+                    const pt = borderPts[i];
+                    const n = noiseOffsets[i] || noiseOffsets[0];
+                    // Multi-frequency organic wobble
+                    const wobble1 = Math.sin(time * n.speed * 4 + n.phase + i * 0.05) * n.amp;
+                    const wobble2 = Math.sin(time * n.speed2 * 4 + n.phase2 + i * 0.12) * n.amp2;
+                    const wobble = (wobble1 + wobble2) * offsetScale;
+
+                    const x = pt.x + pt.nx * (wobble * 2 - margin);
+                    const y = pt.y + pt.ny * (wobble * 2 - margin);
+
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+            };
+
+            // Outermost diffuse glow
+            buildPath(1.5);
+            ctx.strokeStyle = `hsla(${BASE_HUE}, ${BASE_SAT}%, ${BASE_LIGHT - 10}%, 0.08)`;
+            ctx.lineWidth = GLOW_SIZE * 1.8;
+            ctx.filter = 'blur(6px)';
+            ctx.stroke();
+            ctx.filter = 'none';
+
+            // Mid glow — warm orange
+            buildPath(1.2);
+            ctx.strokeStyle = `hsla(${BASE_HUE}, ${BASE_SAT}%, ${BASE_LIGHT}%, 0.18)`;
+            ctx.lineWidth = GLOW_SIZE * 0.8;
+            ctx.filter = 'blur(3px)';
+            ctx.stroke();
+            ctx.filter = 'none';
+
+            // Inner glow — brighter amber
+            buildPath(1.0);
+            ctx.strokeStyle = `hsla(${BASE_HUE + 5}, ${BASE_SAT}%, ${BASE_LIGHT + 15}%, 0.4)`;
+            ctx.lineWidth = GLOW_SIZE * 0.4;
+            ctx.filter = 'blur(1.5px)';
+            ctx.stroke();
+            ctx.filter = 'none';
+
+            // --- Layer 2: Core electric line ---
+            buildPath(1.0);
+            // Animated hue shift for liveliness
+            const hueShift = Math.sin(time * 2) * 8;
+            const coreHue = BASE_HUE + hueShift;
+            ctx.strokeStyle = `hsla(${coreHue}, ${BASE_SAT}%, ${BASE_LIGHT + 25}%, 0.7)`;
+            ctx.lineWidth = BORDER;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';
+            ctx.stroke();
 
-            // Draw bolts
-            for (let i = boltsRef.current.length - 1; i >= 0; i--) {
-                const bolt = boltsRef.current[i];
-                const alpha = bolt.life;
+            // Bright white-hot center
+            buildPath(1.0);
+            ctx.strokeStyle = `hsla(${coreHue + 10}, 60%, 85%, 0.5)`;
+            ctx.lineWidth = BORDER * 0.4;
+            ctx.stroke();
 
-                drawBolt(ctx, bolt.points, bolt.color, alpha, bolt.thickness);
+            // --- Layer 3: Corner hot spots ---
+            const corners = [
+                { x: margin + CORNER_RADIUS, y: margin + CORNER_RADIUS },
+                { x: w - margin - CORNER_RADIUS, y: margin + CORNER_RADIUS },
+                { x: w - margin - CORNER_RADIUS, y: h - margin - CORNER_RADIUS },
+                { x: margin + CORNER_RADIUS, y: h - margin - CORNER_RADIUS },
+            ];
 
-                for (const branch of bolt.branches) {
-                    drawBolt(ctx, branch, bolt.color, alpha * 0.4, bolt.thickness * 0.5);
+            corners.forEach((c, ci) => {
+                const pulse = 0.6 + 0.4 * Math.sin(time * 5 + ci * 1.6);
+                const grad = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, GLOW_SIZE * 1.2 * pulse);
+                grad.addColorStop(0, `hsla(${BASE_HUE + 15}, 100%, 75%, ${0.6 * pulse})`);
+                grad.addColorStop(0.3, `hsla(${BASE_HUE}, 100%, 55%, ${0.3 * pulse})`);
+                grad.addColorStop(1, `hsla(${BASE_HUE - 5}, 100%, 40%, 0)`);
+                ctx.fillStyle = grad;
+                ctx.fillRect(c.x - GLOW_SIZE * 2, c.y - GLOW_SIZE * 2, GLOW_SIZE * 4, GLOW_SIZE * 4);
+            });
+
+            // --- Layer 4: Electric sparks / crackle points ---
+            sparkPoints.forEach((sp) => {
+                const idx = sp.index % borderPts.length;
+                const pt = borderPts[idx];
+                const n = noiseOffsets[idx] || noiseOffsets[0];
+                const wobble = Math.sin(time * n.speed * 4 + n.phase + idx * 0.05) * n.amp;
+
+                const x = pt.x + pt.nx * (wobble * 2 - margin);
+                const y = pt.y + pt.ny * (wobble * 2 - margin);
+
+                const flicker = Math.abs(Math.sin(time * sp.speed * 3 + sp.phase));
+                if (flicker > 0.7) {
+                    const sparkGrad = ctx.createRadialGradient(x, y, 0, x, y, sp.size * 3);
+                    sparkGrad.addColorStop(0, `hsla(40, 100%, 90%, ${flicker * sp.intensity})`);
+                    sparkGrad.addColorStop(0.4, `hsla(30, 100%, 65%, ${flicker * sp.intensity * 0.5})`);
+                    sparkGrad.addColorStop(1, 'hsla(25, 100%, 40%, 0)');
+                    ctx.fillStyle = sparkGrad;
+                    ctx.fillRect(x - sp.size * 3, y - sp.size * 3, sp.size * 6, sp.size * 6);
                 }
+            });
 
-                bolt.life -= bolt.decay;
-                if (bolt.life <= 0) {
-                    boltsRef.current.splice(i, 1);
+            // --- Layer 5: Occasional intense energy flares along edges ---
+            const flareCount = 3;
+            for (let f = 0; f < flareCount; f++) {
+                const flareIdx = Math.floor(
+                    (borderPts.length / flareCount) * f +
+                    Math.sin(time * 1.2 + f * 2.1) * borderPts.length * 0.1
+                );
+                const safeFI = ((flareIdx % borderPts.length) + borderPts.length) % borderPts.length;
+                const fpt = borderPts[safeFI];
+                const fn = noiseOffsets[safeFI] || noiseOffsets[0];
+                const fwobble = Math.sin(time * fn.speed * 4 + fn.phase) * fn.amp;
+                const fx = fpt.x + fpt.nx * (fwobble * 2 - margin);
+                const fy = fpt.y + fpt.ny * (fwobble * 2 - margin);
+                const flarePulse = Math.pow(Math.abs(Math.sin(time * 3 + f * 1.3)), 3);
+
+                if (flarePulse > 0.3) {
+                    const flareGrad = ctx.createRadialGradient(fx, fy, 0, fx, fy, GLOW_SIZE * 1.5 * flarePulse);
+                    flareGrad.addColorStop(0, `hsla(40, 100%, 80%, ${flarePulse * 0.5})`);
+                    flareGrad.addColorStop(0.5, `hsla(25, 100%, 50%, ${flarePulse * 0.2})`);
+                    flareGrad.addColorStop(1, 'hsla(20, 100%, 30%, 0)');
+                    ctx.fillStyle = flareGrad;
+                    ctx.fillRect(fx - GLOW_SIZE * 3, fy - GLOW_SIZE * 3, GLOW_SIZE * 6, GLOW_SIZE * 6);
                 }
             }
 
-            // Subtle flash
-            if (flashRef.current > 0) {
-                ctx.fillStyle = `rgba(220, 235, 255, ${flashRef.current})`;
-                ctx.fillRect(0, 0, w, h);
-                flashRef.current *= 0.82;
-                if (flashRef.current < 0.003) flashRef.current = 0;
-            }
+            ctx.restore();
 
             animationRef.current = requestAnimationFrame(animate);
         };
 
         animationRef.current = requestAnimationFrame(animate);
 
+        const handleResize = () => {
+            resize();
+            borderPts = buildBorderPath(w, h, 400);
+            regenerateNoise(borderPts.length);
+            generateSparks(30);
+        };
+
+        window.removeEventListener('resize', resize);
+        window.addEventListener('resize', handleResize);
+
         return () => {
             cancelAnimationFrame(animationRef.current);
-            window.removeEventListener('resize', resize);
-            boltsRef.current = [];
+            window.removeEventListener('resize', handleResize);
         };
-    }, [spawnBolt, drawBolt]);
+    }, []);
 
     return (
         <div className="viewport-neon-root" aria-hidden="true">
