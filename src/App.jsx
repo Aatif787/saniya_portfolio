@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import MusicController from "./components/effects/MusicController";
 import ErrorBoundary from "./components/ErrorBoundary";
 import ViewportBorder from "./components/effects/ViewportBorder";
+import PremiumEnhancements from "./components/effects/PremiumEnhancements";
 
 function GlobalLoader() {
   return (
@@ -38,6 +39,7 @@ function MainLayout() {
         {isInitializing && <GlobalLoader key="loader" />}
       </AnimatePresence>
       <ViewportBorder />
+      <PremiumEnhancements />
       <MusicController />
 
       <motion.div
