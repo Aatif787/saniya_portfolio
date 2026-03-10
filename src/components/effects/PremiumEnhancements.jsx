@@ -159,8 +159,11 @@ const PremiumEnhancements = () => {
             // Target the profile card container
             const cards = document.querySelectorAll('[class*="glass-panel"][class*="rounded-"]');
             cards.forEach((card) => {
-                // Only apply to larger card-like elements
+                // Skip the profile card (has overflow-visible for rotating text) and small elements
                 if (card.offsetHeight < 100) return;
+                if (card.classList.contains('overflow-visible') || card.className.includes('overflow-visible')) return;
+                // Skip cards inside links (profile card is wrapped in <Link>)
+                if (card.closest('a[class*="block"]')) return;
 
                 card.style.transformStyle = 'preserve-3d';
                 card.style.transition = 'transform 0.15s ease-out';
@@ -205,8 +208,6 @@ const PremiumEnhancements = () => {
                     transform: translateY(0);
                 }
                 .premium-hover-glow {
-                    position: relative;
-                    overflow: visible;
                 }
                 .premium-hover-glow::after {
                     content: '';
@@ -231,6 +232,8 @@ const PremiumEnhancements = () => {
         const setupScrollReveal = () => {
             const sections = document.querySelectorAll('section, [class*="glass-section"]');
             sections.forEach((s) => {
+                // Skip the hero section (first section) — framer-motion handles its animations
+                if (s.querySelector('[class*="text-gradient-rainbow"]')) return;
                 if (!s.classList.contains('premium-reveal')) {
                     s.classList.add('premium-reveal');
                 }
