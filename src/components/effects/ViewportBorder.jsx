@@ -24,12 +24,6 @@ const ViewportBorder = () => {
         resize();
         window.addEventListener('resize', resize);
 
-        // ============ CONFIG ============
-        const BORDER = 1.5;
-        const GLOW_SIZE = 10;
-        const CORNER_RADIUS = 12;
-        const MARGIN = 2; // pushed to the very edge
-
         // ============ MOUSE STATE ============
         let mouseX = w / 2;
         let mouseY = h / 2;
@@ -48,190 +42,174 @@ const ViewportBorder = () => {
         };
         window.addEventListener('mousemove', handleMouseMove);
 
-        // ============ BORDER PATH ============
-        const buildBorderPath = (width, height, segments) => {
-            const pts = [];
-            const r = CORNER_RADIUS;
-            const perimeter = 2 * (width + height) - 8 * r + 2 * Math.PI * r;
-            const step = perimeter / segments;
+        // ============ SHOOTING STARS / METEORS ============
+        const MAX_METEORS = 15;
+        const meteors = [];
+        const meteorTrails = [];
+        const MAX_METEOR_TRAIL_PARTICLES = 200;
 
-            for (let x = r; x <= width - r; x += step)
-                pts.push({ x, y: 0, nx: 0, ny: -1 });
-            for (let a = -Math.PI / 2; a <= 0; a += step / r) {
-                const cx = width - r, cy = r;
-                pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, nx: Math.cos(a), ny: Math.sin(a) });
+        const spawnMeteor = () => {
+            // Pick a random starting edge: 0=top, 1=right, 2=bottom, 3=left
+            const edge = Math.floor(Math.random() * 4);
+            let startX, startY, angle;
+
+            // Spread factor for angle variation (radians) — slight fan
+            const spread = (Math.random() - 0.5) * 0.6;
+
+            switch (edge) {
+                case 0: // top edge — going down
+                    startX = Math.random() * w;
+                    startY = -10;
+                    angle = Math.PI / 2 + spread;
+                    break;
+                case 1: // right edge — going left
+                    startX = w + 10;
+                    startY = Math.random() * h;
+                    angle = Math.PI + spread;
+                    break;
+                case 2: // bottom edge — going up
+                    startX = Math.random() * w;
+                    startY = h + 10;
+                    angle = -Math.PI / 2 + spread;
+                    break;
+                case 3: // left edge — going right
+                default:
+                    startX = -10;
+                    startY = Math.random() * h;
+                    angle = 0 + spread;
+                    break;
             }
-            for (let y = r; y <= height - r; y += step)
-                pts.push({ x: width, y, nx: 1, ny: 0 });
-            for (let a = 0; a <= Math.PI / 2; a += step / r) {
-                const cx = width - r, cy = height - r;
-                pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, nx: Math.cos(a), ny: Math.sin(a) });
-            }
-            for (let x = width - r; x >= r; x -= step)
-                pts.push({ x, y: height, nx: 0, ny: 1 });
-            for (let a = Math.PI / 2; a <= Math.PI; a += step / r) {
-                const cx = r, cy = height - r;
-                pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, nx: Math.cos(a), ny: Math.sin(a) });
-            }
-            for (let y = height - r; y >= r; y -= step)
-                pts.push({ x: 0, y, nx: -1, ny: 0 });
-            for (let a = Math.PI; a <= 1.5 * Math.PI; a += step / r) {
-                const cx = r, cy = r;
-                pts.push({ x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r, nx: Math.cos(a), ny: Math.sin(a) });
-            }
-            return pts;
+
+            const speed = 4 + Math.random() * 8;
+            const tailLength = 80 + Math.random() * 140;
+            const size = 1.5 + Math.random() * 2.5;
+            const hueOffset = Math.random() * 120;
+
+            meteors.push({
+                x: startX,
+                y: startY,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                speed,
+                tailLength,
+                size,
+                hueOffset,
+                life: 1.0,
+                trailTimer: 0,
+            });
         };
 
-        // Noise offsets — gentle wobble, not aggressive zigzag
-        let noiseOffsets = [];
-        const regenerateNoise = (count) => {
-            noiseOffsets = [];
-            for (let i = 0; i < count; i++) {
-                noiseOffsets.push({
-                    phase: Math.random() * Math.PI * 2,
-                    speed: 0.5 + Math.random() * 0.8,
-                    amp: 0.35 + Math.random() * 0.45,
-                    phase2: Math.random() * Math.PI * 2,
-                    speed2: 0.8 + Math.random() * 1.2,
-                    amp2: 0.15 + Math.random() * 0.3,
-                });
-            }
-        };
+        // Stagger initial meteor spawns
+        let spawnTimer = 0;
+        const SPAWN_INTERVAL_MIN = 150;
+        const SPAWN_INTERVAL_MAX = 800;
+        let nextSpawnDelay = SPAWN_INTERVAL_MIN + Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN);
 
-        let sparkPoints = [];
-        const generateSparks = (count) => {
-            sparkPoints = [];
-            for (let i = 0; i < count; i++) {
-                sparkPoints.push({
-                    index: Math.floor(Math.random() * 400),
-                    intensity: 0.4 + Math.random() * 0.6,
-                    phase: Math.random() * Math.PI * 2,
-                    speed: 2 + Math.random() * 4,
-                    size: 0.8 + Math.random() * 2,
-                });
-            }
-        };
-
-        let borderPts = buildBorderPath(w, h, 500);
-        regenerateNoise(borderPts.length);
-        generateSparks(35);
+        // Seed a few meteors immediately
+        for (let i = 0; i < 6; i++) spawnMeteor();
 
         // ============ ANIMATION ============
+        let lastFrameTime = 0;
+
         const animate = (timestamp) => {
+            const dt = lastFrameTime ? (timestamp - lastFrameTime) : 16;
+            lastFrameTime = timestamp;
             const time = timestamp * 0.001;
             ctx.clearRect(0, 0, w, h);
 
-            if (borderPts.length < 2) {
-                animationRef.current = requestAnimationFrame(animate);
-                return;
-            }
-
-            // Cycling neon hue
             const baseHue = (time * 25) % 360;
 
             ctx.save();
             ctx.globalCompositeOperation = 'lighter';
 
-            // Build distorted path — moderate zigzag + rotating phase sweep
-            const rotatePhase = time * 2.5; // rotation speed
-            const buildPath = (offsetScale) => {
+            // --- Spawn new meteors ---
+            spawnTimer += dt;
+            if (spawnTimer >= nextSpawnDelay && meteors.length < MAX_METEORS) {
+                spawnMeteor();
+                spawnTimer = 0;
+                nextSpawnDelay = SPAWN_INTERVAL_MIN + Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN);
+            }
+
+            // --- Update & draw meteors ---
+            for (let i = meteors.length - 1; i >= 0; i--) {
+                const m = meteors[i];
+                m.x += m.vx;
+                m.y += m.vy;
+
+                // Emit trail particles every few frames
+                m.trailTimer += dt;
+                if (m.trailTimer > 20) {
+                    m.trailTimer = 0;
+                    meteorTrails.push({
+                        x: m.x,
+                        y: m.y,
+                        life: 1.0,
+                        size: m.size * (0.3 + Math.random() * 0.5),
+                        hueOffset: m.hueOffset + Math.random() * 20 - 10,
+                    });
+                    if (meteorTrails.length > MAX_METEOR_TRAIL_PARTICLES) meteorTrails.shift();
+                }
+
+                // Kill if out of bounds
+                const margin = m.tailLength + 50;
+                if (m.x < -margin || m.x > w + margin || m.y < -margin || m.y > h + margin) {
+                    meteors.splice(i, 1);
+                    continue;
+                }
+
+                const meteorHue = (baseHue + m.hueOffset) % 360;
+
+                // --- Draw tail (gradient line) ---
+                const tailX = m.x - (m.vx / m.speed) * m.tailLength;
+                const tailY = m.y - (m.vy / m.speed) * m.tailLength;
+
+                const tailGrad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
+                tailGrad.addColorStop(0, `hsla(${meteorHue}, 100%, 60%, 0)`);
+                tailGrad.addColorStop(0.5, `hsla(${meteorHue}, 100%, 70%, 0.15)`);
+                tailGrad.addColorStop(0.85, `hsla(${meteorHue + 20}, 100%, 80%, 0.5)`);
+                tailGrad.addColorStop(1, `hsla(${meteorHue + 40}, 100%, 95%, 0.9)`);
+
                 ctx.beginPath();
-                for (let i = 0; i < borderPts.length; i++) {
-                    const pt = borderPts[i];
-                    const n = noiseOffsets[i] || noiseOffsets[0];
-                    // Rotating phase offset — energy sweeps around the border
-                    const sweep = (i / borderPts.length) * Math.PI * 2;
-                    const w1 = Math.sin(time * n.speed * 5 + n.phase + i * 0.06 + rotatePhase + sweep) * n.amp;
-                    const w2 = Math.sin(time * n.speed2 * 5 + n.phase2 + i * 0.12 - rotatePhase * 0.7) * n.amp2;
-                    const wobble = (w1 + w2) * offsetScale;
+                ctx.moveTo(tailX, tailY);
+                ctx.lineTo(m.x, m.y);
+                ctx.strokeStyle = tailGrad;
+                ctx.lineWidth = m.size;
+                ctx.lineCap = 'round';
+                ctx.stroke();
 
-                    const x = pt.x + pt.nx * (wobble * 2 - MARGIN);
-                    const y = pt.y + pt.ny * (wobble * 2 - MARGIN);
+                // --- Draw head glow ---
+                const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.size * 6);
+                headGrad.addColorStop(0, `hsla(${meteorHue + 40}, 80%, 95%, 0.9)`);
+                headGrad.addColorStop(0.2, `hsla(${meteorHue + 20}, 100%, 80%, 0.5)`);
+                headGrad.addColorStop(0.5, `hsla(${meteorHue}, 100%, 60%, 0.15)`);
+                headGrad.addColorStop(1, `hsla(${meteorHue}, 100%, 50%, 0)`);
+                ctx.fillStyle = headGrad;
+                const gr = m.size * 6;
+                ctx.fillRect(m.x - gr, m.y - gr, gr * 2, gr * 2);
 
-                    if (i === 0) ctx.moveTo(x, y);
-                    else ctx.lineTo(x, y);
-                }
-                ctx.closePath();
-            };
+                // --- Bright core dot ---
+                ctx.beginPath();
+                ctx.arc(m.x, m.y, m.size * 0.6, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${meteorHue + 40}, 60%, 97%, 0.95)`;
+                ctx.fill();
+            }
 
-            // --- Outer diffuse glow ---
-            buildPath(1.3);
-            ctx.strokeStyle = `hsla(${baseHue}, 100%, 50%, 0.06)`;
-            ctx.lineWidth = GLOW_SIZE * 1.8;
-            ctx.filter = 'blur(6px)';
-            ctx.stroke();
-            ctx.filter = 'none';
+            // --- Update & draw meteor trail particles ---
+            for (let i = meteorTrails.length - 1; i >= 0; i--) {
+                const tp = meteorTrails[i];
+                tp.life -= 0.025;
+                if (tp.life <= 0) { meteorTrails.splice(i, 1); continue; }
 
-            // --- Mid glow ---
-            buildPath(1.1);
-            ctx.strokeStyle = `hsla(${baseHue + 20}, 100%, 60%, 0.14)`;
-            ctx.lineWidth = GLOW_SIZE * 0.7;
-            ctx.filter = 'blur(2.5px)';
-            ctx.stroke();
-            ctx.filter = 'none';
-
-            // --- Inner glow ---
-            buildPath(1.0);
-            ctx.strokeStyle = `hsla(${baseHue + 40}, 100%, 70%, 0.3)`;
-            ctx.lineWidth = GLOW_SIZE * 0.25;
-            ctx.filter = 'blur(1px)';
-            ctx.stroke();
-            ctx.filter = 'none';
-
-            // --- Core neon line ---
-            buildPath(1.0);
-            const coreHue = baseHue + Math.sin(time * 3) * 30;
-            ctx.strokeStyle = `hsla(${coreHue}, 100%, 75%, 0.75)`;
-            ctx.lineWidth = BORDER;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.stroke();
-
-            // White-hot center
-            buildPath(1.0);
-            ctx.strokeStyle = `hsla(${coreHue}, 50%, 92%, 0.4)`;
-            ctx.lineWidth = BORDER * 0.3;
-            ctx.stroke();
-
-            // --- Corner hotspots ---
-            const corners = [
-                { x: MARGIN + CORNER_RADIUS, y: MARGIN + CORNER_RADIUS },
-                { x: w - MARGIN - CORNER_RADIUS, y: MARGIN + CORNER_RADIUS },
-                { x: w - MARGIN - CORNER_RADIUS, y: h - MARGIN - CORNER_RADIUS },
-                { x: MARGIN + CORNER_RADIUS, y: h - MARGIN - CORNER_RADIUS },
-            ];
-            corners.forEach((c, ci) => {
-                const pulse = 0.5 + 0.5 * Math.sin(time * 5 + ci * 1.6);
-                const hue = (baseHue + ci * 60) % 360;
-                const grad = ctx.createRadialGradient(c.x, c.y, 0, c.x, c.y, GLOW_SIZE * 1.3 * pulse);
-                grad.addColorStop(0, `hsla(${hue}, 100%, 80%, ${0.45 * pulse})`);
-                grad.addColorStop(0.4, `hsla(${hue + 20}, 100%, 55%, ${0.18 * pulse})`);
-                grad.addColorStop(1, `hsla(${hue}, 100%, 40%, 0)`);
-                ctx.fillStyle = grad;
-                ctx.fillRect(c.x - GLOW_SIZE * 2, c.y - GLOW_SIZE * 2, GLOW_SIZE * 4, GLOW_SIZE * 4);
-            });
-
-            // --- Sparks ---
-            sparkPoints.forEach((sp) => {
-                const idx = sp.index % borderPts.length;
-                const pt = borderPts[idx];
-                const n = noiseOffsets[idx] || noiseOffsets[0];
-                const sweep = (idx / borderPts.length) * Math.PI * 2;
-                const wobble = Math.sin(time * n.speed * 5 + n.phase + idx * 0.06 + rotatePhase + sweep) * n.amp;
-                const x = pt.x + pt.nx * (wobble * 2 - MARGIN);
-                const y = pt.y + pt.ny * (wobble * 2 - MARGIN);
-
-                const flicker = Math.abs(Math.sin(time * sp.speed * 3 + sp.phase));
-                if (flicker > 0.7) {
-                    const hue = (baseHue + idx * 0.5) % 360;
-                    const sparkGrad = ctx.createRadialGradient(x, y, 0, x, y, sp.size * 2.5);
-                    sparkGrad.addColorStop(0, `hsla(${hue}, 100%, 90%, ${flicker * sp.intensity})`);
-                    sparkGrad.addColorStop(0.5, `hsla(${hue + 30}, 100%, 65%, ${flicker * sp.intensity * 0.35})`);
-                    sparkGrad.addColorStop(1, `hsla(${hue}, 100%, 40%, 0)`);
-                    ctx.fillStyle = sparkGrad;
-                    ctx.fillRect(x - sp.size * 2.5, y - sp.size * 2.5, sp.size * 5, sp.size * 5);
-                }
-            });
+                const alpha = tp.life * tp.life; // ease out
+                const trailHue = (baseHue + tp.hueOffset) % 360;
+                const tpGrad = ctx.createRadialGradient(tp.x, tp.y, 0, tp.x, tp.y, tp.size * 3);
+                tpGrad.addColorStop(0, `hsla(${trailHue}, 100%, 85%, ${alpha * 0.6})`);
+                tpGrad.addColorStop(0.5, `hsla(${trailHue + 15}, 100%, 65%, ${alpha * 0.2})`);
+                tpGrad.addColorStop(1, `hsla(${trailHue}, 100%, 50%, 0)`);
+                ctx.fillStyle = tpGrad;
+                const r = tp.size * 3;
+                ctx.fillRect(tp.x - r, tp.y - r, r * 2, r * 2);
+            }
 
             // ============ MOUSE EFFECTS ============
             const speed = Math.sqrt(mouseVX * mouseVX + mouseVY * mouseVY);
@@ -333,9 +311,6 @@ const ViewportBorder = () => {
 
         const handleResize = () => {
             resize();
-            borderPts = buildBorderPath(w, h, 500);
-            regenerateNoise(borderPts.length);
-            generateSparks(35);
         };
         window.removeEventListener('resize', resize);
         window.addEventListener('resize', handleResize);
