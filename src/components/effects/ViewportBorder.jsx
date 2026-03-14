@@ -80,9 +80,18 @@ const ViewportBorder = () => {
                     break;
             }
 
-            const speed = 4 + Math.random() * 8;
-            const tailLength = 80 + Math.random() * 140;
-            const size = 1.5 + Math.random() * 2.5;
+            // ~40% chance to be a subtle light particle instead of a full meteor
+            const isLightParticle = Math.random() < 0.4;
+
+            const speed = isLightParticle
+                ? 1.5 + Math.random() * 3
+                : 3 + Math.random() * 5;
+            const tailLength = isLightParticle
+                ? 10 + Math.random() * 25
+                : 30 + Math.random() * 60;
+            const size = isLightParticle
+                ? 0.4 + Math.random() * 0.8
+                : 0.8 + Math.random() * 1.2;
             const hueOffset = Math.random() * 120;
 
             meteors.push({
@@ -96,6 +105,7 @@ const ViewportBorder = () => {
                 hueOffset,
                 life: 1.0,
                 trailTimer: 0,
+                isLightParticle,
             });
         };
 
@@ -136,18 +146,20 @@ const ViewportBorder = () => {
                 m.x += m.vx;
                 m.y += m.vy;
 
-                // Emit trail particles every few frames
-                m.trailTimer += dt;
-                if (m.trailTimer > 20) {
-                    m.trailTimer = 0;
-                    meteorTrails.push({
-                        x: m.x,
-                        y: m.y,
-                        life: 1.0,
-                        size: m.size * (0.3 + Math.random() * 0.5),
-                        hueOffset: m.hueOffset + Math.random() * 20 - 10,
-                    });
-                    if (meteorTrails.length > MAX_METEOR_TRAIL_PARTICLES) meteorTrails.shift();
+                // Emit trail particles — only for full meteors, not light particles
+                if (!m.isLightParticle) {
+                    m.trailTimer += dt;
+                    if (m.trailTimer > 30) {
+                        m.trailTimer = 0;
+                        meteorTrails.push({
+                            x: m.x,
+                            y: m.y,
+                            life: 1.0,
+                            size: m.size * (0.2 + Math.random() * 0.3),
+                            hueOffset: m.hueOffset + Math.random() * 20 - 10,
+                        });
+                        if (meteorTrails.length > MAX_METEOR_TRAIL_PARTICLES) meteorTrails.shift();
+                    }
                 }
 
                 // Kill if out of bounds
@@ -158,6 +170,7 @@ const ViewportBorder = () => {
                 }
 
                 const meteorHue = (baseHue + m.hueOffset) % 360;
+                const dimFactor = m.isLightParticle ? 0.35 : 1.0;
 
                 // --- Draw tail (gradient line) ---
                 const tailX = m.x - (m.vx / m.speed) * m.tailLength;
@@ -165,9 +178,9 @@ const ViewportBorder = () => {
 
                 const tailGrad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
                 tailGrad.addColorStop(0, `hsla(${meteorHue}, 100%, 60%, 0)`);
-                tailGrad.addColorStop(0.5, `hsla(${meteorHue}, 100%, 70%, 0.15)`);
-                tailGrad.addColorStop(0.85, `hsla(${meteorHue + 20}, 100%, 80%, 0.5)`);
-                tailGrad.addColorStop(1, `hsla(${meteorHue + 40}, 100%, 95%, 0.9)`);
+                tailGrad.addColorStop(0.5, `hsla(${meteorHue}, 100%, 70%, ${0.1 * dimFactor})`);
+                tailGrad.addColorStop(0.85, `hsla(${meteorHue + 20}, 100%, 80%, ${0.35 * dimFactor})`);
+                tailGrad.addColorStop(1, `hsla(${meteorHue + 40}, 100%, 95%, ${0.7 * dimFactor})`);
 
                 ctx.beginPath();
                 ctx.moveTo(tailX, tailY);
@@ -178,19 +191,18 @@ const ViewportBorder = () => {
                 ctx.stroke();
 
                 // --- Draw head glow ---
-                const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, m.size * 6);
-                headGrad.addColorStop(0, `hsla(${meteorHue + 40}, 80%, 95%, 0.9)`);
-                headGrad.addColorStop(0.2, `hsla(${meteorHue + 20}, 100%, 80%, 0.5)`);
-                headGrad.addColorStop(0.5, `hsla(${meteorHue}, 100%, 60%, 0.15)`);
+                const glowRadius = m.isLightParticle ? m.size * 3 : m.size * 4;
+                const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, glowRadius);
+                headGrad.addColorStop(0, `hsla(${meteorHue + 40}, 80%, 95%, ${0.7 * dimFactor})`);
+                headGrad.addColorStop(0.3, `hsla(${meteorHue + 20}, 100%, 80%, ${0.3 * dimFactor})`);
                 headGrad.addColorStop(1, `hsla(${meteorHue}, 100%, 50%, 0)`);
                 ctx.fillStyle = headGrad;
-                const gr = m.size * 6;
-                ctx.fillRect(m.x - gr, m.y - gr, gr * 2, gr * 2);
+                ctx.fillRect(m.x - glowRadius, m.y - glowRadius, glowRadius * 2, glowRadius * 2);
 
                 // --- Bright core dot ---
                 ctx.beginPath();
-                ctx.arc(m.x, m.y, m.size * 0.6, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${meteorHue + 40}, 60%, 97%, 0.95)`;
+                ctx.arc(m.x, m.y, m.size * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${meteorHue + 40}, 60%, 97%, ${0.8 * dimFactor})`;
                 ctx.fill();
             }
 
