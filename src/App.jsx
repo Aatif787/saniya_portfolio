@@ -38,17 +38,17 @@ function MainLayout() {
       <AnimatePresence>
         {isInitializing && <GlobalLoader key="loader" />}
       </AnimatePresence>
-      <ViewportBorder />
-      <PremiumEnhancements />
       <MusicController />
 
       <motion.div
         className="relative glass-content"
-        style={{ zIndex: 1 }}
+        style={{ zIndex: 10 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: isInitializing ? 0 : 1 }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
+        <ViewportBorder />
+        <PremiumEnhancements />
         <ErrorBoundary>
           <Routes />
         </ErrorBoundary>

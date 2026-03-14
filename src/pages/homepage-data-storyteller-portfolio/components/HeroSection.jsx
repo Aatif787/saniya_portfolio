@@ -36,7 +36,7 @@ const HeroSection = () => {
   const titleGlow = useTransform(scrollYProgress, [0, 1], [0.3, 0.7]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen bg-transparent overflow-hidden">
       {/* Animated Background Elements */}
       <motion.div className="absolute inset-0 opacity-20" style={{ y: bgTranslateY }}>
         {floatingElements?.map((element, index) => (

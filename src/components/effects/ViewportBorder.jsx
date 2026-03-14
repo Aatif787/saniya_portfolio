@@ -4,29 +4,33 @@ import '../../styles/ViewportBorder.css';
 const ViewportBorder = () => {
     const canvasRef = useRef(null);
     const animationRef = useRef(null);
+    const dims = useRef({ w: 0, h: 0 });
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        let w, h;
 
         const resize = () => {
-            w = window.innerWidth;
-            h = window.innerHeight;
+            dims.current.w = window.innerWidth;
+            dims.current.h = window.innerHeight;
             const dpr = window.devicePixelRatio || 1;
-            canvas.width = w * dpr;
-            canvas.height = h * dpr;
-            canvas.style.width = w + 'px';
-            canvas.style.height = h + 'px';
+            canvas.width = dims.current.w * dpr;
+            canvas.height = dims.current.h * dpr;
+            canvas.style.width = dims.current.w + 'px';
+            canvas.style.height = dims.current.h + 'px';
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         };
         resize();
         window.addEventListener('resize', resize);
 
+        // ============ ATMOSPHERIC OBJECTS ============
+        const objects = [];
+        const MAX_OBJECTS = 12;
+
         // ============ MOUSE STATE ============
-        let mouseX = w / 2;
-        let mouseY = h / 2;
+        let mouseX = dims.current.w / 2;
+        let mouseY = dims.current.h / 2;
         let mouseVX = 0;
         let mouseVY = 0;
         const mouseTrail = [];
@@ -42,222 +46,151 @@ const ViewportBorder = () => {
         };
         window.addEventListener('mousemove', handleMouseMove);
 
-        // ============ SHOOTING STARS / METEORS ============
-        const MAX_METEORS = 15;
-        const meteors = [];
-        const meteorTrails = [];
-        const MAX_METEOR_TRAIL_PARTICLES = 200;
-
-        const spawnMeteor = () => {
-            // Pick a random starting edge: 0=top, 1=right, 2=bottom, 3=left
-            const edge = Math.floor(Math.random() * 4);
-            let startX, startY, angle;
-
-            // Spread factor for angle variation (radians) — slight fan
-            const spread = (Math.random() - 0.5) * 0.6;
-
-            switch (edge) {
-                case 0: // top edge — going down
-                    startX = Math.random() * w;
-                    startY = -10;
-                    angle = Math.PI / 2 + spread;
-                    break;
-                case 1: // right edge — going left
-                    startX = w + 10;
-                    startY = Math.random() * h;
-                    angle = Math.PI + spread;
-                    break;
-                case 2: // bottom edge — going up
-                    startX = Math.random() * w;
-                    startY = h + 10;
-                    angle = -Math.PI / 2 + spread;
-                    break;
-                case 3: // left edge — going right
-                default:
-                    startX = -10;
-                    startY = Math.random() * h;
-                    angle = 0 + spread;
-                    break;
+        class AtmosphericObject {
+            constructor(type) {
+                this.type = type;
+                this.init();
             }
 
-            // ~40% chance to be a subtle light particle instead of a full meteor
-            const isLightParticle = Math.random() < 0.4;
+            init() {
+                const { w, h } = dims.current;
+                const side = Math.floor(Math.random() * 4);
+                const padding = 100;
 
-            const speed = isLightParticle
-                ? 1.5 + Math.random() * 3
-                : 3 + Math.random() * 5;
-            const tailLength = isLightParticle
-                ? 10 + Math.random() * 25
-                : 30 + Math.random() * 60;
-            const size = isLightParticle
-                ? 0.4 + Math.random() * 0.8
-                : 0.8 + Math.random() * 1.2;
-            const hueOffset = Math.random() * 120;
+                if (side === 0) { // Top
+                    this.x = Math.random() * w;
+                    this.y = -padding;
+                    this.tx = Math.random() * w;
+                    this.ty = h + padding;
+                } else if (side === 1) { // Right
+                    this.x = w + padding;
+                    this.y = Math.random() * h;
+                    this.tx = -padding;
+                    this.ty = Math.random() * h;
+                } else if (side === 2) { // Bottom
+                    this.x = Math.random() * w;
+                    this.y = h + padding;
+                    this.tx = Math.random() * w;
+                    this.ty = -padding;
+                } else { // Left
+                    this.x = -padding;
+                    this.y = Math.random() * h;
+                    this.tx = w + padding;
+                    this.ty = Math.random() * h;
+                }
 
-            meteors.push({
-                x: startX,
-                y: startY,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                speed,
-                tailLength,
-                size,
-                hueOffset,
-                life: 1.0,
-                trailTimer: 0,
-                isLightParticle,
-            });
+                const dx = this.tx - this.x;
+                const dy = this.ty - this.y;
+                const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                
+                const baseSpeed = this.type === 'star' ? 4 + Math.random() * 4 : 12 + Math.random() * 15;
+                this.vx = (dx / dist) * baseSpeed;
+                this.vy = (dy / dist) * baseSpeed;
+
+                this.history = [];
+                this.maxHistory = this.type === 'star' ? 40 : 15;
+                this.life = 1.0;
+                this.size = this.type === 'star' ? 1.5 + Math.random() * 1.5 : 0.8 + Math.random() * 1.2;
+                this.hue = this.type === 'star' ? 200 + Math.random() * 40 : 180 + Math.random() * 20;
+                this.opacity = 0;
+                this.active = true;
+            }
+
+            update() {
+                this.history.unshift({ x: this.x, y: this.y });
+                if (this.history.length > this.maxHistory) this.history.pop();
+
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.life > 0.1) this.opacity = Math.min(1, this.opacity + 0.05);
+                
+                const { w, h } = dims.current;
+                if (this.x < -200 || this.x > w + 200 || this.y < -200 || this.y > h + 200) {
+                    this.active = false;
+                }
+            }
+
+            draw() {
+                if (!this.active || this.history.length < 2) return;
+                const head = this.history[0];
+                const tail = this.history[this.history.length - 1];
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+
+                ctx.beginPath();
+                ctx.moveTo(head.x, head.y);
+                for (let i = 1; i < this.history.length; i++) {
+                    ctx.lineTo(this.history[i].x, this.history[i].y);
+                }
+                
+                const grad = ctx.createLinearGradient(head.x, head.y, tail.x, tail.y);
+                const color = `hsla(${this.hue}, 80%, 90%, ${this.opacity})`;
+                grad.addColorStop(0, color);
+                grad.addColorStop(1, 'transparent');
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = this.size;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+
+                const glowSize = this.size * (this.type === 'star' ? 8 : 4);
+                const headGrad = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, glowSize);
+                headGrad.addColorStop(0, `hsla(${this.hue}, 100%, 95%, ${this.opacity * 0.8})`);
+                headGrad.addColorStop(0.3, `hsla(${this.hue}, 100%, 70%, ${this.opacity * 0.3})`);
+                headGrad.addColorStop(1, 'transparent');
+                ctx.fillStyle = headGrad;
+                ctx.beginPath();
+                ctx.arc(head.x, head.y, glowSize, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const spawn = () => {
+            if (objects.length < MAX_OBJECTS) {
+                objects.push(new AtmosphericObject(Math.random() > 0.7 ? 'star' : 'meteor'));
+            }
         };
 
-        // Stagger initial meteor spawns
-        let spawnTimer = 0;
-        const SPAWN_INTERVAL_MIN = 150;
-        const SPAWN_INTERVAL_MAX = 800;
-        let nextSpawnDelay = SPAWN_INTERVAL_MIN + Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN);
-
-        // Seed a few meteors immediately
-        for (let i = 0; i < 6; i++) spawnMeteor();
-
-        // ============ ANIMATION ============
-        let lastFrameTime = 0;
-
         const animate = (timestamp) => {
-            const dt = lastFrameTime ? (timestamp - lastFrameTime) : 16;
-            lastFrameTime = timestamp;
             const time = timestamp * 0.001;
+            const { w, h } = dims.current;
             ctx.clearRect(0, 0, w, h);
 
-            const baseHue = (time * 25) % 360;
+            if (Math.random() < 0.02) spawn();
+
+            for (let i = objects.length - 1; i >= 0; i--) {
+                const obj = objects[i];
+                obj.update();
+                obj.draw();
+                if (!obj.active) objects.splice(i, 1);
+            }
+
+            const speed = Math.sqrt(mouseVX * mouseVX + mouseVY * mouseVY);
 
             ctx.save();
             ctx.globalCompositeOperation = 'lighter';
 
-            // --- Spawn new meteors ---
-            spawnTimer += dt;
-            if (spawnTimer >= nextSpawnDelay && meteors.length < MAX_METEORS) {
-                spawnMeteor();
-                spawnTimer = 0;
-                nextSpawnDelay = SPAWN_INTERVAL_MIN + Math.random() * (SPAWN_INTERVAL_MAX - SPAWN_INTERVAL_MIN);
-            }
-
-            // --- Update & draw meteors ---
-            for (let i = meteors.length - 1; i >= 0; i--) {
-                const m = meteors[i];
-                m.x += m.vx;
-                m.y += m.vy;
-
-                // Emit trail particles — only for full meteors, not light particles
-                if (!m.isLightParticle) {
-                    m.trailTimer += dt;
-                    if (m.trailTimer > 30) {
-                        m.trailTimer = 0;
-                        meteorTrails.push({
-                            x: m.x,
-                            y: m.y,
-                            life: 1.0,
-                            size: m.size * (0.2 + Math.random() * 0.3),
-                            hueOffset: m.hueOffset + Math.random() * 20 - 10,
-                        });
-                        if (meteorTrails.length > MAX_METEOR_TRAIL_PARTICLES) meteorTrails.shift();
-                    }
-                }
-
-                // Kill if out of bounds
-                const margin = m.tailLength + 50;
-                if (m.x < -margin || m.x > w + margin || m.y < -margin || m.y > h + margin) {
-                    meteors.splice(i, 1);
-                    continue;
-                }
-
-                const meteorHue = (baseHue + m.hueOffset) % 360;
-                const dimFactor = m.isLightParticle ? 0.35 : 1.0;
-
-                // --- Draw tail (gradient line) ---
-                const tailX = m.x - (m.vx / m.speed) * m.tailLength;
-                const tailY = m.y - (m.vy / m.speed) * m.tailLength;
-
-                const tailGrad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
-                tailGrad.addColorStop(0, `hsla(${meteorHue}, 100%, 60%, 0)`);
-                tailGrad.addColorStop(0.5, `hsla(${meteorHue}, 100%, 70%, ${0.1 * dimFactor})`);
-                tailGrad.addColorStop(0.85, `hsla(${meteorHue + 20}, 100%, 80%, ${0.35 * dimFactor})`);
-                tailGrad.addColorStop(1, `hsla(${meteorHue + 40}, 100%, 95%, ${0.7 * dimFactor})`);
-
-                ctx.beginPath();
-                ctx.moveTo(tailX, tailY);
-                ctx.lineTo(m.x, m.y);
-                ctx.strokeStyle = tailGrad;
-                ctx.lineWidth = m.size;
-                ctx.lineCap = 'round';
-                ctx.stroke();
-
-                // --- Draw head glow ---
-                const glowRadius = m.isLightParticle ? m.size * 3 : m.size * 4;
-                const headGrad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, glowRadius);
-                headGrad.addColorStop(0, `hsla(${meteorHue + 40}, 80%, 95%, ${0.7 * dimFactor})`);
-                headGrad.addColorStop(0.3, `hsla(${meteorHue + 20}, 100%, 80%, ${0.3 * dimFactor})`);
-                headGrad.addColorStop(1, `hsla(${meteorHue}, 100%, 50%, 0)`);
-                ctx.fillStyle = headGrad;
-                ctx.fillRect(m.x - glowRadius, m.y - glowRadius, glowRadius * 2, glowRadius * 2);
-
-                // --- Bright core dot ---
-                ctx.beginPath();
-                ctx.arc(m.x, m.y, m.size * 0.5, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${meteorHue + 40}, 60%, 97%, ${0.8 * dimFactor})`;
-                ctx.fill();
-            }
-
-            // --- Update & draw meteor trail particles ---
-            for (let i = meteorTrails.length - 1; i >= 0; i--) {
-                const tp = meteorTrails[i];
-                tp.life -= 0.025;
-                if (tp.life <= 0) { meteorTrails.splice(i, 1); continue; }
-
-                const alpha = tp.life * tp.life; // ease out
-                const trailHue = (baseHue + tp.hueOffset) % 360;
-                const tpGrad = ctx.createRadialGradient(tp.x, tp.y, 0, tp.x, tp.y, tp.size * 3);
-                tpGrad.addColorStop(0, `hsla(${trailHue}, 100%, 85%, ${alpha * 0.6})`);
-                tpGrad.addColorStop(0.5, `hsla(${trailHue + 15}, 100%, 65%, ${alpha * 0.2})`);
-                tpGrad.addColorStop(1, `hsla(${trailHue}, 100%, 50%, 0)`);
-                ctx.fillStyle = tpGrad;
-                const r = tp.size * 3;
-                ctx.fillRect(tp.x - r, tp.y - r, r * 2, r * 2);
-            }
-
-            // ============ MOUSE EFFECTS ============
-            const speed = Math.sqrt(mouseVX * mouseVX + mouseVY * mouseVY);
-
-            // Add trail orbs
             if (speed > 1) {
-                const trailHue = (baseHue + time * 40) % 360;
-                mouseTrail.push({
-                    x: mouseX, y: mouseY,
-                    life: 1.0,
-                    hue: trailHue,
-                    size: Math.min(6, 1.5 + speed * 0.1),
-                });
+                const trailHue = 220 + Math.sin(time) * 40;
+                mouseTrail.push({ x: mouseX, y: mouseY, life: 1.0, hue: trailHue, size: Math.min(6, 1.5 + speed * 0.1) });
                 if (mouseTrail.length > MAX_TRAIL) mouseTrail.shift();
 
-                // Spark particles on fast moves
                 if (speed > 5) {
                     const count = Math.min(3, Math.floor(speed * 0.2));
                     for (let p = 0; p < count; p++) {
                         const angle = Math.atan2(mouseVY, mouseVX) + (Math.random() - 0.5) * Math.PI * 0.8;
-                        const spd = 1 + Math.random() * 2.5;
                         mouseParticles.push({
-                            x: mouseX + (Math.random() - 0.5) * 8,
-                            y: mouseY + (Math.random() - 0.5) * 8,
-                            vx: Math.cos(angle) * spd,
-                            vy: Math.sin(angle) * spd,
-                            life: 1.0,
-                            hue: (trailHue + Math.random() * 50 - 25) % 360,
-                            size: 0.8 + Math.random() * 2,
+                            x: mouseX, y: mouseY,
+                            vx: Math.cos(angle) * (1 + Math.random() * 2.5),
+                            vy: Math.sin(angle) * (1 + Math.random() * 2.5),
+                            life: 1.0, hue: (trailHue + Math.random() * 40 - 20), size: 0.8 + Math.random() * 2
                         });
                         if (mouseParticles.length > MAX_PARTICLES) mouseParticles.shift();
                     }
                 }
             }
 
-            // Draw trail
             for (let i = mouseTrail.length - 1; i >= 0; i--) {
                 const t = mouseTrail[i];
                 t.life -= 0.03;
@@ -265,13 +198,11 @@ const ViewportBorder = () => {
                 const alpha = t.life;
                 const tGrad = ctx.createRadialGradient(t.x, t.y, 0, t.x, t.y, t.size * 2.5 * alpha);
                 tGrad.addColorStop(0, `hsla(${t.hue}, 100%, 85%, ${alpha * 0.6})`);
-                tGrad.addColorStop(0.4, `hsla(${t.hue + 20}, 100%, 60%, ${alpha * 0.25})`);
-                tGrad.addColorStop(1, `hsla(${t.hue}, 100%, 40%, 0)`);
+                tGrad.addColorStop(0.4, `hsla(${t.hue}, 100%, 60%, ${alpha * 0.25})`);
+                tGrad.addColorStop(1, 'transparent');
                 ctx.fillStyle = tGrad;
                 const r = t.size * 2.5;
                 ctx.fillRect(t.x - r, t.y - r, r * 2, r * 2);
-
-                // Connect trail with lines
                 if (i > 0) {
                     const next = mouseTrail[i - 1];
                     ctx.beginPath();
@@ -283,53 +214,41 @@ const ViewportBorder = () => {
                 }
             }
 
-            // Draw particles
             for (let i = mouseParticles.length - 1; i >= 0; i--) {
                 const p = mouseParticles[i];
                 p.x += p.vx; p.y += p.vy;
-                p.vx *= 0.95; p.vy *= 0.95;
-                p.vy += 0.04;
+                p.vx *= 0.95; p.vy *= 0.95; p.vy += 0.04;
                 p.life -= 0.025;
                 if (p.life <= 0) { mouseParticles.splice(i, 1); continue; }
-                const alpha = p.life;
                 const pGrad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
+                const alpha = p.life;
                 pGrad.addColorStop(0, `hsla(${p.hue}, 100%, 90%, ${alpha * 0.8})`);
-                pGrad.addColorStop(0.5, `hsla(${p.hue + 15}, 100%, 65%, ${alpha * 0.3})`);
-                pGrad.addColorStop(1, `hsla(${p.hue}, 100%, 50%, 0)`);
+                pGrad.addColorStop(0.5, `hsla(${p.hue}, 100%, 65%, ${alpha * 0.3})`);
+                pGrad.addColorStop(1, 'transparent');
                 ctx.fillStyle = pGrad;
                 ctx.fillRect(p.x - p.size * 2, p.y - p.size * 2, p.size * 4, p.size * 4);
             }
 
-            // Cursor glow halo
-            const cursorHue = (baseHue + time * 50) % 360;
-            const cursorPulse = 0.6 + 0.4 * Math.sin(time * 8);
-            const glowR = 20 + speed * 1.2;
-            const cursorGrad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, glowR * cursorPulse);
-            cursorGrad.addColorStop(0, `hsla(${cursorHue}, 100%, 80%, ${0.2 * cursorPulse})`);
-            cursorGrad.addColorStop(0.3, `hsla(${cursorHue + 30}, 100%, 60%, ${0.08 * cursorPulse})`);
-            cursorGrad.addColorStop(1, `hsla(${cursorHue}, 100%, 40%, 0)`);
-            ctx.fillStyle = cursorGrad;
-            ctx.fillRect(mouseX - glowR, mouseY - glowR, glowR * 2, glowR * 2);
+            const cursorHue = 220 + Math.sin(time * 2) * 20;
+            const pulse = 0.6 + 0.4 * Math.sin(time * 8);
+            const r = 25 + speed * 1.5;
+            const cGrad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, r * pulse);
+            cGrad.addColorStop(0, `hsla(${cursorHue}, 100%, 85%, ${0.25 * pulse})`);
+            cGrad.addColorStop(0.4, `hsla(${cursorHue}, 100%, 65%, ${0.1 * pulse})`);
+            cGrad.addColorStop(1, 'transparent');
+            ctx.fillStyle = cGrad;
+            ctx.fillRect(mouseX - r, mouseY - r, r * 2, r * 2);
 
-            // Decay velocity
             mouseVX *= 0.85;
             mouseVY *= 0.85;
-
             ctx.restore();
             animationRef.current = requestAnimationFrame(animate);
         };
-
         animationRef.current = requestAnimationFrame(animate);
-
-        const handleResize = () => {
-            resize();
-        };
-        window.removeEventListener('resize', resize);
-        window.addEventListener('resize', handleResize);
 
         return () => {
             cancelAnimationFrame(animationRef.current);
-            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', resize);
             window.removeEventListener('mousemove', handleMouseMove);
         };
     }, []);
